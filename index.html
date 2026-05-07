@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>阿嬤的廚房智慧 — 食安小偵探 (繪本版)</title>
+  <title>乖孫的廚房保衛戰：阿嬤，這個不能吃啦！</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -14,12 +14,12 @@
       <!-- 標題畫面 -->
       <section id="title-screen" class="screen active">
         <div class="content-box">
-          <h1 class="main-title">阿嬤的廚房智慧</h1>
-          <p class="subtitle">食安小偵探 — 繪本冒險</p>
+          <h1 class="main-title">乖孫的廚房保衛戰</h1>
+          <p class="subtitle">阿嬤，這個不能吃啦！ — 食安教育遊戲</p>
           <div class="illustration-container main-bg">
             <!-- 這裡會放背景圖 -->
           </div>
-          <button id="start-btn" class="btn-handdrawn">點我開始玩</button>
+          <button id="start-btn" class="btn-handdrawn">點我開始救阿嬤</button>
         </div>
       </section>
 
@@ -29,7 +29,7 @@
           <div class="progress-bar">
             <div id="progress-fill"></div>
           </div>
-          <div id="score-display">阿嬤給的小貼紙: 0</div>
+          <div id="score-display">乖孫的叮嚀點數: 0</div>
         </div>
 
         <div class="game-content">
@@ -38,19 +38,19 @@
               <!-- 動態載入食物圖片 -->
             </div>
             <div class="scenario-info">
-              <h2 id="scenario-title">這還能吃嗎？</h2>
-              <p id="scenario-desc">阿嬤在廚房發現了這個，請幫忙看看...</p>
+              <h2 id="scenario-title">阿嬤又想吃這個了...</h2>
+              <p id="scenario-desc">乖孫趕快過來看看，這真的能給阿嬤吃嗎？</p>
             </div>
           </div>
 
           <div class="action-grid">
             <button class="choice-btn" data-choice="safe">
               <span class="icon">✅</span>
-              <span>這還可以吃</span>
+              <span>這還可以吃啦</span>
             </button>
             <button class="choice-btn" data-choice="unsafe">
               <span class="icon">⚠️</span>
-              <span>這壞掉不能吃</span>
+              <span>阿嬤這壞掉不能吃！</span>
             </button>
           </div>
         </div>
@@ -59,11 +59,14 @@
       <!-- 結算畫面 -->
       <section id="result-screen" class="screen">
         <div class="content-box result-box">
-          <h2>偵查結束囉！</h2>
-          <div id="final-score" class="final-score">0 / 5</div>
+          <h2>保衛戰結束囉！</h2>
+          <div id="final-score" class="final-score">0 / 7</div>
           <div id="wisdom-card" class="wisdom-card">
-            <h3>阿嬤的悄悄話</h3>
-            <p id="wisdom-text"></p>
+            <img src="./images/granddaughter.png" alt="乖孫" class="avatar">
+            <div class="wisdom-bubble">
+              <h3>乖孫的最後提醒</h3>
+              <p id="wisdom-text"></p>
+            </div>
           </div>
           <button id="restart-btn" class="btn-handdrawn">再玩一次</button>
         </div>
@@ -74,7 +77,10 @@
     <!-- 提示對話框 -->
     <div id="feedback-overlay" class="overlay hidden">
       <div class="feedback-content">
-        <div id="feedback-icon"></div>
+        <div class="feedback-header">
+           <img src="./images/granddaughter.png" alt="乖孫" class="avatar-small">
+           <div id="feedback-icon"></div>
+        </div>
         <div id="feedback-message"></div>
         <button id="next-btn" class="btn-handdrawn">下一關</button>
       </div>
@@ -83,69 +89,93 @@
 
   <script>
     /**
-     * 阿嬤的廚房智慧 — 食安小偵探
-     * 繪本風邏輯核心
+     * 乖孫的廚房保衛戰
+     * 孫女糾正阿嬤版
      */
 
     const scenarios = [
       {
         id: 1,
-        title: "這塊麵包還能吃嗎？",
-        desc: "麵包放在桌上好幾天了，上面長了綠綠毛毛的東西...",
-        image: "file:///C:/Users/Admin/.gemini/antigravity/brain/235b7f83-be3b-45ff-9164-45c113cbbed0/food_bread_moldy_watercolor_1778153287018.png",
+        title: "阿嬤說這吐司只有一點毛？",
+        desc: "麵包放在桌上好幾天了，阿嬤說把綠綠的地方切掉就好，真的嗎？",
+        image: "./images/food_bread_moldy_watercolor.png",
         isSafe: false,
-        wisdom: "看到黑點點或綠綠的毛，就代表裡面都壞了，不能只把發霉的地方切掉喔！",
+        wisdom: "阿嬤，看到黑點點或綠綠的毛，就代表裡面都壞了，不能只把發霉的地方切掉喔！",
         feedback: {
-          correct: "沒錯！阿嬤說：『發霉的東西千萬不能吃，就算切掉也看不見深處的黴菌。』",
-          wrong: "哎呀！雖然看起來只有一點點，但黴菌的根部已經長進去裡面了，很不安全喔。"
+          correct: "好棒！乖孫說：『發霉的東西千萬不能吃，就算切掉也看不見深處的黴菌。』",
+          wrong: "阿嬤不行啦！雖然看起來只有一點點，但黴菌的根部已經長進去裡面了，很不安全。"
         }
       },
       {
         id: 2,
-        title: "這個罐頭鼓鼓的？",
-        desc: "櫃子裡的魚罐頭，蓋子好像有點凸起來了...",
-        image: "file:///C:/Users/Admin/.gemini/antigravity/brain/235b7f83-be3b-45ff-9164-45c113cbbed0/food_can_bloated_watercolor_1778153483716.png",
+        title: "這罐頭蓋子鼓起來了？",
+        desc: "阿嬤說這罐魚罐頭只是空氣比較多，蓋子凸起來沒關係？",
+        image: "./images/food_can_bloated_watercolor.png",
         isSafe: false,
-        wisdom: "罐頭鼓起來代表裡面已經壞掉產生毒素了，這可是會中毒的，千萬不能打開！",
+        wisdom: "阿嬤這很危險！罐頭鼓起來代表裡面已經壞掉產生毒素了，這可是會中毒的！",
         feedback: {
-          correct: "真細心！阿嬤說：『罐頭鼓鼓的就代表裡面變質了，絕對不能要。』",
-          wrong: "小心！罐頭鼓起來代表內部細菌正在長，是非常危險的信號。"
+          correct: "機警！乖孫說：『罐頭鼓鼓的就代表裡面變質了，絕對不能打開。』",
+          wrong: "危險！阿嬤，罐頭鼓起來代表內部細菌正在長，這會吃壞肚子的。"
         }
       },
       {
         id: 3,
-        title: "馬鈴薯長出小芽了？",
-        desc: "這顆馬鈴薯長出了白白綠綠的小芽...",
-        image: "file:///C:/Users/Admin/.gemini/antigravity/brain/235b7f83-be3b-45ff-9164-45c113cbbed0/food_potato_sprout_watercolor_1778153498126.png",
+        title: "馬鈴薯長出可愛的小芽？",
+        desc: "阿嬤說這馬鈴薯發芽沒關係，挖掉就好？",
+        image: "./images/food_potato_sprout_watercolor.png",
         isSafe: false,
-        wisdom: "馬鈴薯發芽會有毒素，就算挖掉芽眼毒素還是存在，煮熟了也去不掉喔！",
+        wisdom: "阿嬤這不能省！馬鈴薯發芽會有毒素，就算挖掉芽眼毒素還是存在，煮熟也去不掉！",
         feedback: {
-          correct: "對！阿嬤說：『馬鈴薯發芽就有毒，整顆都不能吃了，別省那幾塊錢。』",
-          wrong: "不對喔！馬鈴薯發芽後毒性很強，跟地瓜不一樣，絕對不能吃。"
+          correct: "對！乖孫說：『馬鈴薯發芽就有毒，整顆都不能吃了，別省那幾塊錢。』",
+          wrong: "阿嬤母湯！馬鈴薯發芽後毒性很強，跟地瓜不一樣，絕對不能吃。"
         }
       },
       {
         id: 4,
-        title: "這盤雞肉變灰色了？",
-        desc: "雞肉放了一個下午，顏色看起來灰灰的，摸起來還黏黏的...",
-        image: "file:///C:/Users/Admin/.gemini/antigravity/brain/235b7f83-be3b-45ff-9164-45c113cbbed0/food_chicken_gray_watercolor_1778153510995.png",
+        title: "雞肉顏色灰灰的？",
+        desc: "阿嬤說雞肉變灰色是因為冷凍太久，摸起來黏黏的洗一洗就好？",
+        image: "./images/food_chicken_gray_watercolor.png",
         isSafe: false,
-        wisdom: "雞肉變灰色且摸起來黏黏的，就是細菌已經長滿了，聞起來可能還酸酸的。",
+        wisdom: "阿嬤，雞肉變灰色且摸起來黏黏的，就是細菌已經長滿了，這已經壞掉啦！",
         feedback: {
-          correct: "觀察入微！阿嬤說：『肉類只要顏色不對、摸起來黏手，就是壞了。』",
-          wrong: "不行喔！雖然煮熟可以殺菌，但細菌留下的毒素是煮不掉的。"
+          correct: "觀察入微！乖孫說：『肉類只要顏色不對、摸起來黏手，就是壞了。』",
+          wrong: "不行喔！阿嬤，雖然煮熟可以殺菌，但細菌留下的毒素是煮不掉的。"
         }
       },
       {
         id: 5,
-        title: "昨天的菜一直保溫？",
-        desc: "昨晚沒吃完的菜，一直放在電鍋裡保溫到現在...",
-        image: "file:///C:/Users/Admin/.gemini/antigravity/brain/235b7f83-be3b-45ff-9164-45c113cbbed0/food_leftovers_watercolor_1778153525761.png",
+        title: "剩菜一直放在電鍋？",
+        desc: "阿嬤說電鍋一直開著保溫，剩菜就不會壞？",
+        image: "./images/food_leftovers_watercolor.png",
         isSafe: false,
-        wisdom: "電鍋保溫的溫度不夠燙，反而是細菌最喜歡的溫度。剩菜要放冰箱，吃之前再熱透。",
+        wisdom: "阿嬤，電鍋保溫的溫度不夠燙，反而是細菌最喜歡的溫度。剩菜要放冰箱啦！",
         feedback: {
-          correct: "聰明！阿嬤說：『電鍋不是冰箱，東西沒吃完要放冰箱，要吃再熱。』",
-          wrong: "哎呀！電鍋保溫不夠熱，反而會讓細菌長得更快，這樣吃會拉肚子喔。"
+          correct: "聰明！乖孫說：『電鍋不是冰箱，東西沒吃完要放冰箱，要吃再熱。』",
+          wrong: "哎呀阿嬤！電鍋保溫不夠熱，反而會讓細菌長得更快，這樣吃會拉肚子。"
+        }
+      },
+      {
+        id: 6,
+        title: "雞蛋在水裡站起來了？",
+        desc: "阿嬤說蛋會浮起來代表它很有活力？",
+        image: "./images/food_egg_float_watercolor.png",
+        isSafe: false,
+        wisdom: "阿嬤，新鮮的蛋會沉在水底。會浮起來代表裡面已經變質不新鮮了！",
+        feedback: {
+          correct: "好厲害！乖孫說：『會浮起來的蛋就是老了、壞了，不能吃了。』",
+          wrong: "不對喔阿嬤！蛋浮起來代表裡面已經變質產生氣體，不建議食用。"
+        }
+      },
+      {
+        id: 7,
+        title: "肉上面有白白乾乾的？",
+        desc: "阿嬤說這塊冷凍肉上面白白的是長霉了？",
+        image: "./images/food_meat_freezerburn_watercolor.png",
+        isSafe: true,
+        wisdom: "阿嬤這沒關係！這叫『凍燒』，只是水分流失而已。雖然口感不好，但煮熟是安全的。",
+        feedback: {
+          correct: "博學多聞！乖孫說：『這是冷凍太久脫水了，雖然不好吃，但洗一洗煮熟還是可以吃。』",
+          wrong: "其實這只是脫水現象，雖然不美味，但阿嬤這不是發霉，不用擔心。"
         }
       }
     ];
@@ -230,7 +260,7 @@
 
     // 更新 HUD
     function updateHUD() {
-      elements.scoreDisplay.innerText = `阿嬤給的小貼紙: ${currentState.score}`;
+      elements.scoreDisplay.innerText = `乖孫的叮嚀點數: ${currentState.score}`;
       const progress = (currentState.currentScenarioIndex / scenarios.length) * 100;
       elements.progressFill.style.width = `${progress}%`;
     }
@@ -275,11 +305,41 @@
       showScreen('result');
       elements.finalScore.innerText = `${currentState.score} / ${scenarios.length}`;
       
+      const perfectComments = [
+        "太棒了！乖孫我已經守護了阿嬤的健康，我真是太厲害了！",
+        "阿嬤，看你以後還敢不敢亂吃！有我在，廚房絕對安全！",
+        "一百分！阿嬤，以後買菜煮飯都要先問過我這個食安小專家喔！",
+        "耶！我把阿嬤教聰明了！阿嬤以後一定會健健康康的。",
+        "任務達成！阿嬤的肚子保衛戰成功，我是全家最細心的乖孫！"
+      ];
+      
+      const goodComments = [
+        "還不錯！雖然漏掉一點點，但阿嬤應該有感覺到我的用心了吧？",
+        "阿嬤，我們再複習一下！為了妳的健康，乖孫我會一直盯著妳的。",
+        "有七成以上的正確率了！阿嬤，下次我們一起拿滿分，讓妳吃得更安心。",
+        "不錯喔！阿嬤雖然有點固執，但我這個乖孫會慢慢教妳正確知識的。",
+        "乖孫我會繼續努力的！阿嬤，我們一起守護全家人的廚房安全。"
+      ];
+      
+      const lowComments = [
+        "哎呀阿嬤，妳看妳把我搞糊塗了啦！我們都要重新學習食安知識才行。",
+        "不行不行，阿嬤妳這樣吃會拉肚子，乖孫我要再多讀點書來教妳！",
+        "保衛戰暫時失利！阿嬤，我們再玩一次，我一定要把妳的壞習慣改掉。",
+        "乖孫我要加油了！阿嬤的食安教育不能等，健康第一！",
+        "慢慢來比較快！阿嬤，我們再玩一遍，我一定要保護好妳的肚子。"
+      ];
+
+      let comments = [];
       if (currentState.score === scenarios.length) {
-        elements.wisdomText.innerText = "太棒了！你已經完全掌握了阿嬤的廚房智慧，是個合格的食安小偵探！";
+        comments = perfectComments;
+      } else if (currentState.score >= scenarios.length / 2) {
+        comments = goodComments;
       } else {
-        elements.wisdomText.innerText = "沒關係，多看幾次就會記住了。阿嬤常說：『病從口入』，多一分留心，少一分擔心。";
+        comments = lowComments;
       }
+      
+      const randomIdx = Math.floor(Math.random() * comments.length);
+      elements.wisdomText.innerText = comments[randomIdx];
     }
 
     // 啟動
