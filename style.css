@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+
+:root {
+  --color-paper: #f9f5eb;
+  --color-ink: #3d3d3d;
+  --color-accent: #8b4513; /* 木質褐 */
+  --color-safe: #556b2f; /* 橄欖綠 */
+  --color-danger: #a52a2a; /* 磚紅 */
+  --font-main: 'Noto Sans TC', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: #e0d8c3;
+  color: var(--color-ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: radial-gradient(#d1c7ac 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+#game-container {
+  width: 98%;
+  max-width: 1000px; /* 放大容器 */
+  min-height: 85vh; /* 使用視窗高度 */
+  background-color: var(--color-paper);
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  border: 6px solid var(--color-accent); /* 加粗邊框 */
+  border-radius: 8px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.screen {
+  display: none;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.screen.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 標題畫面 */
+.main-title {
+  font-size: clamp(3rem, 10vw, 5rem); /* 響應式大字體 */
+  font-weight: 900;
+  color: var(--color-accent);
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+  letter-spacing: 4px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1.8rem;
+  color: #555;
+  margin-top: 5px;
+  text-align: center;
+}
+
+.illustration-container {
+  width: 100%;
+  height: 40vh; /* 放大圖片區域 */
+  background-image: url('file:///C:/Users/Admin/.gemini/antigravity/brain/235b7f83-be3b-45ff-9164-45c113cbbed0/bg_kitchen_watercolor_1778153270383.png');
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  border: 3px solid var(--color-accent);
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
+  margin: 20px 0;
+}
+
+/* 按鈕設計 */
+.btn-handdrawn {
+  background-color: var(--color-accent);
+  color: white;
+  padding: 20px 60px; /* 加大點擊範圍 */
+  border: none;
+  font-size: 2rem; /* 字體放大 */
+  font-weight: 900;
+  cursor: pointer;
+  border-radius: 80px 20px 80px 20px / 20px 80px 20px 80px;
+  transition: all 0.2s;
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.1);
+  margin-top: 20px;
+}
+
+/* 遊戲畫面 HUD */
+#score-display {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.progress-bar {
+  flex-grow: 1;
+  height: 20px; /* 加粗進度條 */
+  background: #eee;
+  border-radius: 15px;
+  margin-right: 20px;
+  overflow: hidden;
+  border: 2px solid #ddd;
+}
+
+/* 場景卡片 */
+.watercolor-frame {
+  width: 100%;
+  height: 45vh; /* 圖片更大 */
+  background-color: #fcfcfc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 3px dashed #eee;
+}
+
+.scenario-info h2 {
+  font-size: 2.2rem; /* 標題超大 */
+  margin-bottom: 15px;
+  color: var(--color-accent);
+  font-weight: 900;
+}
+
+.scenario-info p {
+  font-size: 1.6rem; /* 描述大字 */
+  color: #444;
+  font-weight: 500;
+}
+
+/* 選擇按鈕 */
+.action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.choice-btn {
+  padding: 30px 20px; /* 超大按鈕 */
+  border: 4px solid #ddd;
+  background: white;
+  border-radius: 20px;
+  font-size: 1.8rem; /* 字體超大 */
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column; /* 圖示在上文字在下 */
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.choice-btn .icon {
+  font-size: 3rem; /* 圖示加大 */
+}
+
+/* 結算畫面 */
+.final-score {
+  font-size: 6rem; /* 分數超大 */
+  font-weight: 900;
+  color: var(--color-accent);
+}
+
+.wisdom-card h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.wisdom-card p {
+  font-size: 1.8rem;
+  line-height: 1.4;
+}
+
+/* 覆蓋層與反饋 */
+.feedback-content {
+  background: var(--color-paper);
+  padding: 50px;
+  border-radius: 30px;
+  max-width: 90%;
+  width: 500px;
+  text-align: center;
+  border: 5px solid var(--color-accent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  box-shadow: 0 0 100px rgba(0,0,0,0.5);
+}
+
+#feedback-icon {
+  font-size: 6rem;
+}
+
+#feedback-message {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* 手機適應 */
+@media (max-width: 600px) {
+  .action-grid {
+    grid-template-columns: 1fr; /* 手機上一列一個 */
+  }
+  .main-title { font-size: 3rem; }
+  .btn-handdrawn { width: 100%; padding: 15px; }
+  #game-container { padding: 15px; }
+}
+
+.hidden { display: none !important; }
