@@ -313,37 +313,273 @@ function navigateTo(screenId) {
 }
 
 // 8. 投影片管理
+function clearTheater() {
+  const bg = document.getElementById('theater-bg');
+  const dec = document.getElementById('theater-decorations');
+  const effect = document.getElementById('theater-overlay-effect');
+  
+  if (bg) {
+    bg.className = 'theater-bg';
+    bg.style.background = '';
+  }
+  if (dec) dec.innerHTML = '';
+  if (effect) effect.className = 'theater-overlay-effect';
+  
+  const g = document.getElementById('theater-char-grandma');
+  const gd = document.getElementById('theater-char-granddaughter');
+  if (g && gd) {
+    g.className = 'theater-char char-grandma';
+    gd.className = 'theater-char char-granddaughter';
+    g.style.display = 'none';
+    gd.style.display = 'none';
+  }
+}
+
+// 8. 投影片管理
 function renderStorySlide() {
   const slide = storySlides[state.storyIndex];
   const storyImg = document.getElementById('story-img');
   const storyText = document.getElementById('story-text');
+  const theater = document.getElementById('story-theater');
   
-  storyImg.src = slide.image;
-  storyText.innerText = slide.text;
+  if (storyText) storyText.innerText = slide.text;
   
   // 更新進度條
   const percent = ((state.storyIndex + 1) / storySlides.length) * 100;
-  document.getElementById('story-progress-fill').style.width = `${percent}%`;
-  document.getElementById('score-display').innerText = `叮嚀點數: ${state.score}`;
+  const progressFill = document.getElementById('story-progress-fill');
+  if (progressFill) progressFill.style.width = `${percent}%`;
+  
+  const scoreDisp = document.getElementById('score-display');
+  if (scoreDisp) scoreDisp.innerText = `叮嚀點數: ${state.score}`;
 
   // 顯示或隱藏回上頁
   const prevBtn = document.getElementById('story-prev-btn');
-  if (state.storyIndex > 0) {
-    prevBtn.classList.remove('hidden');
-  } else {
-    prevBtn.classList.add('hidden');
+  if (prevBtn) {
+    if (state.storyIndex > 0) {
+      prevBtn.classList.remove('hidden');
+    } else {
+      prevBtn.classList.add('hidden');
+    }
   }
 
   // 特殊幻燈片跳出分支
   const nextBtn = document.getElementById('story-next-btn');
-  if (state.storyIndex === 3) {
-    nextBtn.innerHTML = "幫阿嬤做點心 🍎 ➔";
-  } else if (state.storyIndex === 8) {
-    nextBtn.innerHTML = "寫下電話包起來 ➔";
-  } else if (state.storyIndex === 10) {
-    nextBtn.innerHTML = "幫阿嬤判斷手機謠言 📱 ➔";
+  if (nextBtn) {
+    if (state.storyIndex === 3) {
+      nextBtn.innerHTML = "幫阿嬤做點心 🍎 ➔";
+    } else if (state.storyIndex === 8) {
+      nextBtn.innerHTML = "寫下電話包起來 ➔";
+    } else if (state.storyIndex === 10) {
+      nextBtn.innerHTML = "幫阿嬤判斷手機謠言 📱 ➔";
+    } else {
+      nextBtn.innerHTML = "繼續看 ➔";
+    }
+  }
+
+  // 靜態與動態劇場切換
+  // Slide 0, 9, 11 使用精美全螢幕寬景水彩圖，其餘 10 個投影片均使用動態圖層式劇場！
+  const useTheater = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12].includes(state.storyIndex);
+  
+  if (useTheater && theater && storyImg) {
+    storyImg.classList.add('hidden');
+    theater.classList.remove('hidden');
+    clearTheater();
+    
+    const bg = document.getElementById('theater-bg');
+    const dec = document.getElementById('theater-decorations');
+    const g = document.getElementById('theater-char-grandma');
+    const gd = document.getElementById('theater-char-granddaughter');
+    
+    switch (state.storyIndex) {
+      case 1: // 拿出一張白衛生紙
+        if (bg) bg.classList.add('bg-warm-wash');
+        if (g && gd) {
+          g.style.display = 'block';
+          g.classList.add('wave', 'faded');
+          gd.style.display = 'block';
+          gd.classList.add('jump');
+        }
+        // 漂浮衛生紙包裹
+        if (dec) {
+          dec.innerHTML = `<img src="./images/tissue_wrapped.png" alt="衛生紙包" class="floating-food" style="width: 130px; height: 130px; top: 25%; left: 40%;">`;
+        }
+        break;
+        
+      case 2: // 假牙搞笑故事 🦷
+        if (bg) bg.classList.add('bg-warm-wash');
+        if (g && gd) {
+          g.style.display = 'block';
+          g.classList.add('wave');
+          gd.style.display = 'block';
+          gd.classList.add('shake');
+        }
+        // 浮現大假牙與亮星
+        if (dec) {
+          dec.innerHTML = `
+            <div class="floating-tooth">🦷
+              <span class="tooth-spark" style="top:-10px; left:-10px;">✨</span>
+              <span class="tooth-spark" style="bottom:-10px; right:-10px; animation-delay:0.5s;">✨</span>
+            </div>
+          `;
+        }
+        break;
+        
+      case 3: // 準備做愛心點心
+        if (bg) bg.classList.add('bg-kitchen-wash');
+        if (g && gd) {
+          g.style.display = 'block';
+          g.classList.add('wave');
+          gd.style.display = 'block';
+          gd.classList.add('jump');
+        }
+        // 漂浮春捲與i禎食麵包
+        if (dec) {
+          dec.innerHTML = `
+            <img src="./images/sushi_spring_rolls.png" alt="春捲" class="floating-food" style="width: 75px; height: 75px; left: 33%; animation-delay: 0s;">
+            <img src="./images/food_bread_safe_watercolor.png" alt="麵包" class="floating-food" style="width: 80px; height: 80px; left: 52%; animation-delay: 0.5s;">
+          `;
+        }
+        break;
+        
+      case 4: // 收到紙包跳舞
+        if (bg) bg.classList.add('bg-kitchen-wash');
+        if (g && gd) {
+          g.style.display = 'block';
+          g.classList.add('wave', 'faded');
+          gd.style.display = 'block';
+          gd.classList.add('jump');
+        }
+        if (dec) {
+          dec.innerHTML = `<img src="./images/tissue_wrapped.png" alt="衛生紙包" class="floating-food" style="width: 120px; height: 120px; top: 38%; left: 42%;">`;
+        }
+        break;
+        
+      case 5: // 長大成為新鮮人 🏙️
+        if (bg) bg.classList.add('bg-city-wash');
+        if (gd) {
+          gd.style.display = 'block';
+          gd.classList.add('sepia'); // 童年乖孫變懷舊照片
+        }
+        // 漂浮都市符號
+        if (dec) {
+          dec.innerHTML = `
+            <div style="position:absolute; top:20%; left:25%; font-size:6rem; filter:opacity(0.85); animation: floatFood 4s ease-in-out infinite alternate;">🏙️</div>
+            <div style="position:absolute; top:35%; left:45%; font-size:4.5rem; filter:opacity(0.85); animation: floatFood 3s ease-in-out infinite alternate 0.5s;">💼</div>
+            <div style="position:absolute; top:15%; left:60%; font-size:5rem; filter:opacity(0.85); animation: floatFood 3.5s ease-in-out infinite alternate 1s;">💻</div>
+          `;
+        }
+        break;
+        
+      case 6: // 搭火車回鄉 🚂
+        if (bg) bg.classList.add('bg-city-wash');
+        // 火車行駛
+        if (dec) {
+          dec.innerHTML = `
+            <div class="train-wrapper">
+              <span class="train-loco">🚂</span>
+              <span class="train-car">🚃</span>
+              <span class="train-car">🚃</span>
+              <span class="train-car">🚃</span>
+            </div>
+          `;
+        }
+        break;
+        
+      case 7: // 阿嬤忘記、開始失智 😢
+        if (bg) bg.classList.add('bg-autumn-wash');
+        if (g && gd) {
+          g.style.display = 'block';
+          g.classList.add('confused'); // 阿嬤迷茫搖晃
+          gd.style.display = 'block';
+          gd.classList.add('faded');
+        }
+        // 飄動的落葉特效
+        if (dec) {
+          let leavesHTML = '<div class="falling-leaves-container">';
+          for (let i = 0; i < 7; i++) {
+            const startX = Math.random() * 800;
+            const endX = startX + (Math.random() * 200 - 100);
+            const delay = Math.random() * 5;
+            const duration = 5 + Math.random() * 4;
+            const emoji = ['🍂', '🍁', '🍃'][Math.floor(Math.random() * 3)];
+            leavesHTML += `<span class="leaf-particle" style="--start-x:${startX}px; --end-x:${endX}px; animation-delay:${delay}s; animation-duration:${duration}s;">${emoji}</span>`;
+          }
+          leavesHTML += '</div>';
+          dec.innerHTML = leavesHTML;
+        }
+        break;
+        
+      case 8: // 寫下電話號碼 📱
+        if (bg) bg.classList.add('bg-autumn-wash');
+        if (g && gd) {
+          g.style.display = 'block';
+          g.classList.add('confused', 'faded');
+          gd.style.display = 'block';
+          gd.classList.add('wave');
+        }
+        // 浮現寫著號碼的手寫紙條
+        if (dec) {
+          dec.innerHTML = `
+            <div class="floating-card-paper">
+              <div class="paper-title">📝 乖孫的手寫紙條</div>
+              <div class="paper-number">0987-654-321</div>
+              <div class="paper-note">「阿嬤，這是我的新電話喔！」</div>
+            </div>
+          `;
+        }
+        break;
+        
+      case 10: // 阿嬤微笑說：我還記得...
+        if (bg) bg.classList.add('bg-warm-wash');
+        if (g && gd) {
+          g.style.display = 'block';
+          g.classList.add('wave');
+          gd.style.display = 'block';
+          gd.classList.add('jump', 'faded');
+        }
+        // 浮現安全食物與愛心
+        if (dec) {
+          dec.innerHTML = `
+            <img src="./images/food_bread_safe_watercolor.png" alt="麵包" class="floating-food" style="width: 75px; height: 75px; left: 38%; animation-delay: 0s;">
+            <div style="position:absolute; top:20%; left:48%; font-size:4.5rem; animation: floatTooth 2s ease-in-out infinite;">💖</div>
+          `;
+        }
+        break;
+        
+      case 12: // 結局相片大拼貼 📸
+        if (bg) bg.classList.add('bg-warm-wash');
+        // 生成多張拍立得動態飄落疊放
+        if (dec) {
+          const polaroids = [
+            { img: './images/sushi_spring_rolls.png', text: '美味小春捲 🍣', rot: '-8deg', tx: '-190px', ty: '-60px' },
+            { img: './images/granddaughter.png', text: '童年的乖孫 👧', rot: '6deg', tx: '-50px', ty: '-80px' },
+            { img: './images/tissue_wrapped.png', text: '愛心衛生紙包 💝', rot: '-5deg', tx: '80px', ty: '-70px' },
+            { img: './images/grandma_granddaughter_hug.png', text: '永遠相擁 👵❤️', rot: '8deg', tx: '180px', ty: '-30px' }
+          ];
+          
+          let pHTML = '<div class="theater-polaroid-pile">';
+          polaroids.forEach((p, idx) => {
+            pHTML += `
+              <div class="polaroid-slide" style="--rot:${p.rot}; --tx:${p.tx}; --ty:${p.ty}; animation-delay:${idx * 0.3}s;">
+                <img src="${p.img}" alt="${p.text}">
+                <p>${p.text}</p>
+              </div>
+            `;
+          });
+          pHTML += '</div>';
+          dec.innerHTML = pHTML;
+        }
+        break;
+    }
   } else {
-    nextBtn.innerHTML = "繼續看 ➔";
+    // 顯示傳統靜態寬景水彩大圖
+    if (storyImg) {
+      storyImg.classList.remove('hidden');
+      storyImg.src = slide.image;
+    }
+    if (theater) {
+      theater.classList.add('hidden');
+    }
   }
 }
 

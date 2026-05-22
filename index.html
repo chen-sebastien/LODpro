@@ -39,8 +39,15 @@
         </div>
 
         <div class="story-card">
-          <div class="story-frame watercolor-frame">
-            <img id="story-img" src="./images/bg_kitchen_watercolor.png" alt="故事圖片">
+          <div class="story-frame watercolor-frame" id="story-frame-container">
+            <img id="story-img" src="./images/bg_kitchen_watercolor.png" alt="故事圖片" class="story-static-img">
+            <div id="story-theater" class="story-theater hidden">
+              <div class="theater-bg" id="theater-bg"></div>
+              <div class="theater-decorations" id="theater-decorations"></div>
+              <img src="./images/grandma.png" alt="阿嬤" class="theater-char char-grandma" id="theater-char-grandma">
+              <img src="./images/granddaughter.png" alt="乖孫" class="theater-char char-granddaughter" id="theater-char-granddaughter">
+              <div class="theater-overlay-effect" id="theater-overlay-effect"></div>
+            </div>
           </div>
           <div class="story-dialog-box">
             <p id="story-text">故事載入中...</p>
