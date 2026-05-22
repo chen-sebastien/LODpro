@@ -1,200 +1,885 @@
 /**
- * 阿嬤的廚房智慧 — 食安小偵探
- * 繪本風邏輯核心
+ * 阿嬤的衛生紙包 — 核心互動狀態機
  */
 
-const scenarios = [
+// 1. 故事幻燈片定義
+const storySlides = [
+  {
+    id: 0,
+    text: "每到放假日，我最期待去阿嬤家玩了！阿嬤家總是飄著熱騰騰的古早飯菜香。👵🏡",
+    image: "./images/bg_kitchen_watercolor.png"
+  },
   {
     id: 1,
-    title: "觀察這片吐司",
-    desc: "這片吐司放在桌上一段時間了，仔細看看它的表面...",
-    image: "file:///C:/Users/Admin/.gemini/antigravity/brain/235b7f83-be3b-45ff-9164-45c113cbbed0/food_bread_moldy_watercolor_1778153287018.png",
-    isSafe: false,
-    wisdom: "看到黑點點或綠綠的毛，就代表菌絲已經長進去了，不能只把發霉的地方切掉喔！",
-    feedback: {
-      correct: "沒錯！阿嬤說：『發霉的東西千萬不能吃，就算切掉也看不見深處的黴菌。』",
-      wrong: "哎呀！雖然看起來只有一點點，但黴菌的根部已經長進去裡面了，很不安全喔。"
-    }
+    text: "阿嬤每次看到我，都會神神秘秘地，拿出一張最普通的「白衛生紙」，在裡面包上一些小東西塞到我手裡。🎁✨",
+    image: "./images/granddaughter.png"
   },
   {
     id: 2,
-    title: "膨脹的罐頭",
-    desc: "架子上這罐魚罐頭，蓋子似乎有點微微鼓起來了...",
-    image: "file:///C:/Users/Admin/.gemini/antigravity/brain/235b7f83-be3b-45ff-9164-45c113cbbed0/food_can_bloated_watercolor_1778153483716.png",
-    isSafe: false,
-    wisdom: "罐頭膨脹可能是裡面有肉毒桿菌正在作怪，這可是會致命的，千萬不能打開！",
-    feedback: {
-      correct: "真細心！阿嬤說：『罐頭鼓鼓的就代表裡面變質了，絕對不能要。』",
-      wrong: "小心！罐頭膨脹代表內部細菌產生氣體，是非常危險的信號。"
-    }
+    text: "打開一看，有時候是幾顆糖果、糖人、或是亮晶晶的小玩具。但有一次... 阿嬤居然連她的『假牙』都用衛生紙包進去送給我了！真的笑得我肚子疼！😂😂",
+    image: "./images/food_egg_float_watercolor.png" // 可用作搞笑插圖
   },
   {
     id: 3,
-    title: "發芽的馬鈴薯",
-    desc: "今天想煮咖哩，但發現這顆馬鈴薯長出了小芽眼...",
-    image: "file:///C:/Users/Admin/.gemini/antigravity/brain/235b7f83-be3b-45ff-9164-45c113cbbed0/food_potato_sprout_watercolor_1778153498126.png",
-    isSafe: false,
-    wisdom: "馬鈴薯發芽會產生『茄鹼』，就算挖掉芽眼毒素還是存在，加熱也去不掉喔！",
-    feedback: {
-      correct: "對！阿嬤說：『馬鈴薯發芽就有毒，整顆都不能吃了，別心疼那幾塊錢。』",
-      wrong: "不對喔！馬鈴薯跟地瓜不一樣，馬鈴薯發芽後毒性很強，絕對不能吃。"
-    }
+    text: "阿嬤看著我開心的笑容，也跟著樂得合不攏嘴。她悄悄發現，每當我收到『好吃的』東西時，總是笑得特別燦爛... 於是他決定這回包一點特別的手工愛心好料！🍰🍓",
+    image: "./images/bg_kitchen_watercolor.png"
   },
+  // 關卡一結束後續接：
   {
     id: 4,
-    title: "變色的生雞肉",
-    desc: "這盤雞肉在室溫下放了一下午，顏色看起來有點灰暗，摸起來黏黏的...",
-    image: "file:///C:/Users/Admin/.gemini/antigravity/brain/235b7f83-be3b-45ff-9164-45c113cbbed0/food_chicken_gray_watercolor_1778153510995.png",
-    isSafe: false,
-    wisdom: "雞肉變灰色且有黏液，就是細菌大量繁殖的證明，聞起來可能還有酸味。",
-    feedback: {
-      correct: "觀察入微！阿嬤說：『肉類只要顏色不對、摸起來黏手，就是壞了。』",
-      wrong: "不行喔！雖然煮熟可以殺菌，但細菌產生的毒素是煮不掉的。"
-    }
+    text: "孫女收到愛心衛生紙包，開心得又蹦又跳！看著精緻的春捲與麵包，吃在嘴裡，甜在心裡。雖然有時候也會混進一些奇怪的假牙玩具，但孫女都玩得超級高興！🦷❤️",
+    image: "./images/granddaughter.png"
   },
   {
     id: 5,
-    title: "昨晚的剩菜",
-    desc: "昨晚沒吃完的炒青菜，一直放在電鍋裡保溫到現在...",
-    image: "file:///C:/Users/Admin/.gemini/antigravity/brain/235b7f83-be3b-45ff-9164-45c113cbbed0/food_leftovers_watercolor_1778153525761.png",
-    isSafe: false,
-    wisdom: "電鍋保溫通常只有40-50度，正好是細菌最愛的溫度。剩菜應該要冷藏，吃之前再徹底加熱。",
-    feedback: {
-      correct: "聰明！阿嬤說：『電鍋不是冰箱，東西沒吃完要放冰箱，要吃再熱。』",
-      wrong: "哎呀！電鍋保溫不夠熱，反而會讓細菌長得更快，這樣吃會拉肚子喔。"
-    }
+    text: "成年後的篇章：時光飛逝，轉眼間我長大成了25歲的社會新鮮人。每天在台北都市叢林裡奔波，開會、加班、簡報... 忙得不可開交，好久好久沒回鄉探望獨居的阿嬤了。🏙️💼",
+    image: "./images/bg_kitchen_watercolor.png"
+  },
+  {
+    id: 6,
+    text: "直到某一天，我突然發現，阿嬤好像很久沒有主動打電話來了。心中感到一陣莫名的不對勁與擔憂... 於是我決定放下手邊的工作，立刻搭火車回鄉看望阿嬤！🚂💨",
+    image: "./images/bg_kitchen_watercolor.png"
+  },
+  {
+    id: 7,
+    text: "推開熟悉的家門，阿嬤獨自坐在客廳裡，看著我的眼神裡多了一絲迷茫與陌生... 阿嬤，開始不認得我了。阿嬤，漸漸失智了。😢🍂",
+    image: "./images/granddaughter.png"
+  },
+  {
+    id: 8,
+    text: "我強忍著眼淚，撕下一張衛生紙，在上面端端正正地寫下我自己的手機電話號碼遞給阿嬤：『阿嬤，這是我最新電話，打打看，乖孫一定會接喔！』📱💝",
+    image: "./images/granddaughter.png"
+  },
+  // 撥打電話互動完後續接：
+  {
+    id: 9,
+    text: "這時，阿嬤也顫巍巍地，從懷裡摸出了一包包裹得極好的白衛生紙。我小心翼翼地一層一層揭開，眼眶瞬間濕潤了... 裡面包著的，竟然是新鮮健康的春捲與印有安全標章的麵包。😭🥪",
+    image: "./images/sushi_spring_rolls.png"
+  },
+  {
+    id: 10,
+    text: "阿嬤用溫柔而緩慢的語氣，對著我微笑道：『乖孫... 我還記得... 這個是包給你吃的... 要吃安全的食物... 阿嬤一直都記得...』👵💬",
+    image: "./images/bg_kitchen_watercolor.png"
+  },
+  // 關卡二(問答)結束後續接：
+  {
+    id: 11,
+    text: "眼淚止不住地奪眶而出，我緊緊抱著阿嬤。雖然阿嬤很多事情都遺忘了，但那份深深藏在衛生紙包包裡的愛，永遠都沒有消失。💖✨",
+    image: "./images/grandma_granddaughter_hug.png"
+  },
+  {
+    id: 12,
+    text: "回憶相本：那些年阿嬤牽著我的手、那些熱騰騰的愛心包裹、那些充滿笑聲與假牙的歡樂童年... 這一刻，記憶的溫暖將我們永遠相繫在一起。📸🌸",
+    image: "./images/bg_kitchen_watercolor.png" // 將作為相簿底圖
   }
 ];
 
-// 遊戲狀態
-let currentState = {
-  currentScenarioIndex: 0,
+// 2. 關卡一食物定義
+const foodData = {
+  "spring-roll": {
+    name: "壽司風春捲 🍣",
+    desc: "阿嬤今天親手包的春捲，特別用乾淨切刀切成精緻的一口大小，活脫像日本壽司！食材新鮮、做法衛生，是絕佳點心。",
+    image: "./images/sushi_spring_rolls.png",
+    isSafe: true,
+    feedback: "太棒了！阿嬤做的壽司風春捲乾淨美味又新鮮，是乖孫的最愛！😋"
+  },
+  "safe-bread": {
+    name: "i禎食超商麵包 🍞",
+    desc: "超商包裝完好且在有效期限內的切片吐司，上面印有綠色安心食品認證的「i禎食」標章！這是完全可以吃的健康指標。",
+    image: "./images/food_bread_safe_watercolor.png",
+    isSafe: true,
+    feedback: "真有眼光！認明完整包裝、期限內且印有『i禎食』綠色安全標章的食品，乖孫吃得最安心！👍"
+  },
+  "moldy-bread": {
+    name: "長了點點的吐司 🍄",
+    desc: "在桌上放了快一星期的白吐司，邊角上長出幾點毛茸茸的小綠黴。阿嬤說：『哎呀這切掉就好啦！裡面沒壞！』",
+    isSafe: false,
+    image: "./images/food_bread_moldy_watercolor.png",
+    feedback: "阿嬤不行啦！黴菌孢子和毒素早已深入吐司內部，只把發霉的地方切掉，吃下去還是會大量吸入黴菌菌絲，這會嚴重傷害肝臟與腎臟，絕對要丟掉！"
+  },
+  "sprouted-potato": {
+    name: "長出小綠芽的馬鈴薯 🥔",
+    desc: "菜籃裡的馬鈴薯長出了好幾顆翠綠的小嫩芽。阿嬤拿著菜刀說：『把發芽的地方用力挖掉，高溫煮湯就沒事了啦！』",
+    isSafe: false,
+    image: "./images/food_potato_sprout_watercolor.png",
+    feedback: "阿嬤母湯！馬鈴薯只要發芽，整顆都會產生極高毒性的『茄鹼』。這是一種耐高溫的天然毒素，就算挖掉發芽處或煮到滾爛，也絕對無法消除，吃進肚子會引發頭痛、嘔吐與急性中毒！整顆都不能要了！"
+  },
+  "bloated-can": {
+    name: "胖胖的魚罐頭 罐頭鼓起 🥫",
+    desc: "鐵皮罐頭放得有些久了，上蓋明顯像皮球般鼓起。阿嬤拍拍它說：『沒鼓破啦，這代表空氣飽滿，拿來配稀飯剛剛好！』",
+    isSafe: false,
+    image: "./images/food_can_bloated_watercolor.png",
+    feedback: "阿嬤這太危險了！罐頭膨脹是因為內部密封失效，導致最致命的『肉毒桿菌』在缺氧環境下大量滋生並產生毒素與氣體！肉毒桿菌毒素只要一點點就能致命，高溫也無法輕易降解。鼓起的罐頭代表早已嚴重敗壞，請立刻丟棄！"
+  }
+};
+
+// 3. 關卡二 LINE 謠言問答定義
+const quizData = [
+  {
+    sender: "網紅【生活小妙招】",
+    avatar: "./images/food_leftovers_watercolor.png",
+    type: "chat",
+    message: "「家人們！食品安全沒關係啦，麵包水果稍微發霉，只要用刀把發霉毛毛的地方切掉，剩下的地方乾淨照樣可以吃，省錢又健康喔！」",
+    isRumor: true,
+    explain: "這是【謠言詐騙】！黴菌的菌絲呈樹狀生長，肉眼能看到的只是表面發霉，其實微小的菌絲已經深入整塊食物內部，並且會釋放有害毒素。切掉表面絕對不安全，必須整顆丟棄！"
+  },
+  {
+    sender: "食藥署食安主播",
+    avatar: "./images/granddaughter.png",
+    type: "news",
+    message: "「食安警報！食藥署特別提醒民眾：過期食品即使外觀和味道沒有異樣，內部早已滋生肉毒桿菌或釋放黃麴毒素。過期食品的安全性無法保證，消費者切勿食用以保健康安全。」",
+    isRumor: false,
+    explain: "這是【真實安全資訊】！有效期限是食品安全的底線。食品過期後，防腐或抑菌效力失效，極易在看不見的深層滋生致命的肉毒桿菌。高溫烹調不一定能破壞全部毒素，切勿冒險食用！"
+  },
+  {
+    sender: "LINE熱心鄰居張阿姨",
+    avatar: "./images/food_meat_freezerburn_watercolor.png",
+    type: "chat",
+    message: "「重大消息！多吃洋蔥可以防新冠病毒！而且把洋蔥頭切開擺在客廳跟房間裡，洋蔥特殊的氣味可以吸附空氣中所有的流感病毒喔！大家趕快用力轉發到群組裡！」",
+    isRumor: true,
+    explain: "這是【謠言詐騙】！洋蔥的氣味完全沒有殺菌或吸附病毒的功能。洋蔥雖然是營養的食材，但將其切開擺放在室內防流感，純屬民間謠言。預防疾病最有效的方式仍是勤洗手、戴口罩以及均衡飲食！"
+  }
+];
+
+// 4. 遊戲狀態變數
+let state = {
+  currentScreen: 'title',   // 'title', 'story', 'table', 'wrap', 'call', 'quiz', 'result'
+  storyIndex: 0,
   score: 0,
-  gameStarted: false
+  maxScore: 8,             // 5 題食物判定 + 3 題 Line 防詐判定
+  foodStates: {
+    "spring-roll": "unselected",   // "unselected", "safe", "unsafe"
+    "safe-bread": "unselected",
+    "moldy-bread": "unselected",
+    "sprouted-potato": "unselected",
+    "bloated-can": "unselected"
+  },
+  placedFoods: [],
+  foldedCorners: [],
+  quizIndex: 0,
+  currentZoomedId: null
 };
 
-// DOM 元素
-const screens = {
-  title: document.getElementById('title-screen'),
-  game: document.getElementById('game-screen'),
-  result: document.getElementById('result-screen')
-};
+// 5. 音效模擬 (Web Audio API)
+let audioCtx = null;
+let ringInterval = null;
 
-const elements = {
-  startBtn: document.getElementById('start-btn'),
-  restartBtn: document.getElementById('restart-btn'),
-  nextBtn: document.getElementById('next-btn'),
-  scenarioTitle: document.getElementById('scenario-title'),
-  scenarioDesc: document.getElementById('scenario-desc'),
-  scenarioImage: document.getElementById('scenario-image'),
-  scoreDisplay: document.getElementById('score-display'),
-  progressFill: document.getElementById('progress-fill'),
-  feedbackOverlay: document.getElementById('feedback-overlay'),
-  feedbackIcon: document.getElementById('feedback-icon'),
-  feedbackMessage: document.getElementById('feedback-message'),
-  finalScore: document.getElementById('final-score'),
-  wisdomText: document.getElementById('wisdom-text')
-};
+function getAudioContext() {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) {
+    console.warn("Web Audio API not supported in this browser.");
+    return null;
+  }
+  try {
+    if (!audioCtx) {
+      audioCtx = new AudioContextClass();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  } catch (e) {
+    console.warn("Failed to create/resume AudioContext:", e);
+    return null;
+  }
+}
 
-// 初始化
-function init() {
-  elements.startBtn.addEventListener('click', startGame);
-  elements.restartBtn.addEventListener('click', startGame);
-  elements.nextBtn.addEventListener('click', nextScenario);
+function playSound(type) {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    const now = ctx.currentTime;
+    
+    if (type === 'click') {
+      // 點擊聲 (短促的高音)
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.frequency.setValueAtTime(800, now);
+      osc.frequency.exponentialRampToValueAtTime(100, now + 0.1);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(now + 0.1);
+    } else if (type === 'success') {
+      // 答對聲 (叮咚雙音)
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc1.frequency.setValueAtTime(523.25, now); // C5
+      osc1.frequency.setValueAtTime(659.25, now + 0.12); // E5
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(ctx.destination);
+      osc1.start();
+      osc1.stop(now + 0.4);
+    } else if (type === 'wrong') {
+      // 答錯中毒聲 (低音警報)
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.linearRampToValueAtTime(80, now + 0.4);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(now + 0.5);
+    } else if (type === 'fold') {
+      // 摺紙沙沙聲
+      const bufferSize = ctx.sampleRate * 0.15;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 1000;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      noise.start();
+      noise.stop(now + 0.15);
+    }
+  } catch (e) {
+    console.warn("Sound play failed: ", e);
+  }
+}
+
+// 6. 電話鈴聲模擬器
+function startPhoneRinging() {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+
+    function ring() {
+      const now = ctx.currentTime;
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc1.frequency.value = 440;
+      osc2.frequency.value = 480;
+      
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(ctx.destination);
+      
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.2, now + 0.05);
+      gain.gain.setValueAtTime(0.2, now + 1.2);
+      gain.gain.linearRampToValueAtTime(0, now + 1.3);
+      
+      osc1.start();
+      osc2.start();
+      osc1.stop(now + 1.4);
+      osc2.stop(now + 1.4);
+    }
+
+    ring();
+    ringInterval = setInterval(ring, 2500);
+  } catch (e) {
+    console.warn("Ringer fail: ", e);
+  }
+}
+
+function stopPhoneRinging() {
+  if (ringInterval) {
+    clearInterval(ringInterval);
+    ringInterval = null;
+  }
+}
+
+// 7. 螢幕切換路由
+function navigateTo(screenId) {
+  state.currentScreen = screenId;
+  document.querySelectorAll('.screen').forEach(scr => {
+    scr.classList.remove('active');
+  });
+  const activeScr = document.getElementById(screenId + '-screen');
+  if (activeScr) activeScr.classList.add('active');
+  playSound('click');
+}
+
+// 8. 投影片管理
+function renderStorySlide() {
+  const slide = storySlides[state.storyIndex];
+  const storyImg = document.getElementById('story-img');
+  const storyText = document.getElementById('story-text');
   
-  document.querySelectorAll('.choice-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const choice = e.currentTarget.dataset.choice === 'safe';
-      handleChoice(choice);
+  storyImg.src = slide.image;
+  storyText.innerText = slide.text;
+  
+  // 更新進度條
+  const percent = ((state.storyIndex + 1) / storySlides.length) * 100;
+  document.getElementById('story-progress-fill').style.width = `${percent}%`;
+  document.getElementById('score-display').innerText = `叮嚀點數: ${state.score}`;
+
+  // 顯示或隱藏回上頁
+  const prevBtn = document.getElementById('story-prev-btn');
+  if (state.storyIndex > 0) {
+    prevBtn.classList.remove('hidden');
+  } else {
+    prevBtn.classList.add('hidden');
+  }
+
+  // 特殊幻燈片跳出分支
+  const nextBtn = document.getElementById('story-next-btn');
+  if (state.storyIndex === 3) {
+    nextBtn.innerHTML = "幫阿嬤做點心 🍎 ➔";
+  } else if (state.storyIndex === 8) {
+    nextBtn.innerHTML = "寫下電話包起來 ➔";
+  } else if (state.storyIndex === 10) {
+    nextBtn.innerHTML = "幫阿嬤判斷手機謠言 📱 ➔";
+  } else {
+    nextBtn.innerHTML = "繼續看 ➔";
+  }
+}
+
+function handleStoryNext() {
+  if (state.storyIndex === 3) {
+    // 進入餐桌關卡一
+    navigateTo('kitchen-table');
+    initLevel1Table();
+  } else if (state.storyIndex === 8) {
+    // 進入撥打電話關卡
+    navigateTo('call');
+    initCallScreen();
+  } else if (state.storyIndex === 10) {
+    // 進入關卡二 LINE 謠言判斷
+    navigateTo('scam-quiz');
+    initLevel2Quiz();
+  } else if (state.storyIndex === storySlides.length - 1) {
+    // 故事大結局，進入結算
+    navigateTo('result');
+    showFinalResult();
+  } else {
+    state.storyIndex++;
+    renderStorySlide();
+    playSound('click');
+  }
+}
+
+function handleStoryPrev() {
+  if (state.storyIndex > 0) {
+    state.storyIndex--;
+    renderStorySlide();
+    playSound('click');
+  }
+}
+
+// ==========================================================================
+// 【關卡一：餐桌挑選邏輯】
+// ==========================================================================
+function initLevel1Table() {
+  document.getElementById('table-score-display').innerText = `叮嚀點數: ${state.score}`;
+  
+  // 綁定各個餐桌食品點擊
+  document.querySelectorAll('.food-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      const foodId = e.currentTarget.dataset.id;
+      showFoodZoomModal(foodId);
     });
   });
+
+  checkTableCompletion();
 }
 
-// 開始遊戲
-function startGame() {
-  currentState = {
-    currentScenarioIndex: 0,
-    score: 0,
-    gameStarted: true
-  };
+function showFoodZoomModal(foodId) {
+  state.currentZoomedId = foodId;
+  const food = foodData[foodId];
   
-  showScreen('game');
-  loadScenario();
-  updateHUD();
-}
-
-// 切換畫面
-function showScreen(screenId) {
-  Object.keys(screens).forEach(key => {
-    screens[key].classList.remove('active');
-  });
-  screens[screenId].classList.add('active');
-}
-
-// 載入場景
-function loadScenario() {
-  const scenario = scenarios[currentState.currentScenarioIndex];
-  elements.scenarioTitle.innerText = scenario.title;
-  elements.scenarioDesc.innerText = scenario.desc;
+  document.getElementById('zoom-title').innerText = food.name;
+  document.getElementById('zoom-img').src = food.image;
+  document.getElementById('zoom-desc').innerText = food.desc;
   
-  // 直接使用 scenario.image 中的完整路徑
-  elements.scenarioImage.innerHTML = `<img src="${scenario.image}" alt="${scenario.title}">`;
+  const modal = document.getElementById('food-zoom-modal');
+  modal.classList.add('active');
+  playSound('click');
+}
+
+function closeFoodZoomModal() {
+  const modal = document.getElementById('food-zoom-modal');
+  modal.classList.remove('active');
+  state.currentZoomedId = null;
+}
+
+// 處理可以吃/丟棄的按鍵點擊
+function handleFoodChoice(isUserSafe) {
+  const foodId = state.currentZoomedId;
+  const food = foodData[foodId];
+  closeFoodZoomModal();
   
-  updateHUD();
-}
-
-// 更新 HUD
-function updateHUD() {
-  elements.scoreDisplay.innerText = `偵察點數: ${currentState.score}`;
-  const progress = (currentState.currentScenarioIndex / scenarios.length) * 100;
-  elements.progressFill.style.width = `${progress}%`;
-}
-
-// 處理選擇
-function handleChoice(userChoice) {
-  const scenario = scenarios[currentState.currentScenarioIndex];
-  const isCorrect = userChoice === scenario.isSafe;
+  const isCorrect = (isUserSafe === food.isSafe);
   
   if (isCorrect) {
-    currentState.score += 1;
-    showFeedback(true, scenario.feedback.correct);
+    playSound('success');
+    if (food.isSafe) {
+      state.foodStates[foodId] = "safe";
+      // 加分（如果是第一次回答正確的話）
+      if (!state.placedFoods.includes(foodId)) {
+        state.score++;
+        state.placedFoods.push(foodId);
+      }
+      showStatusBadge(foodId, 'safe', '✅ 可以吃');
+    } else {
+      state.foodStates[foodId] = "unsafe";
+      state.score++;
+      showStatusBadge(foodId, 'unsafe', '❌ 已丟棄');
+      // 將壞食物淡出消失
+      const itemEl = document.getElementById(`food-${foodId}`);
+      if (itemEl) {
+        itemEl.style.opacity = '0.2';
+        itemEl.style.pointerEvents = 'none';
+      }
+    }
   } else {
-    showFeedback(false, scenario.feedback.wrong);
+    // 答錯處罰：如果阿嬤把壞食物選成「可以吃」，則食物中毒！
+    playSound('wrong');
+    triggerFoodPoisoning(food.feedback);
+  }
+  
+  checkTableCompletion();
+}
+
+function showStatusBadge(foodId, type, text) {
+  const badge = document.getElementById(`badge-${foodId}`);
+  if (badge) {
+    badge.className = `food-status-badge ${type}`;
+    badge.innerHTML = type === 'safe' ? '✓' : '✗';
   }
 }
 
-// 顯示反饋
-function showFeedback(isCorrect, message) {
-  elements.feedbackIcon.innerText = isCorrect ? '🌟' : '💡';
-  elements.feedbackMessage.innerText = message;
-  elements.feedbackOverlay.classList.add('active');
+function triggerFoodPoisoning(msg) {
+  const poisonBox = document.getElementById('poison-box');
+  poisonBox.classList.add('shake-effect');
+  
+  document.getElementById('poison-message').innerText = msg;
+  const overlay = document.getElementById('poison-modal');
+  overlay.classList.add('active');
+  
+  setTimeout(() => {
+    poisonBox.classList.remove('shake-effect');
+  }, 500);
 }
 
-// 下一個場景
-function nextScenario() {
-  elements.feedbackOverlay.classList.remove('active');
-  
-  currentState.currentScenarioIndex++;
-  
-  if (currentState.currentScenarioIndex < scenarios.length) {
-    loadScenario();
+function closePoisonModal() {
+  document.getElementById('poison-modal').classList.remove('active');
+  playSound('click');
+}
+
+function checkTableCompletion() {
+  // 檢查是否所有非安全食物都已經丟棄，且安全食物都被標記
+  let completed = true;
+  for (let key in foodData) {
+    if (foodData[key].isSafe) {
+      if (state.foodStates[key] !== 'safe') completed = false;
+    } else {
+      if (state.foodStates[key] !== 'unsafe') completed = false;
+    }
+  }
+
+  const doneBtn = document.getElementById('table-done-btn');
+  if (completed) {
+    doneBtn.classList.remove('hidden');
   } else {
-    endGame();
+    doneBtn.classList.add('hidden');
+  }
+  
+  document.getElementById('table-score-display').innerText = `叮嚀點數: ${state.score}`;
+}
+
+// ==========================================================================
+// 【關卡一後半：衛生紙摺疊包裝邏輯】
+// ==========================================================================
+function initLevel1Wrapping() {
+  navigateTo('tissue-wrap');
+  document.getElementById('wrap-score-display').innerText = `叮嚀點數: ${state.score}`;
+  document.getElementById('wrap-instruction').innerText = "第一步：請點點下方可以吃的食物，放到衛生紙上！";
+  
+  state.placedFoods = []; // 清空重新包裝的放置清單
+  state.foldedCorners = [];
+  
+  // 重置衛生紙帆布與摺疊遮罩
+  const canvas = document.getElementById('tissue-canvas');
+  canvas.className = 'tissue-canvas';
+  document.getElementById('tissue-food-holder').innerHTML = '';
+  
+  document.querySelectorAll('.tissue-flap').forEach(flap => {
+    flap.className = `tissue-flap ${flap.id}`;
+  });
+  
+  document.querySelectorAll('.corner-hotspot').forEach(hotspot => {
+    hotspot.classList.add('hidden');
+    hotspot.classList.remove('folded-done');
+  });
+
+  document.getElementById('wrap-finish-btn').classList.add('hidden');
+
+  // 生成底部可包裝的食材堆（即剛剛被挑選為安全可以吃的兩個食材）
+  const pileContainer = document.getElementById('food-pile-container');
+  pileContainer.innerHTML = '';
+  
+  const safeFoods = ["spring-roll", "safe-bread"];
+  safeFoods.forEach(foodId => {
+    const food = foodData[foodId];
+    const item = document.createElement('div');
+    item.className = 'pile-item';
+    item.id = `pile-${foodId}`;
+    item.innerHTML = `
+      <img src="${food.image}" alt="${food.name}">
+      <div class="pile-text">${food.name}</div>
+    `;
+    item.addEventListener('click', () => {
+      placeFoodOnTissue(foodId);
+    });
+    pileContainer.appendChild(item);
+  });
+}
+
+function placeFoodOnTissue(foodId) {
+  if (state.placedFoods.includes(foodId)) return;
+  
+  playSound('click');
+  state.placedFoods.push(foodId);
+  
+  // 標記下方食材堆為已放置
+  const pileEl = document.getElementById(`pile-${foodId}`);
+  if (pileEl) pileEl.classList.add('placed');
+  
+  // 渲染飛入衛生紙中央
+  const holder = document.getElementById('tissue-food-holder');
+  const img = document.createElement('img');
+  img.src = foodData[foodId].image;
+  img.alt = foodData[foodId].name;
+  holder.appendChild(img);
+  
+  // 檢查是否都放置完成，若是，則啟動摺疊模式
+  if (state.placedFoods.length === 2) {
+    startFoldingMode();
   }
 }
 
-// 結束遊戲
-function endGame() {
-  showScreen('result');
-  elements.finalScore.innerText = `${currentState.score} / ${scenarios.length}`;
+function startFoldingMode() {
+  document.getElementById('wrap-instruction').innerText = "第二步：太棒了！請依序點點衛生紙的「四個角落」把它包起來吧！";
   
-  // 顯示綜合建議
-  if (currentState.score === scenarios.length) {
-    elements.wisdomText.innerText = "太棒了！你已經完全掌握了阿嬤的廚房智慧，是個合格的食安小偵探！";
-  } else {
-    elements.wisdomText.innerText = "沒關係，多觀察幾次就會記住了。阿嬤常說：『病從口入』，多一分留心，少一分擔心。";
+  // 顯示四個角落點擊熱點
+  document.querySelectorAll('.corner-hotspot').forEach(hotspot => {
+    hotspot.classList.remove('hidden');
+  });
+}
+
+function handleCornerFold(corner) {
+  if (state.foldedCorners.includes(corner)) return;
+  
+  playSound('fold');
+  state.foldedCorners.push(corner);
+  
+  // 給對應遮片加上摺起 class
+  const flap = document.getElementById(`flap-${corner}`);
+  if (flap) flap.classList.add('folded');
+  
+  // 隱藏點擊熱點
+  const hotspot = document.getElementById(`hotspot-${corner}`);
+  if (hotspot) hotspot.classList.add('folded-done');
+  
+  // 檢查四個角是否都摺疊完成
+  if (state.foldedCorners.length === 4) {
+    setTimeout(completeTissueWrapping, 600);
   }
 }
 
-// 啟動
-init();
+function completeTissueWrapping() {
+  playSound('success');
+  state.score++; // 完成包裝，叮嚀點數加1！
+  document.getElementById('wrap-score-display').innerText = `叮嚀點數: ${state.score}`;
+  document.getElementById('wrap-instruction').innerText = "哇！阿嬤親手包的愛心包包包好囉！裡面裝滿了對乖孫的愛。💝";
+  
+  // 衛生紙變身為包裝包
+  const canvas = document.getElementById('tissue-canvas');
+  canvas.classList.add('wrapped');
+  
+  // 清空食物及摺起遮罩顯示
+  document.getElementById('tissue-food-holder').innerHTML = '';
+  document.querySelectorAll('.tissue-flap').forEach(f => f.classList.remove('folded'));
+
+  // 隱藏下側待包食材堆
+  document.getElementById('food-pile-container').innerHTML = '';
+
+  // 顯示包好下一步按鈕
+  document.getElementById('wrap-finish-btn').classList.remove('hidden');
+}
+
+// ==========================================================================
+// 【失智篇：寫電話及撥號互動邏輯】
+// ==========================================================================
+let callTimerInterval = null;
+
+function initCallScreen() {
+  document.getElementById('call-score-display').innerText = `叮嚀點數: ${state.score}`;
+  document.getElementById('call-btn-container').classList.remove('hidden');
+  document.getElementById('phone-dialog-overlay').classList.remove('active');
+  document.getElementById('phone-dialog-text').innerText = "「嘟...嘟...嘟...」";
+  
+  if (callTimerInterval) {
+    clearInterval(callTimerInterval);
+    callTimerInterval = null;
+  }
+  document.getElementById('call-timer').innerText = "00:00";
+}
+
+function makeCall() {
+  playSound('click');
+  document.getElementById('call-btn-container').classList.add('hidden');
+  document.getElementById('phone-dialog-overlay').classList.add('active');
+  
+  // 撥放模擬響鈴
+  startPhoneRinging();
+  
+  let count = 0;
+  callTimerInterval = setInterval(() => {
+    count++;
+    if (count === 3) {
+      // 接通電話！
+      stopPhoneRinging();
+      playSound('success');
+      document.getElementById('phone-dialog-text').innerHTML = "<strong>阿嬤：『喂？是我的乖孫嗎？阿嬤今天好想你喔... 要記得按時吃飯、衣服穿暖和喔... 乖孫你好！』</strong>";
+      state.score++; // 通話關懷成功，加1分！
+      document.getElementById('call-score-display').innerText = `叮嚀點數: ${state.score}`;
+    }
+    
+    // 更新秒數
+    if (count >= 3) {
+      const seconds = count - 3;
+      const min = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const sec = (seconds % 60).toString().padStart(2, '0');
+      document.getElementById('call-timer').innerText = `${min}:${sec}`;
+    }
+  }, 1000);
+}
+
+function hangUpCall() {
+  playSound('click');
+  stopPhoneRinging();
+  if (callTimerInterval) {
+    clearInterval(callTimerInterval);
+    callTimerInterval = null;
+  }
+  
+  // 電話掛斷，回到故事投影片續接
+  state.storyIndex = 9; // 跳轉到第 9 張 slide：阿嬤遞出衛生紙包
+  navigateTo('story');
+  renderStorySlide();
+}
+
+// ==========================================================================
+// 【關卡二：食安防詐騙 LINE 挑戰】
+// ==========================================================================
+function initLevel2Quiz() {
+  state.quizIndex = 0;
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  document.getElementById('quiz-score-display').innerText = `叮嚀點數: ${state.score}`;
+  const quizFill = document.getElementById('quiz-progress-fill');
+  const progressPercent = 80 + (state.quizIndex * 5); // 80% 到 95%
+  quizFill.style.width = `${progressPercent}%`;
+
+  const q = quizData[state.quizIndex];
+  const chatBox = document.getElementById('line-chat-box');
+  chatBox.innerHTML = '';
+
+  if (q.type === 'chat') {
+    chatBox.innerHTML = `
+      <div class="chat-message">
+        <img src="${q.avatar}" alt="頭像" class="chat-avatar">
+        <div>
+          <div style="font-size:1.2rem; font-weight:700; color:#EFEBE9; margin-bottom:5px;">${q.sender}</div>
+          <div class="chat-bubble">${q.message}</div>
+        </div>
+      </div>
+    `;
+  } else {
+    // 新聞報導卡樣式
+    chatBox.innerHTML = `
+      <div class="chat-message system-news">
+        <div class="news-tag">🚨 焦點食安新聞 🚨</div>
+        <div class="news-content">${q.message}</div>
+        <div style="font-size:1.1rem; color:#777; text-align:right; font-weight:700; margin-top:5px;">記者 甄食 安道 報導</div>
+      </div>
+    `;
+  }
+}
+
+function handleQuizChoice(isUserRumor) {
+  const q = quizData[state.quizIndex];
+  const isCorrect = (isUserRumor === q.isRumor);
+
+  const explainHeader = document.getElementById('quiz-explain-header');
+  const explainDesc = document.getElementById('quiz-explain-desc');
+
+  if (isCorrect) {
+    playSound('success');
+    state.score++;
+    explainHeader.innerHTML = "<span>🌟</span> 太讚了！答對囉！";
+    explainHeader.style.color = "var(--color-safe)";
+  } else {
+    playSound('wrong');
+    explainHeader.innerHTML = "<span>💡</span> 答錯囉！阿嬤要小心：";
+    explainHeader.style.color = "var(--color-danger)";
+  }
+
+  explainDesc.innerText = q.explain;
+  
+  // 顯示解析彈窗
+  document.getElementById('quiz-explain-modal').classList.add('active');
+}
+
+function handleQuizNext() {
+  document.getElementById('quiz-explain-modal').classList.remove('active');
+  
+  if (state.quizIndex < quizData.length - 1) {
+    state.quizIndex++;
+    renderQuizQuestion();
+    playSound('click');
+  } else {
+    // 答完 3 題，跳轉到故事投影片續接兩人相擁結局
+    state.storyIndex = 11;
+    navigateTo('story');
+    renderStorySlide();
+  }
+}
+
+// ==========================================================================
+// 【結尾大相簿與結算顯示】
+// ==========================================================================
+function showFinalResult() {
+  document.getElementById('final-score').innerText = `${state.score} / ${state.maxScore}`;
+  
+  const comments = {
+    perfect: "天啊！你真是全宇宙最貼心、最博學的食安大乖孫！阿嬤的身體和心靈都被你照顧得服服貼貼，100分的愛！💯💝",
+    good: "做得非常好！阿嬤的食安盲區被你成功守護了，雖然有一點小失誤，但阿嬤一定能感受到你滿滿的心意喔！🥰🏡",
+    low: "別氣餒！阿嬤的食安觀念要慢慢建立。讓我們手牽手再複習一次，一起當個合格的貼心乖孫！👵🍲"
+  };
+
+  let msg = "";
+  if (state.score === state.maxScore) {
+    msg = comments.perfect;
+  } else if (state.score >= 5) {
+    msg = comments.good;
+  } else {
+    msg = comments.low;
+  }
+
+  document.getElementById('wisdom-text').innerText = msg;
+}
+
+// ==========================================================================
+// 【安全事件綁定與初始化】
+// ==========================================================================
+function bindEvent(id, event, callback) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener(event, callback);
+  } else {
+    console.warn(`[食安遊戲警報] 找不到 ID 為 "${id}" 的 DOM 元素，已跳過該按鈕綁定。`);
+  }
+}
+
+function init() {
+  // 1. 標題開始按鈕
+  bindEvent('start-btn', 'click', () => {
+    state.storyIndex = 0;
+    state.score = 0;
+    navigateTo('story');
+    renderStorySlide();
+  });
+
+  // 2. 故事投影片導覽
+  bindEvent('story-next-btn', 'click', handleStoryNext);
+  bindEvent('story-prev-btn', 'click', handleStoryPrev);
+
+  // 3. 關卡一：餐桌選擇放大判定
+  bindEvent('choice-safe-btn', 'click', () => handleFoodChoice(true));
+  bindEvent('choice-discard-btn', 'click', () => handleFoodChoice(false));
+  bindEvent('poison-retry-btn', 'click', closePoisonModal);
+  
+  // 餐桌完成後前往摺紙
+  bindEvent('table-done-btn', 'click', () => {
+    initLevel1Wrapping();
+  });
+
+  // 4. 關卡一後半：摺疊熱點綁定
+  document.querySelectorAll('.corner-hotspot').forEach(hotspot => {
+    hotspot.addEventListener('click', (e) => {
+      const corner = e.currentTarget.dataset.corner;
+      handleCornerFold(corner);
+    });
+  });
+
+  // 摺紙完成後送給乖孫
+  bindEvent('wrap-finish-btn', 'click', () => {
+    // 摺好後續接故事第 4 張投影片
+    state.storyIndex = 4;
+    navigateTo('story');
+    renderStorySlide();
+  });
+
+  // 5. 撥打電話關懷
+  bindEvent('make-call-btn', 'click', makeCall);
+  bindEvent('hang-up-btn', 'click', hangUpCall);
+
+  // 6. 關卡二：食安問答
+  bindEvent('quiz-rumor-btn', 'click', () => handleQuizChoice(true));
+  bindEvent('quiz-fact-btn', 'click', () => handleQuizChoice(false));
+  bindEvent('quiz-next-btn', 'click', handleQuizNext);
+
+  // 7. 重新開始
+  bindEvent('restart-btn', 'click', () => {
+    state.storyIndex = 0;
+    state.score = 0;
+    state.placedFoods = [];
+    state.foldedCorners = [];
+    for (let key in state.foodStates) {
+      state.foodStates[key] = "unselected";
+      const itemEl = document.getElementById(`food-${key}`);
+      if (itemEl) {
+        itemEl.style.opacity = '1';
+        itemEl.style.pointerEvents = 'auto';
+      }
+      const badge = document.getElementById(`badge-${key}`);
+      if (badge) badge.className = 'food-status-badge';
+    }
+    navigateTo('title');
+  });
+}
+
+// 確保 DOM 載入完畢後再執行初始化，防止 Double-click 執行或 Vite 異步加載時機衝突造成的 NULL 崩潰
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      init();
+    } catch (err) {
+      console.error("食安遊戲初始化失敗:", err);
+    }
+  });
+} else {
+  try {
+    init();
+  } catch (err) {
+    console.error("食安遊戲初始化失敗:", err);
+  }
+}
+

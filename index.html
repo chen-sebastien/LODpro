@@ -3,347 +3,339 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>乖孫的廚房保衛戰：阿嬤，這個不能吃啦！</title>
+  <title>阿嬤的衛生紙包：守護乖孫食安大作戰</title>
+  <meta name="description" content="阿嬤溫馨食安教育互動遊戲，陪伴長輩與乖孫學習健康美味的飲食常識。">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <div id="app">
     <!-- 遊戲容器 -->
     <main id="game-container">
-      
-      <!-- 標題畫面 -->
+
+      <!-- ==========================================
+           1. 標題畫面
+           ========================================== -->
       <section id="title-screen" class="screen active">
-        <div class="content-box">
-          <h1 class="main-title">乖孫的廚房保衛戰</h1>
-          <p class="subtitle">阿嬤，這個不能吃啦！ — 食安教育遊戲</p>
-          <div class="illustration-container main-bg">
-            <!-- 這裡會放背景圖 -->
-          </div>
-          <button id="start-btn" class="btn-handdrawn">點我開始救阿嬤</button>
+        <div class="title-header">
+          <h1 class="main-title">阿嬤的衛生紙包</h1>
+          <p class="subtitle">守護乖孫食安大作戰</p>
         </div>
+        <div class="title-bg"></div>
+        <button id="start-btn" class="btn-handdrawn">點我開始故事</button>
       </section>
 
-      <!-- 遊戲畫面 -->
-      <section id="game-screen" class="screen">
+      <!-- ==========================================
+           2. 繪本故事幻燈片畫面
+           ========================================== -->
+      <section id="story-screen" class="screen">
         <div class="hud">
-          <div class="progress-bar">
-            <div id="progress-fill"></div>
+          <div class="progress-bar-container">
+            <span class="progress-text">故事進度:</span>
+            <div class="progress-bar">
+              <div id="story-progress-fill" style="width: 15%"></div>
+            </div>
           </div>
-          <div id="score-display">乖孫的叮嚀點數: 0</div>
+          <div id="score-display">叮嚀點數: 0</div>
         </div>
 
-        <div class="game-content">
-          <div class="scenario-card">
-            <div id="scenario-image" class="watercolor-frame">
-              <!-- 動態載入食物圖片 -->
-            </div>
-            <div class="scenario-info">
-              <h2 id="scenario-title">阿嬤又想吃這個了...</h2>
-              <p id="scenario-desc">乖孫趕快過來看看，這真的能給阿嬤吃嗎？</p>
-            </div>
+        <div class="story-card">
+          <div class="story-frame watercolor-frame">
+            <img id="story-img" src="./images/bg_kitchen_watercolor.png" alt="故事圖片">
           </div>
-
-          <div class="action-grid">
-            <button class="choice-btn" data-choice="safe">
-              <span class="icon">✅</span>
-              <span>這還可以吃啦</span>
-            </button>
-            <button class="choice-btn" data-choice="unsafe">
-              <span class="icon">⚠️</span>
-              <span>阿嬤這壞掉不能吃！</span>
-            </button>
+          <div class="story-dialog-box">
+            <p id="story-text">故事載入中...</p>
+          </div>
+          <div class="story-actions">
+            <button id="story-prev-btn" class="btn-secondary hidden">回上頁</button>
+            <button id="story-next-btn" class="btn-handdrawn">繼續看 ➔</button>
           </div>
         </div>
       </section>
 
-      <!-- 結算畫面 -->
+      <!-- ==========================================
+           3. 關卡一：阿嬤的餐桌挑選
+           ========================================== -->
+      <section id="kitchen-table-screen" class="screen">
+        <div class="hud">
+          <div class="progress-bar-container">
+            <span class="progress-text">餐桌把關:</span>
+            <div class="progress-bar">
+              <div id="table-progress-fill" style="width: 40%"></div>
+            </div>
+          </div>
+          <div id="table-score-display">叮嚀點數: 0</div>
+        </div>
+
+        <div class="level-title-container">
+          <h2 class="level-title">阿嬤的挑選時間 🍞</h2>
+          <p class="level-desc">阿嬤想包好吃的給乖孫，哪些食物「可以吃」？哪些該「丟棄」？（請點選桌上食品）</p>
+        </div>
+
+        <div class="table-surface">
+          <!-- 壽司風春捲 -->
+          <div class="food-item" id="food-spring-roll" data-id="spring-roll">
+            <img src="./images/sushi_spring_rolls.png" alt="壽司風春捲">
+            <div class="food-item-name">壽司風春捲</div>
+            <div class="food-status-badge" id="badge-spring-roll"></div>
+          </div>
+          <!-- i禎食麵包 -->
+          <div class="food-item" id="food-safe-bread" data-id="safe-bread">
+            <img src="./images/food_bread_safe_watercolor.png" alt="i禎食麵包">
+            <div class="food-item-name">i禎食超商麵包</div>
+            <div class="food-status-badge" id="badge-safe-bread"></div>
+          </div>
+          <!-- 發霉吐司 -->
+          <div class="food-item" id="food-moldy-bread" data-id="moldy-bread">
+            <img src="./images/food_bread_moldy_watercolor.png" alt="發霉吐司">
+            <div class="food-item-name">長點點的吐司</div>
+            <div class="food-status-badge" id="badge-moldy-bread"></div>
+          </div>
+          <!-- 發芽馬鈴薯 -->
+          <div class="food-item" id="food-sprouted-potato" data-id="sprouted-potato">
+            <img src="./images/food_potato_sprout_watercolor.png" alt="發芽馬鈴薯">
+            <div class="food-item-name">發芽的馬鈴薯</div>
+            <div class="food-status-badge" id="badge-sprouted-potato"></div>
+          </div>
+          <!-- 膨脹罐頭 -->
+          <div class="food-item" id="food-bloated-can" data-id="bloated-can">
+            <img src="./images/food_can_bloated_watercolor.png" alt="膨脹罐頭">
+            <div class="food-item-name">胖胖的魚罐頭</div>
+            <div class="food-status-badge" id="badge-bloated-can"></div>
+          </div>
+        </div>
+
+        <div class="story-actions" style="margin-top: 30px;">
+          <button id="table-done-btn" class="btn-handdrawn hidden">選好了，去包裝！ ➔</button>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           4. 關卡一後半：衛生紙摺疊畫面
+           ========================================== -->
+      <section id="tissue-wrap-screen" class="screen">
+        <div class="hud">
+          <div class="progress-bar-container">
+            <span class="progress-text">愛心包裝:</span>
+            <div class="progress-bar">
+              <div id="wrap-progress-fill" style="width: 60%"></div>
+            </div>
+          </div>
+          <div id="wrap-score-display">叮嚀點數: 0</div>
+        </div>
+
+        <div class="level-title-container">
+          <h2 class="level-title">💝 衛生紙愛心包裝 💝</h2>
+          <p class="level-desc" id="wrap-instruction">請點擊下方合格食品放上衛生紙中...</p>
+        </div>
+
+        <div class="tissue-table-surface">
+          <!-- 衛生紙本體 -->
+          <div class="tissue-canvas" id="tissue-canvas">
+            <!-- 放置進去的食品 -->
+            <div class="tissue-food-holder" id="tissue-food-holder"></div>
+
+            <!-- 四角遮片 (CSS 摺疊片) -->
+            <div class="tissue-flap flap-tl" id="flap-tl"></div>
+            <div class="tissue-flap flap-tr" id="flap-tr"></div>
+            <div class="tissue-flap flap-bl" id="flap-bl"></div>
+            <div class="tissue-flap flap-br" id="flap-br"></div>
+
+            <!-- 四個點擊摺疊熱點 -->
+            <div class="corner-hotspot hotspot-tl hidden" id="hotspot-tl" data-corner="tl">
+              <span>↖</span>點我摺
+            </div>
+            <div class="corner-hotspot hotspot-tr hidden" id="hotspot-tr" data-corner="tr">
+              <span>↗</span>點我摺
+            </div>
+            <div class="corner-hotspot hotspot-bl hidden" id="hotspot-bl" data-corner="bl">
+              <span>↙</span>點我摺
+            </div>
+            <div class="corner-hotspot hotspot-br hidden" id="hotspot-br" data-corner="br">
+              <span>↘</span>點我摺
+            </div>
+          </div>
+        </div>
+
+        <!-- 桌上待包的食品堆 -->
+        <div class="food-pile-container" id="food-pile-container">
+          <!-- 會依據餐桌把關結果動態生成 -->
+        </div>
+
+        <div class="story-actions" style="margin-top: 25px;">
+          <button id="wrap-finish-btn" class="btn-handdrawn hidden">送給乖孫囉！🎁 ➔</button>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           5. 成年與失智篇：撥打電話彩蛋畫面
+           ========================================== -->
+      <section id="call-screen" class="screen">
+        <div class="hud">
+          <div class="progress-bar-container">
+            <span class="progress-text">電話關懷:</span>
+            <div class="progress-bar">
+              <div id="call-progress-fill" style="width: 80%"></div>
+            </div>
+          </div>
+          <div id="call-score-display">叮嚀點數: 0</div>
+        </div>
+
+        <div class="level-title-container">
+          <h2 class="level-title">📞 撥通愛心的電話 📞</h2>
+          <p class="level-desc">阿嬤好像開始記不清楚了... 點擊播打電話，把溫馨關懷傳給阿嬤吧！</p>
+        </div>
+
+        <div class="call-surface">
+          <!-- 衛生紙上的電話號碼 -->
+          <div class="tissue-phone-card">
+            <div class="tissue-number">0987 - 654 - 321</div>
+            <div class="tissue-note">（乖孫的手寫電話號碼）</div>
+          </div>
+
+          <!-- 播打電話按鈕與動態水波紋 -->
+          <div class="call-btn-container" id="call-btn-container">
+            <div class="ripple-effect"></div>
+            <button class="btn-call" id="make-call-btn">📞</button>
+          </div>
+
+          <!-- 通話互動視窗 -->
+          <div class="phone-dialog-overlay" id="phone-dialog-overlay">
+            <div class="phone-status">
+              <span>🟢 連線中...</span>
+              <span id="call-timer">00:00</span>
+            </div>
+            <div class="story-dialog-box" style="width:100%; min-height:120px;">
+              <p id="phone-dialog-text">「嘟...嘟...嘟...」</p>
+            </div>
+            <button class="btn-hangup" id="hang-up-btn">❌</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           6. 關卡二：食安防詐騙 LINE 問答畫面
+           ========================================== -->
+      <section id="scam-quiz-screen" class="screen">
+        <div class="hud">
+          <div class="progress-bar-container">
+            <span class="progress-text">食安防詐:</span>
+            <div class="progress-bar">
+              <div id="quiz-progress-fill" style="width: 90%"></div>
+            </div>
+          </div>
+          <div id="quiz-score-display">叮嚀點數: 0</div>
+        </div>
+
+        <div class="level-title-container">
+          <h2 class="level-title">📱 阿嬤的手機收到訊息了！</h2>
+          <p class="level-desc">請幫阿嬤過濾，這些訊息是真的「食安資訊」還是「謠言詐騙」？</p>
+        </div>
+
+        <!-- LINE 經典綠色視窗 -->
+        <div class="line-screen-header">
+          <img src="./images/granddaughter.png" alt="乖孫" class="avatar-small">
+          <div>
+            <div><strong>乖孫（食安小專家）</strong></div>
+            <div style="font-size:1.1rem; color:#A7C957; font-weight:700;">● 線上</div>
+          </div>
+        </div>
+        <div class="line-chat-box" id="line-chat-box">
+          <!-- 動態載入 LINE 訊息 -->
+        </div>
+
+        <!-- 判定按鈕 -->
+        <div class="quiz-actions">
+          <button class="btn-quiz btn-quiz-rumor" id="quiz-rumor-btn">
+            <span>⚠️</span> 這是謠言詐騙！
+          </button>
+          <button class="btn-quiz btn-quiz-fact" id="quiz-fact-btn">
+            <span>✅</span> 真實安全資訊
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           7. 結算畫面
+           ========================================== -->
       <section id="result-screen" class="screen">
         <div class="content-box result-box">
-          <h2>保衛戰結束囉！</h2>
-          <div id="final-score" class="final-score">0 / 7</div>
+          <h1 class="main-title" style="font-size:3.5rem;">守護大成功！🏆</h1>
+          <p class="subtitle" style="font-size:1.8rem;">我們成功守護了阿嬤的健康與回憶！</p>
+          
+          <div id="final-score" class="final-score">0 / 8</div>
+          
           <div id="wisdom-card" class="wisdom-card">
             <img src="./images/granddaughter.png" alt="乖孫" class="avatar">
             <div class="wisdom-bubble">
-              <h3>乖孫的最後提醒</h3>
-              <p id="wisdom-text"></p>
+              <h3>乖孫的溫馨叮嚀</h3>
+              <p id="wisdom-text">阿嬤，有我在，您的廚房絕對安全又健康！</p>
             </div>
           </div>
-          <button id="restart-btn" class="btn-handdrawn">再玩一次</button>
+
+          <button id="restart-btn" class="btn-handdrawn" style="margin-top:20px;">重新挑戰</button>
         </div>
       </section>
 
     </main>
 
-    <!-- 提示對話框 -->
-    <div id="feedback-overlay" class="overlay hidden">
-      <div class="feedback-content">
-        <div class="feedback-header">
-           <img src="./images/granddaughter.png" alt="乖孫" class="avatar-small">
-           <div id="feedback-icon"></div>
+    <!-- ==========================================
+         A. 食品詳細資訊放大彈窗 (Zoom Modal)
+         ========================================== -->
+    <div id="food-zoom-modal" class="overlay">
+      <div class="modal-content">
+        <div class="modal-title" id="zoom-title">食品名稱</div>
+        <div class="modal-img-container">
+          <img id="zoom-img" src="" alt="放大食物">
         </div>
-        <div id="feedback-message"></div>
-        <button id="next-btn" class="btn-handdrawn">下一關</button>
+        <div class="modal-desc" id="zoom-desc">食品詳細說明描述...</div>
+        <div class="modal-actions">
+          <button class="btn-choice btn-choice-safe" id="choice-safe-btn">
+            <span>✅</span> 可以吃啦
+          </button>
+          <button class="btn-choice btn-choice-discard" id="choice-discard-btn">
+            <span>❌</span> 丟棄它
+          </button>
+        </div>
       </div>
     </div>
+
+    <!-- ==========================================
+         B. 孫女食物中毒臥病在床彈窗 (Punishment Modal)
+         ========================================== -->
+    <div id="poison-modal" class="overlay">
+      <div class="modal-content poison-modal" id="poison-box">
+        <div class="poison-title">🚨 哎呀！乖孫食物中毒了！</div>
+        <div class="poison-bed-frame">
+          <img src="./images/food_poison_bed.png" alt="食物中毒臥病在床">
+        </div>
+        <div class="poison-wisdom-bubble" id="poison-message">
+          這款食品已經變質，強行給乖孫吃會導致急性食物中毒拉肚子的！
+        </div>
+        <button class="btn-poison-retry" id="poison-retry-btn">
+          😭 阿嬤對不起，我重新選！
+        </button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         C. LINE 題目科學解析彈窗 (LINE Explain Modal)
+         ========================================== -->
+    <div id="quiz-explain-modal" class="overlay">
+      <div class="modal-content quiz-explain-modal">
+        <div class="quiz-explain-header" id="quiz-explain-header">
+          <span>🌟</span> 答對囉！
+        </div>
+        <div class="quiz-explain-desc" id="quiz-explain-desc">
+          科普說明：霉菌雖然用肉眼切除，但隱藏的菌絲早就深入麵包內部，吃下去會累積黃麴毒素...
+        </div>
+        <button class="btn-handdrawn" id="quiz-next-btn" style="padding:15px; font-size:1.6rem; margin-top:10px;">
+          下一個挑戰 ➔
+        </button>
+      </div>
+    </div>
+
   </div>
 
-  <script>
-    /**
-     * 乖孫的廚房保衛戰
-     * 孫女糾正阿嬤版
-     */
-
-    const scenarios = [
-      {
-        id: 1,
-        title: "阿嬤說這吐司只有一點毛？",
-        desc: "麵包放在桌上好幾天了，阿嬤說把綠綠的地方切掉就好，真的嗎？",
-        image: "./images/food_bread_moldy_watercolor.png",
-        isSafe: false,
-        wisdom: "阿嬤，看到黑點點或綠綠的毛，就代表裡面都壞了，不能只把發霉的地方切掉喔！",
-        feedback: {
-          correct: "好棒！乖孫說：『發霉的東西千萬不能吃，就算切掉也看不見深處的黴菌。』",
-          wrong: "阿嬤不行啦！雖然看起來只有一點點，但黴菌的根部已經長進去裡面了，很不安全。"
-        }
-      },
-      {
-        id: 2,
-        title: "這罐頭蓋子鼓起來了？",
-        desc: "阿嬤說這罐魚罐頭只是空氣比較多，蓋子凸起來沒關係？",
-        image: "./images/food_can_bloated_watercolor.png",
-        isSafe: false,
-        wisdom: "阿嬤這很危險！罐頭鼓起來代表裡面已經壞掉產生毒素了，這可是會中毒的！",
-        feedback: {
-          correct: "機警！乖孫說：『罐頭鼓鼓的就代表裡面變質了，絕對不能打開。』",
-          wrong: "危險！阿嬤，罐頭鼓起來代表內部細菌正在長，這會吃壞肚子的。"
-        }
-      },
-      {
-        id: 3,
-        title: "馬鈴薯長出可愛的小芽？",
-        desc: "阿嬤說這馬鈴薯發芽沒關係，挖掉就好？",
-        image: "./images/food_potato_sprout_watercolor.png",
-        isSafe: false,
-        wisdom: "阿嬤這不能省！馬鈴薯發芽會有毒素，就算挖掉芽眼毒素還是存在，煮熟也去不掉！",
-        feedback: {
-          correct: "對！乖孫說：『馬鈴薯發芽就有毒，整顆都不能吃了，別省那幾塊錢。』",
-          wrong: "阿嬤母湯！馬鈴薯發芽後毒性很強，跟地瓜不一樣，絕對不能吃。"
-        }
-      },
-      {
-        id: 4,
-        title: "雞肉顏色灰灰的？",
-        desc: "阿嬤說雞肉變灰色是因為冷凍太久，摸起來黏黏的洗一洗就好？",
-        image: "./images/food_chicken_gray_watercolor.png",
-        isSafe: false,
-        wisdom: "阿嬤，雞肉變灰色且摸起來黏黏的，就是細菌已經長滿了，這已經壞掉啦！",
-        feedback: {
-          correct: "觀察入微！乖孫說：『肉類只要顏色不對、摸起來黏手，就是壞了。』",
-          wrong: "不行喔！阿嬤，雖然煮熟可以殺菌，但細菌留下的毒素是煮不掉的。"
-        }
-      },
-      {
-        id: 5,
-        title: "剩菜一直放在電鍋？",
-        desc: "阿嬤說電鍋一直開著保溫，剩菜就不會壞？",
-        image: "./images/food_leftovers_watercolor.png",
-        isSafe: false,
-        wisdom: "阿嬤，電鍋保溫的溫度不夠燙，反而是細菌最喜歡的溫度。剩菜要放冰箱啦！",
-        feedback: {
-          correct: "聰明！乖孫說：『電鍋不是冰箱，東西沒吃完要放冰箱，要吃再熱。』",
-          wrong: "哎呀阿嬤！電鍋保溫不夠熱，反而會讓細菌長得更快，這樣吃會拉肚子。"
-        }
-      },
-      {
-        id: 6,
-        title: "雞蛋在水裡站起來了？",
-        desc: "阿嬤說蛋會浮起來代表它很有活力？",
-        image: "./images/food_egg_float_watercolor.png",
-        isSafe: false,
-        wisdom: "阿嬤，新鮮的蛋會沉在水底。會浮起來代表裡面已經變質不新鮮了！",
-        feedback: {
-          correct: "好厲害！乖孫說：『會浮起來的蛋就是老了、壞了，不能吃了。』",
-          wrong: "不對喔阿嬤！蛋浮起來代表裡面已經變質產生氣體，不建議食用。"
-        }
-      },
-      {
-        id: 7,
-        title: "肉上面有白白乾乾的？",
-        desc: "阿嬤說這塊冷凍肉上面白白的是長霉了？",
-        image: "./images/food_meat_freezerburn_watercolor.png",
-        isSafe: true,
-        wisdom: "阿嬤這沒關係！這叫『凍燒』，只是水分流失而已。雖然口感不好，但煮熟是安全的。",
-        feedback: {
-          correct: "博學多聞！乖孫說：『這是冷凍太久脫水了，雖然不好吃，但洗一洗煮熟還是可以吃。』",
-          wrong: "其實這只是脫水現象，雖然不美味，但阿嬤這不是發霉，不用擔心。"
-        }
-      }
-    ];
-
-    // 遊戲狀態
-    let currentState = {
-      currentScenarioIndex: 0,
-      score: 0,
-      gameStarted: false
-    };
-
-    // DOM 元素
-    let screens, elements;
-
-    // 初始化
-    function init() {
-      screens = {
-        title: document.getElementById('title-screen'),
-        game: document.getElementById('game-screen'),
-        result: document.getElementById('result-screen')
-      };
-
-      elements = {
-        startBtn: document.getElementById('start-btn'),
-        restartBtn: document.getElementById('restart-btn'),
-        nextBtn: document.getElementById('next-btn'),
-        scenarioTitle: document.getElementById('scenario-title'),
-        scenarioDesc: document.getElementById('scenario-desc'),
-        scenarioImage: document.getElementById('scenario-image'),
-        scoreDisplay: document.getElementById('score-display'),
-        progressFill: document.getElementById('progress-fill'),
-        feedbackOverlay: document.getElementById('feedback-overlay'),
-        feedbackIcon: document.getElementById('feedback-icon'),
-        feedbackMessage: document.getElementById('feedback-message'),
-        finalScore: document.getElementById('final-score'),
-        wisdomText: document.getElementById('wisdom-text')
-      };
-
-      elements.startBtn.addEventListener('click', startGame);
-      elements.restartBtn.addEventListener('click', startGame);
-      elements.nextBtn.addEventListener('click', nextScenario);
-      
-      document.querySelectorAll('.choice-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const choice = e.currentTarget.dataset.choice === 'safe';
-          handleChoice(choice);
-        });
-      });
-    }
-
-    // 開始遊戲
-    function startGame() {
-      currentState = {
-        currentScenarioIndex: 0,
-        score: 0,
-        gameStarted: true
-      };
-      
-      showScreen('game');
-      loadScenario();
-      updateHUD();
-    }
-
-    // 切換畫面
-    function showScreen(screenId) {
-      Object.keys(screens).forEach(key => {
-        screens[key].classList.remove('active');
-      });
-      screens[screenId].classList.add('active');
-    }
-
-    // 載入場景
-    function loadScenario() {
-      const scenario = scenarios[currentState.currentScenarioIndex];
-      elements.scenarioTitle.innerText = scenario.title;
-      elements.scenarioDesc.innerText = scenario.desc;
-      
-      elements.scenarioImage.innerHTML = `<img src="${scenario.image}" alt="${scenario.title}" style="max-height: 100%; max-width: 100%; object-fit: contain;">`;
-      
-      updateHUD();
-    }
-
-    // 更新 HUD
-    function updateHUD() {
-      elements.scoreDisplay.innerText = `乖孫的叮嚀點數: ${currentState.score}`;
-      const progress = (currentState.currentScenarioIndex / scenarios.length) * 100;
-      elements.progressFill.style.width = `${progress}%`;
-    }
-
-    // 處理選擇
-    function handleChoice(userChoice) {
-      const scenario = scenarios[currentState.currentScenarioIndex];
-      const isCorrect = userChoice === scenario.isSafe;
-      
-      if (isCorrect) {
-        currentState.score += 1;
-        showFeedback(true, scenario.feedback.correct);
-      } else {
-        showFeedback(false, scenario.feedback.wrong);
-      }
-    }
-
-    // 顯示反饋
-    function showFeedback(isCorrect, message) {
-      elements.feedbackIcon.innerText = isCorrect ? '🌟' : '💡';
-      elements.feedbackMessage.innerText = message;
-      elements.feedbackOverlay.classList.remove('hidden');
-      elements.feedbackOverlay.classList.add('active');
-    }
-
-    // 下一個場景
-    function nextScenario() {
-      elements.feedbackOverlay.classList.remove('active');
-      elements.feedbackOverlay.classList.add('hidden');
-      
-      currentState.currentScenarioIndex++;
-      
-      if (currentState.currentScenarioIndex < scenarios.length) {
-        loadScenario();
-      } else {
-        endGame();
-      }
-    }
-
-    // 結束遊戲
-    function endGame() {
-      showScreen('result');
-      elements.finalScore.innerText = `${currentState.score} / ${scenarios.length}`;
-      
-      const perfectComments = [
-        "太棒了！乖孫我已經守護了阿嬤的健康，我真是太厲害了！",
-        "阿嬤，看你以後還敢不敢亂吃！有我在，廚房絕對安全！",
-        "一百分！阿嬤，以後買菜煮飯都要先問過我這個食安小專家喔！",
-        "耶！我把阿嬤教聰明了！阿嬤以後一定會健健康康的。",
-        "任務達成！阿嬤的肚子保衛戰成功，我是全家最細心的乖孫！"
-      ];
-      
-      const goodComments = [
-        "還不錯！雖然漏掉一點點，但阿嬤應該有感覺到我的用心了吧？",
-        "阿嬤，我們再複習一下！為了妳的健康，乖孫我會一直盯著妳的。",
-        "有七成以上的正確率了！阿嬤，下次我們一起拿滿分，讓妳吃得更安心。",
-        "不錯喔！阿嬤雖然有點固執，但我這個乖孫會慢慢教妳正確知識的。",
-        "乖孫我會繼續努力的！阿嬤，我們一起守護全家人的廚房安全。"
-      ];
-      
-      const lowComments = [
-        "哎呀阿嬤，妳看妳把我搞糊塗了啦！我們都要重新學習食安知識才行。",
-        "不行不行，阿嬤妳這樣吃會拉肚子，乖孫我要再多讀點書來教妳！",
-        "保衛戰暫時失利！阿嬤，我們再玩一次，我一定要把妳的壞習慣改掉。",
-        "乖孫我要加油了！阿嬤的食安教育不能等，健康第一！",
-        "慢慢來比較快！阿嬤，我們再玩一遍，我一定要保護好妳的肚子。"
-      ];
-
-      let comments = [];
-      if (currentState.score === scenarios.length) {
-        comments = perfectComments;
-      } else if (currentState.score >= scenarios.length / 2) {
-        comments = goodComments;
-      } else {
-        comments = lowComments;
-      }
-      
-      const randomIdx = Math.floor(Math.random() * comments.length);
-      elements.wisdomText.innerText = comments[randomIdx];
-    }
-
-    // 啟動
-    window.onload = init;
-  </script>
+  <script src="./main.js"></script>
 </body>
 </html>
