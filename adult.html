@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>阿嬤的牽掛與防詐大作戰</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    /* Adult Game Specific Styles */
+    .dialpad-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 20px auto;
+      max-width: 300px;
+    }
+    .dial-btn {
+      background: #EFEBE9;
+      border: 3px solid var(--color-wood);
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      font-size: 2rem;
+      font-family: 'Comic Sans MS', 'Ma Shan Zheng', cursive;
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all 0.1s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .dial-btn:active {
+      transform: scale(0.9);
+      background: #D7CCC8;
+    }
+    .dial-display {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 20px;
+      min-height: 50px;
+      letter-spacing: 5px;
+      font-family: monospace;
+      color: var(--color-wood);
+    }
+    .call-action-btn {
+      grid-column: span 3;
+      background: var(--color-safe);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+    .call-action-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container">
+    <div id="game-screens">
+      
+      <!-- ==========================================
+           1. 故事模式畫面 (與 Game 1 共用樣式)
+           ========================================== -->
+      <section id="story-screen" class="screen active">
+        <div class="hud">
+          <div class="progress-bar-container">
+            <span class="progress-text">故事進度:</span>
+            <div class="progress-bar">
+              <div id="story-progress-fill" style="width: 20%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story-theater hidden" id="story-theater">
+          <div class="theater-bg" id="theater-bg"></div>
+          <div class="theater-decorations" id="theater-decorations"></div>
+          <div class="theater-overlay-effect" id="theater-overlay-effect"></div>
+          <img src="./images/grandma.png" alt="阿嬤" class="theater-char char-grandma" id="theater-char-grandma" style="display:none;">
+          <img src="./images/granddaughter.png" alt="乖孫" class="theater-char char-granddaughter" id="theater-char-granddaughter" style="display:none;">
+        </div>
+        <img src="" alt="故事插圖" class="story-image" id="story-img">
+
+        <div class="story-dialog-box">
+          <p id="story-text">載入中...</p>
+        </div>
+
+        <div class="story-actions">
+          <button id="story-prev-btn" class="btn-story hidden">🡄 回上一頁</button>
+          <button id="story-next-btn" class="btn-story">繼續看 ➔</button>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           2. 撥打電話互動畫面
+           ========================================== -->
+      <section id="call-screen" class="screen">
+        <div class="hud">
+          <div class="progress-bar-container">
+            <span class="progress-text">電話關懷:</span>
+            <div class="progress-bar">
+              <div id="call-progress-fill" style="width: 40%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-title-container">
+          <h2 class="level-title">📞 撥通愛心的電話 📞</h2>
+          <p class="level-desc">阿嬤看著衛生紙上的號碼，請幫阿嬤在手機上輸入「0987654321」撥打給乖孫！</p>
+        </div>
+
+        <div class="call-surface">
+          <!-- 衛生紙上的電話號碼 -->
+          <div class="tissue-phone-card" style="margin-bottom: 20px;">
+            <div class="tissue-number">0987654321</div>
+            <div class="tissue-note">（乖孫的手寫電話號碼）</div>
+          </div>
+
+          <div id="dialpad-area">
+            <div class="dial-display" id="dial-display"></div>
+            <div class="dialpad-container">
+              <button class="dial-btn">1</button>
+              <button class="dial-btn">2</button>
+              <button class="dial-btn">3</button>
+              <button class="dial-btn">4</button>
+              <button class="dial-btn">5</button>
+              <button class="dial-btn">6</button>
+              <button class="dial-btn">7</button>
+              <button class="dial-btn">8</button>
+              <button class="dial-btn">9</button>
+              <button class="dial-btn" style="background:#ffcccb;" id="dial-del">⌫</button>
+              <button class="dial-btn">0</button>
+              <button class="dial-btn" style="visibility:hidden;"></button>
+              <button class="call-action-btn" id="make-call-btn" disabled>📞 撥打</button>
+            </div>
+          </div>
+
+          <!-- 通話互動視窗 -->
+          <div class="phone-dialog-overlay" id="phone-dialog-overlay">
+            <div class="phone-status">
+              <span id="call-status-text">🟢 連線中...</span>
+              <span id="call-timer">00:00</span>
+            </div>
+            <div class="story-dialog-box" style="width:100%; min-height:120px;">
+              <p id="phone-dialog-text">「嘟...嘟...嘟...」</p>
+            </div>
+            <button class="btn-hangup hidden" id="hang-up-btn">❌ 掛斷並看訊息</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           3. 食安防詐騙 LINE 問答畫面
+           ========================================== -->
+      <section id="scam-quiz-screen" class="screen">
+        <div class="hud">
+          <div class="progress-bar-container">
+            <span class="progress-text">食安防詐:</span>
+            <div class="progress-bar">
+              <div id="quiz-progress-fill" style="width: 70%"></div>
+            </div>
+          </div>
+          <div id="quiz-score-display">防護點數: 0</div>
+        </div>
+
+        <div class="level-title-container">
+          <h2 class="level-title">📱 阿嬤的 LINE 收到訊息了！</h2>
+          <p class="level-desc">請幫阿嬤過濾群組訊息，這是真的「食安資訊」還是「謠言詐騙」？</p>
+        </div>
+
+        <div class="line-screen-header">
+          <img src="./images/granddaughter.png" alt="乖孫" class="avatar-small">
+          <div>
+            <div><strong>乖孫（食安小專家）</strong></div>
+            <div style="font-size:1.1rem; color:#A7C957; font-weight:700;">● 線上</div>
+          </div>
+        </div>
+        <div class="line-chat-box" id="line-chat-box">
+          <!-- 動態載入 LINE 訊息 -->
+        </div>
+
+        <div class="quiz-actions">
+          <button class="btn-quiz btn-quiz-rumor" id="quiz-rumor-btn">
+            <span>⚠️</span> 這是謠言詐騙！
+          </button>
+          <button class="btn-quiz btn-quiz-fact" id="quiz-fact-btn">
+            <span>✅</span> 真實安全資訊
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           4. 結算畫面
+           ========================================== -->
+      <section id="result-screen" class="screen">
+        <div class="result-container">
+          <h1 class="result-title">💖 守護完成 💖</h1>
+          <img src="./images/grandma_granddaughter_hug.png" alt="相擁" style="width:200px; margin: 20px auto; border-radius:15px; border:4px solid white;">
+          
+          <div class="final-score-box">
+            <p>成功破解謠言：</p>
+            <h2 id="final-score">3 / 3</h2>
+          </div>
+          
+          <div class="wisdom-box">
+            <p id="wisdom-text">天啊！你真是全宇宙最貼心、最博學的食安大乖孫！阿嬤的身體和心靈都被你照顧得服服貼貼，100分的愛！💯💝</p>
+          </div>
+          
+          <div class="story-actions" style="margin-top: 30px;">
+            <button id="restart-btn" class="btn-handdrawn">再玩一次 ↺</button>
+            <a href="index.html" class="btn-handdrawn" style="text-decoration:none; display:inline-block; margin-left:10px;">去玩第一關 ➔</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- 解答彈窗 -->
+  <div class="modal-overlay" id="quiz-explain-modal">
+    <div class="modal-content">
+      <h3 class="modal-title" id="quiz-explain-header">解析</h3>
+      <p class="modal-desc" id="quiz-explain-desc" style="text-align:left; font-size:1.2rem;"></p>
+      <button class="btn-handdrawn" id="quiz-next-btn">下一題 ➔</button>
+    </div>
+  </div>
+
+  <script src="./adult.js"></script>
+</body>
+</html>

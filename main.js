@@ -6,71 +6,13 @@
 const storySlides = [
   {
     id: 0,
-    text: "每到放假日，我最期待去阿嬤家玩了！阿嬤家總是飄著熱騰騰的古早飯菜香。👵🏡",
+    text: "阿嬤看著我開心的笑容，也跟著樂得合不攏嘴。她悄悄發現，每當我收到『好吃的』東西時，總是笑得特別燦爛... 於是他決定這回包一點特別的手工愛心好料！🍰🍓",
     image: "./images/bg_kitchen_watercolor.png"
   },
   {
     id: 1,
-    text: "阿嬤每次看到我，都會神神秘秘地，拿出一張最普通的「白衛生紙」，在裡面包上一些小東西塞到我手裡。🎁✨",
-    image: "./images/granddaughter.png"
-  },
-  {
-    id: 2,
-    text: "打開一看，有時候是幾顆糖果、糖人、或是亮晶晶的小玩具。但有一次... 阿嬤居然連她的『假牙』都用衛生紙包進去送給我了！真的笑得我肚子疼！😂😂",
-    image: "./images/food_egg_float_watercolor.png" // 可用作搞笑插圖
-  },
-  {
-    id: 3,
-    text: "阿嬤看著我開心的笑容，也跟著樂得合不攏嘴。她悄悄發現，每當我收到『好吃的』東西時，總是笑得特別燦爛... 於是他決定這回包一點特別的手工愛心好料！🍰🍓",
-    image: "./images/bg_kitchen_watercolor.png"
-  },
-  // 關卡一結束後續接：
-  {
-    id: 4,
     text: "孫女收到愛心衛生紙包，開心得又蹦又跳！看著精緻的春捲與麵包，吃在嘴裡，甜在心裡。雖然有時候也會混進一些奇怪的假牙玩具，但孫女都玩得超級高興！🦷❤️",
     image: "./images/granddaughter.png"
-  },
-  {
-    id: 5,
-    text: "成年後的篇章：時光飛逝，轉眼間我長大成了25歲的社會新鮮人。每天在台北都市叢林裡奔波，開會、加班、簡報... 忙得不可開交，好久好久沒回鄉探望獨居的阿嬤了。🏙️💼",
-    image: "./images/bg_kitchen_watercolor.png"
-  },
-  {
-    id: 6,
-    text: "直到某一天，我突然發現，阿嬤好像很久沒有主動打電話來了。心中感到一陣莫名的不對勁與擔憂... 於是我決定放下手邊的工作，立刻搭火車回鄉看望阿嬤！🚂💨",
-    image: "./images/bg_kitchen_watercolor.png"
-  },
-  {
-    id: 7,
-    text: "推開熟悉的家門，阿嬤獨自坐在客廳裡，看著我的眼神裡多了一絲迷茫與陌生... 阿嬤，開始不認得我了。阿嬤，漸漸失智了。😢🍂",
-    image: "./images/granddaughter.png"
-  },
-  {
-    id: 8,
-    text: "我強忍著眼淚，撕下一張衛生紙，在上面端端正正地寫下我自己的手機電話號碼遞給阿嬤：『阿嬤，這是我最新電話，打打看，乖孫一定會接喔！』📱💝",
-    image: "./images/granddaughter.png"
-  },
-  // 撥打電話互動完後續接：
-  {
-    id: 9,
-    text: "這時，阿嬤也顫巍巍地，從懷裡摸出了一包包裹得極好的白衛生紙。我小心翼翼地一層一層揭開，眼眶瞬間濕潤了... 裡面包著的，竟然是新鮮健康的春捲與印有安全標章的麵包。😭🥪",
-    image: "./images/sushi_spring_rolls.png"
-  },
-  {
-    id: 10,
-    text: "阿嬤用溫柔而緩慢的語氣，對著我微笑道：『乖孫... 我還記得... 這個是包給你吃的... 要吃安全的食物... 阿嬤一直都記得...』👵💬",
-    image: "./images/bg_kitchen_watercolor.png"
-  },
-  // 關卡二(問答)結束後續接：
-  {
-    id: 11,
-    text: "眼淚止不住地奪眶而出，我緊緊抱著阿嬤。雖然阿嬤很多事情都遺忘了，但那份深深藏在衛生紙包包裡的愛，永遠都沒有消失。💖✨",
-    image: "./images/grandma_granddaughter_hug.png"
-  },
-  {
-    id: 12,
-    text: "回憶相本：那些年阿嬤牽著我的手、那些熱騰騰的愛心包裹、那些充滿笑聲與假牙的歡樂童年... 這一刻，記憶的溫暖將我們永遠相繫在一起。📸🌸",
-    image: "./images/bg_kitchen_watercolor.png" // 將作為相簿底圖
   }
 ];
 
@@ -81,35 +23,40 @@ const foodData = {
     desc: "阿嬤今天親手包的春捲，特別用乾淨切刀切成精緻的一口大小，活脫像日本壽司！食材新鮮、做法衛生，是絕佳點心。",
     image: "./images/sushi_spring_rolls.png",
     isSafe: true,
-    feedback: "太棒了！阿嬤做的壽司風春捲乾淨美味又新鮮，是乖孫的最愛！😋"
+    feedback: "這春捲阿嬤自己做的，切細細，好呷閣安全，乖孫緊來食！",
+    audio: "./audio/spring_roll.mp3"
   },
   "safe-bread": {
     name: "i禎食超商麵包 🍞",
     desc: "超商包裝完好且在有效期限內的切片吐司，上面印有綠色安心食品認證的「i禎食」標章！這是完全可以吃的健康指標。",
     image: "./images/food_bread_safe_watercolor.png",
     isSafe: true,
-    feedback: "真有眼光！認明完整包裝、期限內且印有『i禎食』綠色安全標章的食品，乖孫吃得最安心！👍"
+    feedback: "這麵包包裝完好，頂懸閣有綠色安全標章，真正予人安心！",
+    audio: "./audio/safe_bread.mp3"
   },
   "moldy-bread": {
     name: "長了點點的吐司 🍄",
-    desc: "在桌上放了快一星期的白吐司，邊角上長出幾點毛茸茸的小綠黴。阿嬤說：『哎呀這切掉就好啦！裡面沒壞！』",
+    desc: "在桌上放了快一星期的白吐司，邊角上長出幾點毛茸茸的小綠黴。",
     isSafe: false,
     image: "./images/food_bread_moldy_watercolor.png",
-    feedback: "阿嬤不行啦！黴菌孢子和毒素早已深入吐司內部，只把發霉的地方切掉，吃下去還是會大量吸入黴菌菌絲，這會嚴重傷害肝臟與腎臟，絕對要丟掉！"
+    feedback: "阿嬤講：這吐司發霉啊，共發霉的所在切掉，閣會使食啦！",
+    audio: "./audio/moldy_bread.mp3"
   },
   "sprouted-potato": {
     name: "長出小綠芽的馬鈴薯 🥔",
-    desc: "菜籃裡的馬鈴薯長出了好幾顆翠綠的小嫩芽。阿嬤拿著菜刀說：『把發芽的地方用力挖掉，高溫煮湯就沒事了啦！』",
+    desc: "菜籃裡的馬鈴薯長出了好幾顆翠綠的小嫩芽。",
     isSafe: false,
     image: "./images/food_potato_sprout_watercolor.png",
-    feedback: "阿嬤母湯！馬鈴薯只要發芽，整顆都會產生極高毒性的『茄鹼』。這是一種耐高溫的天然毒素，就算挖掉發芽處或煮到滾爛，也絕對無法消除，吃進肚子會引發頭痛、嘔吐與急性中毒！整顆都不能要了！"
+    feedback: "阿嬤講：這馬鈴薯發穎啊，共伊挖掉，煮湯就無代誌啦！",
+    audio: "./audio/sprouted_potato.mp3"
   },
   "bloated-can": {
     name: "胖胖的魚罐頭 罐頭鼓起 🥫",
-    desc: "鐵皮罐頭放得有些久了，上蓋明顯像皮球般鼓起。阿嬤拍拍它說：『沒鼓破啦，這代表空氣飽滿，拿來配稀飯剛剛好！』",
+    desc: "鐵皮罐頭放得有些久了，上蓋明顯像皮球般鼓起。",
     isSafe: false,
     image: "./images/food_can_bloated_watercolor.png",
-    feedback: "阿嬤這太危險了！罐頭膨脹是因為內部密封失效，導致最致命的『肉毒桿菌』在缺氧環境下大量滋生並產生毒素與氣體！肉毒桿菌毒素只要一點點就能致命，高溫也無法輕易降解。鼓起的罐頭代表早已嚴重敗壞，請立刻丟棄！"
+    feedback: "阿嬤講：這罐頭脹泡啊，代表空氣飽滿，提出來配飯拄拄好啦！",
+    audio: "./audio/bloated_can.mp3"
   }
 };
 
@@ -162,7 +109,10 @@ let state = {
 
 // 5. 音效模擬 (Web Audio API)
 let audioCtx = null;
-let ringInterval = null;
+let bgmOscillators = [];
+let bgmInterval = null;
+let bgmPlaying = false;
+let currentTTS = null;
 
 function getAudioContext() {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -181,6 +131,64 @@ function getAudioContext() {
   } catch (e) {
     console.warn("Failed to create/resume AudioContext:", e);
     return null;
+  }
+}
+
+function startBGM() {
+  if (bgmPlaying) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  bgmPlaying = true;
+  
+  // A simple, light pentatonic melody (C, D, E, G, A) loop
+  const melody = [
+    { freq: 523.25, dur: 0.4 }, // C5
+    { freq: 587.33, dur: 0.4 }, // D5
+    { freq: 659.25, dur: 0.8 }, // E5
+    { freq: 523.25, dur: 0.4 }, // C5
+    { freq: 783.99, dur: 0.4 }, // G5
+    { freq: 880.00, dur: 0.8 }, // A5
+    { freq: 783.99, dur: 0.4 }, // G5
+    { freq: 659.25, dur: 0.4 }, // E5
+    { freq: 587.33, dur: 0.8 }, // D5
+    { freq: 523.25, dur: 1.6 }  // C5
+  ];
+  
+  let noteIndex = 0;
+  
+  function playNextNote() {
+    if (!bgmPlaying) return;
+    const note = melody[noteIndex];
+    const now = ctx.currentTime;
+    
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.type = 'sine'; // Soft, music-box like
+    osc.frequency.setValueAtTime(note.freq, now);
+    
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.08, now + 0.05); // low volume
+    gain.gain.exponentialRampToValueAtTime(0.001, now + note.dur - 0.05);
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start(now);
+    osc.stop(now + note.dur);
+    
+    noteIndex = (noteIndex + 1) % melody.length;
+    bgmInterval = setTimeout(playNextNote, note.dur * 1000);
+  }
+  
+  playNextNote();
+}
+
+function stopBGM() {
+  bgmPlaying = false;
+  if (bgmInterval) {
+    clearTimeout(bgmInterval);
+    bgmInterval = null;
   }
 }
 
@@ -584,19 +592,11 @@ function renderStorySlide() {
 }
 
 function handleStoryNext() {
-  if (state.storyIndex === 3) {
-    // 進入餐桌關卡一
+  if (state.storyIndex === 0) {
+    // 進入餐桌關卡一 (隱藏物品)
     navigateTo('kitchen-table');
     initLevel1Table();
-  } else if (state.storyIndex === 8) {
-    // 進入撥打電話關卡
-    navigateTo('call');
-    initCallScreen();
-  } else if (state.storyIndex === 10) {
-    // 進入關卡二 LINE 謠言判斷
-    navigateTo('scam-quiz');
-    initLevel2Quiz();
-  } else if (state.storyIndex === storySlides.length - 1) {
+  } else if (state.storyIndex === 1) {
     // 故事大結局，進入結算
     navigateTo('result');
     showFinalResult();
@@ -621,9 +621,63 @@ function handleStoryPrev() {
 function initLevel1Table() {
   document.getElementById('table-score-display').innerText = `叮嚀點數: ${state.score}`;
   
+  // 啟動 BGM
+  startBGM();
+
+  // 全景拖曳邏輯
+  const container = document.getElementById('hidden-object-container');
+  const surface = document.getElementById('hidden-object-surface');
+  let isDragging = false;
+  let startX;
+  let currentTranslate = 0;
+  let prevTranslate = 0;
+
+  // 計算最大可滾動範圍
+  // 容器寬度大約是螢幕寬，surface寬度 1400px
+  const getMaxTranslate = () => {
+    return Math.min(0, container.clientWidth - surface.clientWidth);
+  };
+
+  const onDragStart = (e) => {
+    isDragging = true;
+    startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+    surface.style.transition = 'none';
+  };
+
+  const onDragMove = (e) => {
+    if (!isDragging) return;
+    const currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+    const diffX = currentX - startX;
+    
+    currentTranslate = prevTranslate + diffX;
+    
+    // 限制拖曳範圍
+    const maxTrans = getMaxTranslate();
+    if (currentTranslate > 0) currentTranslate = 0;
+    if (currentTranslate < maxTrans) currentTranslate = maxTrans;
+    
+    surface.style.transform = `translateX(${currentTranslate}px)`;
+  };
+
+  const onDragEnd = () => {
+    isDragging = false;
+    prevTranslate = currentTranslate;
+    surface.style.transition = 'transform 0.1s ease-out';
+  };
+
+  container.addEventListener('mousedown', onDragStart);
+  container.addEventListener('mousemove', onDragMove);
+  window.addEventListener('mouseup', onDragEnd);
+  
+  container.addEventListener('touchstart', onDragStart);
+  container.addEventListener('touchmove', onDragMove);
+  window.addEventListener('touchend', onDragEnd);
+
   // 綁定各個餐桌食品點擊
   document.querySelectorAll('.food-item').forEach(item => {
     item.addEventListener('click', (e) => {
+      // 避免拖曳時觸發點擊
+      if (Math.abs(currentTranslate - prevTranslate) > 5) return;
       const foodId = e.currentTarget.dataset.id;
       showFoodZoomModal(foodId);
     });
@@ -643,12 +697,26 @@ function showFoodZoomModal(foodId) {
   const modal = document.getElementById('food-zoom-modal');
   modal.classList.add('active');
   playSound('click');
+  
+  // 播放 TTS 台語語音
+  if (currentTTS) {
+    currentTTS.pause();
+    currentTTS.currentTime = 0;
+  }
+  if (food.audio) {
+    currentTTS = new Audio(food.audio);
+    currentTTS.play().catch(e => console.warn("Audio play blocked", e));
+  }
 }
 
 function closeFoodZoomModal() {
   const modal = document.getElementById('food-zoom-modal');
   modal.classList.remove('active');
   state.currentZoomedId = null;
+  if (currentTTS) {
+    currentTTS.pause();
+    currentTTS.currentTime = 0;
+  }
 }
 
 // 處理可以吃/丟棄的按鍵點擊
@@ -857,146 +925,7 @@ function completeTissueWrapping() {
   document.getElementById('wrap-finish-btn').classList.remove('hidden');
 }
 
-// ==========================================================================
-// 【失智篇：寫電話及撥號互動邏輯】
-// ==========================================================================
-let callTimerInterval = null;
 
-function initCallScreen() {
-  document.getElementById('call-score-display').innerText = `叮嚀點數: ${state.score}`;
-  document.getElementById('call-btn-container').classList.remove('hidden');
-  document.getElementById('phone-dialog-overlay').classList.remove('active');
-  document.getElementById('phone-dialog-text').innerText = "「嘟...嘟...嘟...」";
-  
-  if (callTimerInterval) {
-    clearInterval(callTimerInterval);
-    callTimerInterval = null;
-  }
-  document.getElementById('call-timer').innerText = "00:00";
-}
-
-function makeCall() {
-  playSound('click');
-  document.getElementById('call-btn-container').classList.add('hidden');
-  document.getElementById('phone-dialog-overlay').classList.add('active');
-  
-  // 撥放模擬響鈴
-  startPhoneRinging();
-  
-  let count = 0;
-  callTimerInterval = setInterval(() => {
-    count++;
-    if (count === 3) {
-      // 接通電話！
-      stopPhoneRinging();
-      playSound('success');
-      document.getElementById('phone-dialog-text').innerHTML = "<strong>阿嬤：『喂？是我的乖孫嗎？阿嬤今天好想你喔... 要記得按時吃飯、衣服穿暖和喔... 乖孫你好！』</strong>";
-      state.score++; // 通話關懷成功，加1分！
-      document.getElementById('call-score-display').innerText = `叮嚀點數: ${state.score}`;
-    }
-    
-    // 更新秒數
-    if (count >= 3) {
-      const seconds = count - 3;
-      const min = Math.floor(seconds / 60).toString().padStart(2, '0');
-      const sec = (seconds % 60).toString().padStart(2, '0');
-      document.getElementById('call-timer').innerText = `${min}:${sec}`;
-    }
-  }, 1000);
-}
-
-function hangUpCall() {
-  playSound('click');
-  stopPhoneRinging();
-  if (callTimerInterval) {
-    clearInterval(callTimerInterval);
-    callTimerInterval = null;
-  }
-  
-  // 電話掛斷，回到故事投影片續接
-  state.storyIndex = 9; // 跳轉到第 9 張 slide：阿嬤遞出衛生紙包
-  navigateTo('story');
-  renderStorySlide();
-}
-
-// ==========================================================================
-// 【關卡二：食安防詐騙 LINE 挑戰】
-// ==========================================================================
-function initLevel2Quiz() {
-  state.quizIndex = 0;
-  renderQuizQuestion();
-}
-
-function renderQuizQuestion() {
-  document.getElementById('quiz-score-display').innerText = `叮嚀點數: ${state.score}`;
-  const quizFill = document.getElementById('quiz-progress-fill');
-  const progressPercent = 80 + (state.quizIndex * 5); // 80% 到 95%
-  quizFill.style.width = `${progressPercent}%`;
-
-  const q = quizData[state.quizIndex];
-  const chatBox = document.getElementById('line-chat-box');
-  chatBox.innerHTML = '';
-
-  if (q.type === 'chat') {
-    chatBox.innerHTML = `
-      <div class="chat-message">
-        <img src="${q.avatar}" alt="頭像" class="chat-avatar">
-        <div>
-          <div style="font-size:1.2rem; font-weight:700; color:#EFEBE9; margin-bottom:5px;">${q.sender}</div>
-          <div class="chat-bubble">${q.message}</div>
-        </div>
-      </div>
-    `;
-  } else {
-    // 新聞報導卡樣式
-    chatBox.innerHTML = `
-      <div class="chat-message system-news">
-        <div class="news-tag">🚨 焦點食安新聞 🚨</div>
-        <div class="news-content">${q.message}</div>
-        <div style="font-size:1.1rem; color:#777; text-align:right; font-weight:700; margin-top:5px;">記者 甄食 安道 報導</div>
-      </div>
-    `;
-  }
-}
-
-function handleQuizChoice(isUserRumor) {
-  const q = quizData[state.quizIndex];
-  const isCorrect = (isUserRumor === q.isRumor);
-
-  const explainHeader = document.getElementById('quiz-explain-header');
-  const explainDesc = document.getElementById('quiz-explain-desc');
-
-  if (isCorrect) {
-    playSound('success');
-    state.score++;
-    explainHeader.innerHTML = "<span>🌟</span> 太讚了！答對囉！";
-    explainHeader.style.color = "var(--color-safe)";
-  } else {
-    playSound('wrong');
-    explainHeader.innerHTML = "<span>💡</span> 答錯囉！阿嬤要小心：";
-    explainHeader.style.color = "var(--color-danger)";
-  }
-
-  explainDesc.innerText = q.explain;
-  
-  // 顯示解析彈窗
-  document.getElementById('quiz-explain-modal').classList.add('active');
-}
-
-function handleQuizNext() {
-  document.getElementById('quiz-explain-modal').classList.remove('active');
-  
-  if (state.quizIndex < quizData.length - 1) {
-    state.quizIndex++;
-    renderQuizQuestion();
-    playSound('click');
-  } else {
-    // 答完 3 題，跳轉到故事投影片續接兩人相擁結局
-    state.storyIndex = 11;
-    navigateTo('story');
-    renderStorySlide();
-  }
-}
 
 // ==========================================================================
 // 【結尾大相簿與結算顯示】
@@ -1067,20 +996,11 @@ function init() {
 
   // 摺紙完成後送給乖孫
   bindEvent('wrap-finish-btn', 'click', () => {
-    // 摺好後續接故事第 4 張投影片
-    state.storyIndex = 4;
+    // 摺好後續接故事第 1 張投影片 (孫女收到)
+    state.storyIndex = 1;
     navigateTo('story');
     renderStorySlide();
   });
-
-  // 5. 撥打電話關懷
-  bindEvent('make-call-btn', 'click', makeCall);
-  bindEvent('hang-up-btn', 'click', hangUpCall);
-
-  // 6. 關卡二：食安問答
-  bindEvent('quiz-rumor-btn', 'click', () => handleQuizChoice(true));
-  bindEvent('quiz-fact-btn', 'click', () => handleQuizChoice(false));
-  bindEvent('quiz-next-btn', 'click', handleQuizNext);
 
   // 7. 重新開始
   bindEvent('restart-btn', 'click', () => {

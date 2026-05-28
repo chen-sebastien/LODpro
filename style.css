@@ -1594,3 +1594,57 @@ body {
 .hidden {
   display: none !important;
 }
+/* 隱藏物品尋寶關卡 (Game 1) */
+.hidden-object-container {
+  width: 100%;
+  height: 420px;
+  border: 6px solid var(--color-wood);
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 20px 40px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.15);
+  cursor: grab;
+}
+.hidden-object-container:active {
+  cursor: grabbing;
+}
+.hidden-object-surface {
+  width: 1400px; /* 超出容器寬度以達成全景拖曳 */
+  height: 100%;
+  background-image: url('./images/bg_hidden_kitchen.png');
+  background-size: cover;
+  background-position: center bottom;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.1s ease-out;
+}
+.hidden-food {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: transparent;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.hidden-food:hover {
+  transform: scale(1.15) translateY(-5px);
+  background: transparent;
+  box-shadow: none;
+}
+.hidden-food img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+}
+.hidden-food .food-status-badge {
+  top: -10px;
+  right: -10px;
+  width: 35px;
+  height: 35px;
+  font-size: 1.4rem;
+}

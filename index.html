@@ -78,36 +78,33 @@
           <p class="level-desc">阿嬤想包好吃的給乖孫，哪些食物「可以吃」？哪些該「丟棄」？（請點選桌上食品）</p>
         </div>
 
-        <div class="table-surface">
-          <!-- 壽司風春捲 -->
-          <div class="food-item" id="food-spring-roll" data-id="spring-roll">
-            <img src="./images/sushi_spring_rolls.png" alt="壽司風春捲">
-            <div class="food-item-name">壽司風春捲</div>
-            <div class="food-status-badge" id="badge-spring-roll"></div>
-          </div>
-          <!-- i禎食麵包 -->
-          <div class="food-item" id="food-safe-bread" data-id="safe-bread">
-            <img src="./images/food_bread_safe_watercolor.png" alt="i禎食麵包">
-            <div class="food-item-name">i禎食超商麵包</div>
-            <div class="food-status-badge" id="badge-safe-bread"></div>
-          </div>
-          <!-- 發霉吐司 -->
-          <div class="food-item" id="food-moldy-bread" data-id="moldy-bread">
-            <img src="./images/food_bread_moldy_watercolor.png" alt="發霉吐司">
-            <div class="food-item-name">長點點的吐司</div>
-            <div class="food-status-badge" id="badge-moldy-bread"></div>
-          </div>
-          <!-- 發芽馬鈴薯 -->
-          <div class="food-item" id="food-sprouted-potato" data-id="sprouted-potato">
-            <img src="./images/food_potato_sprout_watercolor.png" alt="發芽馬鈴薯">
-            <div class="food-item-name">發芽的馬鈴薯</div>
-            <div class="food-status-badge" id="badge-sprouted-potato"></div>
-          </div>
-          <!-- 膨脹罐頭 -->
-          <div class="food-item" id="food-bloated-can" data-id="bloated-can">
-            <img src="./images/food_can_bloated_watercolor.png" alt="膨脹罐頭">
-            <div class="food-item-name">胖胖的魚罐頭</div>
-            <div class="food-status-badge" id="badge-bloated-can"></div>
+        <div class="hidden-object-container" id="hidden-object-container">
+          <div class="hidden-object-surface" id="hidden-object-surface">
+            <!-- 壽司風春捲 -->
+            <div class="food-item hidden-food" id="food-spring-roll" data-id="spring-roll" style="top: 60%; left: 15%;">
+              <img src="./images/sushi_spring_rolls.png" alt="壽司風春捲">
+              <div class="food-status-badge" id="badge-spring-roll"></div>
+            </div>
+            <!-- i禎食麵包 -->
+            <div class="food-item hidden-food" id="food-safe-bread" data-id="safe-bread" style="top: 45%; left: 35%;">
+              <img src="./images/food_bread_safe_watercolor.png" alt="i禎食麵包">
+              <div class="food-status-badge" id="badge-safe-bread"></div>
+            </div>
+            <!-- 發霉吐司 -->
+            <div class="food-item hidden-food" id="food-moldy-bread" data-id="moldy-bread" style="top: 65%; left: 55%;">
+              <img src="./images/food_bread_moldy_watercolor.png" alt="發霉吐司">
+              <div class="food-status-badge" id="badge-moldy-bread"></div>
+            </div>
+            <!-- 發芽馬鈴薯 -->
+            <div class="food-item hidden-food" id="food-sprouted-potato" data-id="sprouted-potato" style="top: 75%; left: 80%;">
+              <img src="./images/food_potato_sprout_watercolor.png" alt="發芽馬鈴薯">
+              <div class="food-status-badge" id="badge-sprouted-potato"></div>
+            </div>
+            <!-- 膨脹罐頭 -->
+            <div class="food-item hidden-food" id="food-bloated-can" data-id="bloated-can" style="top: 35%; left: 85%;">
+              <img src="./images/food_can_bloated_watercolor.png" alt="膨脹罐頭">
+              <div class="food-status-badge" id="badge-bloated-can"></div>
+            </div>
           </div>
         </div>
 
@@ -173,93 +170,7 @@
         </div>
       </section>
 
-      <!-- ==========================================
-           5. 成年與失智篇：撥打電話彩蛋畫面
-           ========================================== -->
-      <section id="call-screen" class="screen">
-        <div class="hud">
-          <div class="progress-bar-container">
-            <span class="progress-text">電話關懷:</span>
-            <div class="progress-bar">
-              <div id="call-progress-fill" style="width: 80%"></div>
-            </div>
-          </div>
-          <div id="call-score-display">叮嚀點數: 0</div>
-        </div>
 
-        <div class="level-title-container">
-          <h2 class="level-title">📞 撥通愛心的電話 📞</h2>
-          <p class="level-desc">阿嬤好像開始記不清楚了... 點擊播打電話，把溫馨關懷傳給阿嬤吧！</p>
-        </div>
-
-        <div class="call-surface">
-          <!-- 衛生紙上的電話號碼 -->
-          <div class="tissue-phone-card">
-            <div class="tissue-number">0987 - 654 - 321</div>
-            <div class="tissue-note">（乖孫的手寫電話號碼）</div>
-          </div>
-
-          <!-- 播打電話按鈕與動態水波紋 -->
-          <div class="call-btn-container" id="call-btn-container">
-            <div class="ripple-effect"></div>
-            <button class="btn-call" id="make-call-btn">📞</button>
-          </div>
-
-          <!-- 通話互動視窗 -->
-          <div class="phone-dialog-overlay" id="phone-dialog-overlay">
-            <div class="phone-status">
-              <span>🟢 連線中...</span>
-              <span id="call-timer">00:00</span>
-            </div>
-            <div class="story-dialog-box" style="width:100%; min-height:120px;">
-              <p id="phone-dialog-text">「嘟...嘟...嘟...」</p>
-            </div>
-            <button class="btn-hangup" id="hang-up-btn">❌</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- ==========================================
-           6. 關卡二：食安防詐騙 LINE 問答畫面
-           ========================================== -->
-      <section id="scam-quiz-screen" class="screen">
-        <div class="hud">
-          <div class="progress-bar-container">
-            <span class="progress-text">食安防詐:</span>
-            <div class="progress-bar">
-              <div id="quiz-progress-fill" style="width: 90%"></div>
-            </div>
-          </div>
-          <div id="quiz-score-display">叮嚀點數: 0</div>
-        </div>
-
-        <div class="level-title-container">
-          <h2 class="level-title">📱 阿嬤的手機收到訊息了！</h2>
-          <p class="level-desc">請幫阿嬤過濾，這些訊息是真的「食安資訊」還是「謠言詐騙」？</p>
-        </div>
-
-        <!-- LINE 經典綠色視窗 -->
-        <div class="line-screen-header">
-          <img src="./images/granddaughter.png" alt="乖孫" class="avatar-small">
-          <div>
-            <div><strong>乖孫（食安小專家）</strong></div>
-            <div style="font-size:1.1rem; color:#A7C957; font-weight:700;">● 線上</div>
-          </div>
-        </div>
-        <div class="line-chat-box" id="line-chat-box">
-          <!-- 動態載入 LINE 訊息 -->
-        </div>
-
-        <!-- 判定按鈕 -->
-        <div class="quiz-actions">
-          <button class="btn-quiz btn-quiz-rumor" id="quiz-rumor-btn">
-            <span>⚠️</span> 這是謠言詐騙！
-          </button>
-          <button class="btn-quiz btn-quiz-fact" id="quiz-fact-btn">
-            <span>✅</span> 真實安全資訊
-          </button>
-        </div>
-      </section>
 
       <!-- ==========================================
            7. 結算畫面
