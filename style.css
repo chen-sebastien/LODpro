@@ -1,13 +1,13 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
 :root {
-  --color-paper: #FAF6EE;     /* 皞急?摰??暺?*/
-  --color-wood: #6D4C41;      /* 皞急膜?刻釭銴?*/
-  --color-accent: #E65100;    /* 瘣餅?鈭格? */
-  --color-safe: #2E7D32;      /* 璉格?摰蝬?*/
-  --color-danger: #C62828;    /* 霅衣內蝤? */
-  --color-ink: #2C2C2C;       /* ??暺◢ */
-  --color-tissue: #FFFFFF;    /* 銋暹楊?質??? */
+  --color-paper: #FAF6EE;     /* 溫暖宣紙黃 */
+  --color-wood: #6D4C41;      /* 溫潤木質褐 */
+  --color-accent: #E65100;    /* 活潑亮橘 */
+  --color-safe: #2E7D32;      /* 森林安全綠 */
+  --color-danger: #C62828;    /* 警示磚紅 */
+  --color-ink: #2C2C2C;       /* 柔和黑墨 */
+  --color-tissue: #FFFFFF;    /* 乾淨白衛生紙 */
   --font-main: 'Noto Sans TC', sans-serif;
 }
 
@@ -30,17 +30,16 @@ body {
 }
 
 #app {
-  width: 100%;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  background-image: radial-gradient(#BCAAA4 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
+  padding: 0;
+  background-color: var(--color-paper);
 }
 
-/* ?銝餃捆??*/
+/* 遊戲主容器 */
 #game-container {
   width: 100vw;
   height: 100vh;
@@ -55,12 +54,14 @@ body {
   overflow: hidden;
 }
 
-/* ?恍?? */
+/* 畫面切換 */
 .screen {
   display: none;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  height: 100%;
+  position: relative;
   flex-grow: 1;
   animation: pageTransition 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
@@ -74,17 +75,18 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* HUD 鞈?甈?*/
+/* HUD 資訊欄 */
 .hud {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 25px;
-  background: rgba(109, 76, 65, 0.08);
-  padding: 15px 25px;
-  border-radius: 16px;
-  border: 2px dashed var(--color-wood);
+  padding: 15px 30px;
+  background-color: rgba(250, 246, 238, 0.85);
+  border-bottom: 2px dashed var(--color-wood);
+  z-index: 100;
 }
 
 .progress-bar-container {
@@ -129,7 +131,7 @@ body {
 }
 
 /* ==========================================================================
-   1. 璅??恍
+   1. 標題畫面
    ========================================================================== */
 #title-screen {
   justify-content: center;
@@ -167,7 +169,7 @@ body {
   box-shadow: inset 0 0 40px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.1);
 }
 
-/* ?鼓蝎?獢???*/
+/* 手繪粗邊框按鈕 */
 .btn-handdrawn {
   background-color: var(--color-accent);
   color: white;
@@ -195,7 +197,7 @@ body {
 }
 
 /* ==========================================================================
-   2. 蝜芣??撟餌???
+   2. 繪本故事幻燈片區
    ========================================================================== */
 .story-card {
   width: 100%;
@@ -245,11 +247,14 @@ body {
 }
 
 .story-actions {
-  width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 20px;
-  margin-top: 10px;
+  margin-top: 20px;
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  z-index: 100; /* Ensure buttons are above the background */
 }
 
 .btn-secondary {
@@ -269,11 +274,17 @@ body {
 }
 
 /* ==========================================================================
-   3. ?銝嚗戭斤?擗??
+   3. 關卡一：阿嬤的餐桌挑選
    ========================================================================== */
 .level-title-container {
+  position: absolute;
+  top: 70px;
+  width: 100%;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 15px 0;
 }
 
 .level-title {
@@ -339,7 +350,7 @@ body {
   text-align: center;
 }
 
-/* ???閮?*/
+/* 狀態標記 */
 .food-status-badge {
   position: absolute;
   top: -15px;
@@ -374,7 +385,7 @@ body {
 }
 
 /* ==========================================================================
-   4. ?曉之敶??郎??蝒?(Modals)
+   4. 放大彈窗及警告視窗 (Modals)
    ========================================================================== */
 .overlay {
   position: fixed;
@@ -493,7 +504,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* 憌銝剜?霅血?敶? (?孵之摮????脖蜓憿? */
+/* 食物中毒警告彈窗 (特大字體、紅色主題) */
 .poison-modal {
   max-width: 600px;
   border-color: var(--color-danger);
@@ -550,7 +561,7 @@ body {
   background-color: #D32F2F;
 }
 
-/* ???? */
+/* 震動效果 */
 .shake-effect {
   animation: shakeAnimation 0.5s ease-in-out;
 }
@@ -562,20 +573,23 @@ body {
 }
 
 /* ==========================================================================
-   5. ?銝敺?嚗????箇???(Folding Tissue)
+   5. 關卡一後半：衛生紙摺紙包 (Folding Tissue)
    ========================================================================== */
 .tissue-table-surface {
-  width: 100%;
-  min-height: 480px;
+  width: 100vw;
+  height: 100vh;
   background-image: linear-gradient(to bottom, #8D6E63, #4E342E);
-  border: 6px solid var(--color-wood);
-  border-radius: 24px;
-  position: relative;
-  box-shadow: inset 0 20px 40px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.15);
+  border: none;
+  border-radius: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-shadow: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 30px;
+  padding: 0;
+  z-index: 1;
 }
 
 .tissue-canvas {
@@ -611,7 +625,7 @@ body {
   100% { transform: scale(1) rotate(0deg); }
 }
 
-/* ?箇??? */
+/* 摺紙蓋片 */
 .tissue-flap {
   position: absolute;
   background-color: rgba(245, 245, 245, 0.95);
@@ -621,7 +635,7 @@ body {
   pointer-events: none;
 }
 
-/* ?閫?芣???之撠?摰? */
+/* 四個摺角在未摺疊時的大小與定位 */
 .flap-tl { top: 0; left: 0; width: 0; height: 0; border-top: 160px solid #FFF; border-right: 160px solid transparent; transform-origin: top left; }
 .flap-tr { top: 0; right: 0; width: 0; height: 0; border-top: 160px solid #FFF; border-left: 160px solid transparent; transform-origin: top right; }
 .flap-bl { bottom: 0; left: 0; width: 0; height: 0; border-bottom: 160px solid #FFF; border-right: 160px solid transparent; transform-origin: bottom left; }
@@ -632,7 +646,7 @@ body {
 .flap-bl.folded { transform: scale(1) rotate(45deg) translate(-113px, 113px); }
 .flap-br.folded { transform: scale(1) rotate(-45deg) translate(113px, 113px); }
 
-/* ??暺??澆?? */
+/* 四角點擊發光區 */
 .corner-hotspot {
   position: absolute;
   width: 75px;
@@ -681,7 +695,7 @@ body {
   100% { box-shadow: 0 0 0 0 rgba(230, 81, 0, 0); }
 }
 
-/* ?曄蔭憌?刻???銝剖亢?捆??*/
+/* 放置食物在衛生紙中央的容器 */
 .tissue-food-holder {
   width: 200px;
   height: 200px;
@@ -701,11 +715,15 @@ body {
   animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
 }
 
-/* 敺?憌?詨 (摨) */
+/* 待包食物選單 (底側) */
 .food-pile-container {
   display: flex;
   gap: 30px;
-  margin-top: 25px;
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
 }
 
 .pile-item {
@@ -749,7 +767,7 @@ body {
 }
 
 /* ==========================================================================
-   6. ?餉店?交?璅⊥敶抵? (Call Easter Egg)
+   6. 電話撥打模擬彩蛋 (Call Easter Egg)
    ========================================================================== */
 .call-surface {
   width: 100%;
@@ -789,7 +807,7 @@ body {
   font-weight: 700;
 }
 
-/* ?剛??恍?偌瘜Ｙ? */
+/* 播號畫面與水波紋 */
 .call-btn-container {
   position: relative;
   width: 120px;
@@ -836,7 +854,7 @@ body {
   100% { transform: scale(1.8); opacity: 0; }
 }
 
-/* ?店閬? */
+/* 通話視窗 */
 .phone-dialog-overlay {
   display: none;
   flex-direction: column;
@@ -880,7 +898,7 @@ body {
 }
 
 /* ==========================================================================
-   7. 隞?LINE ??閮???蝑?(Scam Quiz LINE style)
+   7. 仿 LINE 的謠言與新聞問答 (Scam Quiz LINE style)
    ========================================================================== */
 .line-screen-header {
   width: 100%;
@@ -904,7 +922,7 @@ body {
 
 .line-chat-box {
   width: 100%;
-  background-color: #849B89; /* 蝬LINE蝬摨?*/
+  background-color: #849B89; /* 經典LINE綠色底 */
   border-left: 5px solid var(--color-wood);
   border-right: 5px solid var(--color-wood);
   border-bottom: 5px solid var(--color-wood);
@@ -917,7 +935,7 @@ body {
   box-shadow: inset 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* 撠店瘜⊥部 */
+/* 對話泡泡 */
 .chat-message {
   display: flex;
   gap: 12px;
@@ -998,7 +1016,7 @@ body {
   border-left: 12px solid transparent;
 }
 
-/* ??摰????鈭? */
+/* 雙選項判定按鈕（關卡二） */
 .quiz-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1039,7 +1057,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* 蝘飛閫??隤芣?敶? */
+/* 科學解析說明彈窗 */
 .quiz-explain-modal {
   max-width: 550px;
   border-color: var(--color-accent);
@@ -1068,7 +1086,7 @@ body {
 }
 
 /* ==========================================================================
-   8. 蝯偏???嗥蝪?(Collage Photo Ending)
+   8. 結尾與回憶相簿 (Collage Photo Ending)
    ========================================================================== */
 .collage-grid {
   display: grid;
@@ -1102,7 +1120,7 @@ body {
 }
 
 /* ==========================================================================
-   9. 蝯??恍
+   9. 結算畫面
    ========================================================================== */
 .result-box {
   text-align: center;
@@ -1153,7 +1171,7 @@ body {
   line-height: 1.5;
 }
 
-/* ?????撟??*/
+/* 手機與窄版螢幕適應 */
 @media (max-width: 600px) {
   #game-container {
   width: 100vw;
@@ -1169,10 +1187,17 @@ body {
   overflow: hidden;
 }
   .hud {
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px 15px;
-  }
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  background-color: rgba(250, 246, 238, 0.85);
+  border-bottom: 2px dashed var(--color-wood);
+  z-index: 100;
+}
   .progress-bar-container {
     max-width: 100%;
     width: 100%;
@@ -1235,7 +1260,7 @@ body {
 }
 
 /* ==========================================================================
-   8. ???撘鼓??(Dynamic Theater Slides)
+   8. 動態劇場式繪本 (Dynamic Theater Slides)
    ========================================================================== */
 .story-frame-container {
   position: relative;
@@ -1261,7 +1286,7 @@ body {
   padding: 0 40px;
   z-index: 10;
   background-color: #FAF6EE;
-  background-image: url('./images/tissue_spread.png'); /* 摰??摨? */
+  background-image: url('./images/tissue_spread.png'); /* 宣紙底紋 */
   background-size: cover;
   background-blend-mode: multiply;
   transition: opacity 0.5s ease;
@@ -1278,7 +1303,7 @@ body {
   transition: background 0.5s ease;
 }
 
-/* 皞急?瘞游蔗? wash */
+/* 溫暖水彩背景 wash */
 .bg-warm-wash {
   background: radial-gradient(circle, #FFF3E0 0%, #D7CCC8 100%);
 }
@@ -1320,10 +1345,10 @@ body {
 
 .char-granddaughter {
   right: 12%;
-  height: 68%; /* 摮怠戊擃?頛嚗矽?湔?靘誑蝚血??祕?恍◢嚗?重憟喲??澆楊憭?*/
+  height: 68%; /* 孫女體型較矮，調整比例以符合真實畫風，避免孫女過於巨大 */
 }
 
-/* 閫???蕪?⊥???*/
+/* 角色動態與濾鏡效果 */
 .theater-char.wave {
   animation: charWave 3s ease-in-out infinite alternate;
 }
@@ -1351,7 +1376,7 @@ body {
   filter: sepia(80%) contrast(90%) brightness(95%);
 }
 
-/* ?憌曉??????*/
+/* 關卡飾品與動態特效 */
 .theater-overlay-effect {
   position: absolute;
   top: 0;
@@ -1367,7 +1392,7 @@ body {
   background: rgba(121, 85, 72, 0.15);
 }
 
-/* 1. ???? ?朵 */
+/* 1. 搞笑假牙 🦷 */
 .floating-tooth {
   position: absolute;
   font-size: 8rem;
@@ -1386,7 +1411,7 @@ body {
   animation: sparkSpin 1.5s linear infinite;
 }
 
-/* 2. 憌?憌? ??? */
+/* 2. 飄動食品 🍣🍞 */
 .floating-food {
   position: absolute;
   width: 90px;
@@ -1398,7 +1423,7 @@ body {
   filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1));
 }
 
-/* 3. ?質?憌? ?? */
+/* 3. 落葉飄飄 🍂 */
 .falling-leaves-container {
   position: absolute;
   top: 0;
@@ -1415,7 +1440,7 @@ body {
   animation: leafFall 6s linear infinite;
 }
 
-/* 4. ?怨?皛? ?? */
+/* 4. 火車滑過 🚂 */
 .train-wrapper {
   position: absolute;
   bottom: 20px;
@@ -1428,7 +1453,7 @@ body {
 .train-loco { font-size: 5rem; }
 .train-car { font-size: 3.5rem; }
 
-/* 5. ?餃?撖思縑蝝??? */
+/* 5. 電子寫信紙 📝 */
 .floating-card-paper {
   position: absolute;
   top: 50%;
@@ -1464,7 +1489,7 @@ body {
   margin-top: 5px;
 }
 
-/* 6. ???豢 ? */
+/* 6. 動態相本 📸 */
 .theater-polaroid-pile {
   position: absolute;
   width: 100%;
@@ -1572,7 +1597,7 @@ body {
   to { opacity: 1; transform: scale(1) rotate(var(--rot)) translate(var(--tx), var(--ty)); }
 }
 
-/* RWD 隤踵 */
+/* RWD 調整 */
 @media (max-width: 768px) {
   .story-theater {
     padding: 0 15px;
@@ -1602,24 +1627,27 @@ body {
 .hidden {
   display: none !important;
 }
-/* 隱藏物品尋寶關卡 (Game 1) */
+/* ���ê��~�M�_���d (Game 1) */
 .hidden-object-container {
-  width: 100%;
-  height: 420px;
-  border: 6px solid var(--color-wood);
-  border-radius: 24px;
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  border-radius: 0;
   overflow: hidden;
-  position: relative;
-  box-shadow: inset 0 20px 40px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.15);
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-shadow: none;
   cursor: grab;
+  z-index: 1;
 }
 .hidden-object-container:active {
   cursor: grabbing;
 }
 .hidden-object-surface {
-  width: 1400px; /* 超出容器寬度以達成全景拖曳 */
+  width: 2500px; /* Make it very wide for panning */
   height: 100%;
-  background-image: url('./images/bg_hidden_kitchen.png');
+  background-image: url('./images/bg_kitchen_watercolor.png');
   background-size: cover;
   background-position: center bottom;
   position: absolute;

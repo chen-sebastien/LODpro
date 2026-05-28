@@ -1,99 +1,99 @@
 ﻿/**
- * ?踹洶?????????詨?鈭????
+ * 阿嬤的衛生紙包 — 核心互動狀態機
  */
 
-// 1. ??撟餌???蝢?
+// 1. 故事幻燈片定義
 const storySlides = [
   {
     id: 0,
-    text: "?踹洶????敹?蝚捆嚗?頝?璅?????旦???潛嚗??嗆??嗅?末???镼踵?嚗蜇?舐?敺?亦??.. ?潭隞捱摰???暺?亦??極??憟賣?嚗?埠??,
+    text: "阿嬤看著我開心的笑容，也跟著樂得合不攏嘴。她悄悄發現，每當我收到『好吃的』東西時，總是笑得特別燦爛... 於是他決定這回包一點特別的手工愛心好料！🍰🍓",
     image: "./images/bg_kitchen_watercolor.png"
   },
   {
     id: 1,
-    text: "摮怠戊?嗅??銵?蝝?嚗?敹??髡?歲嚗??移蝺餌??交?熊????渲ㄐ嚗??典?鋆～??嗆????毽?脖?鈭??芰????拙嚗?摮怠戊?賜敺?蝝????朵?歹?",
+    text: "孫女收到愛心衛生紙包，開心得又蹦又跳！看著精緻的春捲與麵包，吃在嘴裡，甜在心裡。雖然有時候也會混進一些奇怪的假牙玩具，但孫女都玩得超級高興！🦷❤️",
     image: "./images/granddaughter.png"
   }
 ];
 
-// 2. ?銝憌摰儔
+// 2. 關卡一食物定義
 const foodData = {
   "spring-roll": {
-    name: "憯賢憸冽???",
-    desc: "?踹洶隞予閬芣????交嚗?亦銋暹楊????蝎曄溶????之撠?瘣餉??砍ˊ?賂?憌??圈悅??瘜????舐?雿喲?敹?,
+    name: "壽司風春捲 🍣",
+    desc: "阿嬤今天親手包的春捲，特別用乾淨切刀切成精緻的一口大小，活脫像日本壽司！食材新鮮、做法衛生，是絕佳點心。",
     image: "./images/sushi_spring_rolls.png",
     isSafe: true,
-    feedback: "??脤戭方撌勗????敦蝝堆?憟賢????剁?銋重蝺?憌?",
+    feedback: "這春捲阿嬤自己做的，切細細，好呷閣安全，乖孫緊來食！",
     audio: "./audio/spring_roll.mp3"
   },
   "safe-bread": {
-    name: "i蝳?頞?暻萄? ??",
-    desc: "頞???摰末銝?????抒????嚗??Ｗ???脣?敹???霅??蝳???蝡??摰?臭誑???亙熒????,
+    name: "i禎食超商麵包 🍞",
+    desc: "超商包裝完好且在有效期限內的切片吐司，上面印有綠色安心食品認證的「i禎食」標章！這是完全可以吃的健康指標。",
     image: "./images/food_bread_safe_watercolor.png",
     isSafe: true,
-    feedback: "?熊??鋆?憟踝?????蝬摰璅?嚗?甇??鈭箏?敹?",
+    feedback: "這麵包包裝完好，頂懸閣有綠色安全標章，真正予人安心！",
     audio: "./audio/safe_bread.mp3"
   },
   "moldy-bread": {
-    name: "?瑚?暺???????",
-    desc: "?冽?銝鈭翰銝????嚗?閫??瑕撟暸?瘥?貊?撠?暺氬?,
+    name: "長了點點的吐司 🍄",
+    desc: "在桌上放了快一星期的白吐司，邊角上長出幾點毛茸茸的小綠黴。",
     isSafe: false,
     image: "./images/food_bread_moldy_watercolor.png",
-    feedback: "?踹洶雓????貊??嚗?潮????典??????雿輸??佗?",
+    feedback: "阿嬤講：這吐司發霉啊，共發霉的所在切掉，閣會使食啦！",
     audio: "./audio/moldy_bread.mp3"
   },
   "sprouted-potato": {
-    name: "?瑕撠??賜?擐祇????",
-    desc: "??鋆∠?擐祇?舫?箔?憟賢嗾憿?蝬?撠咿?賬?,
+    name: "長出小綠芽的馬鈴薯 🥔",
+    desc: "菜籃裡的馬鈴薯長出了好幾顆翠綠的小嫩芽。",
     isSafe: false,
     image: "./images/food_potato_sprout_watercolor.png",
-    feedback: "?踹洶雓??收?渲?潛????曹???嚗皝臬停?∩誨隤嚗?,
+    feedback: "阿嬤講：這馬鈴薯發穎啊，共伊挖掉，煮湯就無代誌啦！",
     audio: "./audio/sprouted_potato.mp3"
   },
   "bloated-can": {
-    name: "????蝵 蝵曌絲 ?市",
-    desc: "?萇蝵?曉???銋?嚗???憿臬??桃??祇?韏瑯?,
+    name: "胖胖的魚罐頭 罐頭鼓起 🥫",
+    desc: "鐵皮罐頭放得有些久了，上蓋明顯像皮球般鼓起。",
     isSafe: false,
     image: "./images/food_can_bloated_watercolor.png",
-    feedback: "?踹洶雓????剛瘜∪?嚗誨銵函征瘞?ˊ皛選??靘?憌舀??末?佗?",
+    feedback: "阿嬤講：這罐頭脹泡啊，代表空氣飽滿，提出來配飯拄拄好啦！",
     audio: "./audio/bloated_can.mp3"
   }
 };
 
-// 3. ?鈭?LINE 雓???摰儔
+// 3. 關卡二 LINE 謠言問答定義
 const quizData = [
   {
-    sender: "蝬脩???瘣餃?憒???,
+    sender: "網紅【生活小妙招】",
     avatar: "./images/food_leftovers_watercolor.png",
     type: "chat",
-    message: "?振鈭箏?憌?摰瘝?靽嚗熊?偌??敺桃???芾??典????瘥??唳??嚗銝??唳銋暹楊?扳見?臭誑????摨瑕?嚗?,
+    message: "「家人們！食品安全沒關係啦，麵包水果稍微發霉，只要用刀把發霉毛毛的地方切掉，剩下的地方乾淨照樣可以吃，省錢又健康喔！」",
     isRumor: true,
-    explain: "???閮閰???暺渲???蝯脣?璅寧??嚗??潸???航”?Ｙ???嗅祕敺桀???蝯脣歇蝬楛?交憛??拙?剁?銝虫????暹?摰單?蝝??”?Ｙ?撠?摰嚗??憿?璉?"
+    explain: "這是【謠言詐騙】！黴菌的菌絲呈樹狀生長，肉眼能看到的只是表面發霉，其實微小的菌絲已經深入整塊食物內部，並且會釋放有害毒素。切掉表面絕對不安全，必須整顆丟棄！"
   },
   {
-    sender: "憌蝵脤?摰蜓??,
+    sender: "食藥署食安主播",
     avatar: "./images/granddaughter.png",
     type: "news",
-    message: "??摰郎?梧?憌蝵脩?交????橘???憌??喃蝙憭?????璅???折?拙歇皛???獢輯????暸?暻湔?蝝?????摰?抒瘜?霅?瘨祥???輸??其誑靽摨瑕??具?,
+    message: "「食安警報！食藥署特別提醒民眾：過期食品即使外觀和味道沒有異樣，內部早已滋生肉毒桿菌或釋放黃麴毒素。過期食品的安全性無法保證，消費者切勿食用以保健康安全。」",
     isRumor: false,
-    explain: "???撖血??刻?閮??????舫????函?摨???????嚗??????憭望?嚗扔???閬?瘛勗惜皛??游??瘥▼??皞怎隤蹂?銝摰?游??券瘥?嚗??踹??芷??剁?"
+    explain: "這是【真實安全資訊】！有效期限是食品安全的底線。食品過期後，防腐或抑菌效力失效，極易在看不見的深層滋生致命的肉毒桿菌。高溫烹調不一定能破壞全部毒素，切勿冒險食用！"
   },
   {
-    sender: "LINE?勗??啣?撘菟憪?,
+    sender: "LINE熱心鄰居張阿姨",
     avatar: "./images/food_meat_freezerburn_watercolor.png",
     type: "chat",
-    message: "??憭扳??荔?憭?瘣?臭誑?脫??瘥??????仿???箏摰Ｗ輒頝?ㄐ嚗??亦畾?瘞??臭誑?賊?蝛箸除銝剜???瘚?????憭批振頞翰?典?頧?啁黎蝯ㄐ嚗?,
+    message: "「重大消息！多吃洋蔥可以防新冠病毒！而且把洋蔥頭切開擺在客廳跟房間裡，洋蔥特殊的氣味可以吸附空氣中所有的流感病毒喔！大家趕快用力轉發到群組裡！」",
     isRumor: true,
-    explain: "???閮閰???瘣?除?喳??冽??捏???賊??????賬??仿??嗆??????雿??嗅???曉摰文?脫???蝝惇瘞?雓????脩?????撘??臬瘣????蔗隞亙??﹛憌脤?嚗?
+    explain: "這是【謠言詐騙】！洋蔥的氣味完全沒有殺菌或吸附病毒的功能。洋蔥雖然是營養的食材，但將其切開擺放在室內防流感，純屬民間謠言。預防疾病最有效的方式仍是勤洗手、戴口罩以及均衡飲食！"
   }
 ];
 
-// 4. ??????
+// 4. 遊戲狀態變數
 let state = {
   currentScreen: 'title',   // 'title', 'story', 'table', 'wrap', 'call', 'quiz', 'result'
   storyIndex: 0,
   score: 0,
-  maxScore: 8,             // 5 憿??拙摰?+ 3 憿?Line ?脰??文?
+  maxScore: 8,             // 5 題食物判定 + 3 題 Line 防詐判定
   foodStates: {
     "spring-roll": "unselected",   // "unselected", "safe", "unsafe"
     "safe-bread": "unselected",
@@ -107,7 +107,7 @@ let state = {
   currentZoomedId: null
 };
 
-// 5. ?單?璅⊥ (Web Audio API)
+// 5. 音效模擬 (Web Audio API)
 let audioCtx = null;
 let bgmOscillators = [];
 let bgmInterval = null;
@@ -200,7 +200,7 @@ function playSound(type) {
     const now = ctx.currentTime;
     
     if (type === 'click') {
-      // 暺???(?凋?????
+      // 點擊聲 (短促的高音)
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.frequency.setValueAtTime(800, now);
@@ -212,7 +212,7 @@ function playSound(type) {
       osc.start();
       osc.stop(now + 0.1);
     } else if (type === 'success') {
-      // 蝑???(?桀??)
+      // 答對聲 (叮咚雙音)
       const osc1 = ctx.createOscillator();
       const osc2 = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -226,7 +226,7 @@ function playSound(type) {
       osc1.start();
       osc1.stop(now + 0.4);
     } else if (type === 'wrong') {
-      // 蝑銝剜???(雿霅血)
+      // 答錯中毒聲 (低音警報)
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sawtooth';
@@ -239,7 +239,7 @@ function playSound(type) {
       osc.start();
       osc.stop(now + 0.5);
     } else if (type === 'fold') {
-      // ?箇?瘝???
+      // 摺紙沙沙聲
       const bufferSize = ctx.sampleRate * 0.15;
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
@@ -265,7 +265,7 @@ function playSound(type) {
   }
 }
 
-// 6. ?餉店?渲璅⊥??
+// 6. 電話鈴聲模擬器
 function startPhoneRinging() {
   try {
     const ctx = getAudioContext();
@@ -309,7 +309,7 @@ function stopPhoneRinging() {
   }
 }
 
-// 7. ?Ｗ???頝舐
+// 7. 螢幕切換路由
 function navigateTo(screenId) {
   state.currentScreen = screenId;
   document.querySelectorAll('.screen').forEach(scr => {
@@ -320,7 +320,7 @@ function navigateTo(screenId) {
   playSound('click');
 }
 
-// 8. ?蔣?恣??
+// 8. 投影片管理
 function clearTheater() {
   const bg = document.getElementById('theater-bg');
   const dec = document.getElementById('theater-decorations');
@@ -343,7 +343,7 @@ function clearTheater() {
   }
 }
 
-// 8. ?蔣?恣??
+// 8. 投影片管理
 function renderStorySlide() {
   const slide = storySlides[state.storyIndex];
   const storyImg = document.getElementById('story-img');
@@ -352,15 +352,15 @@ function renderStorySlide() {
   
   if (storyText) storyText.innerText = slide.text;
   
-  // ?湔?脣漲璇?
+  // 更新進度條
   const percent = ((state.storyIndex + 1) / storySlides.length) * 100;
   const progressFill = document.getElementById('story-progress-fill');
   if (progressFill) progressFill.style.width = `${percent}%`;
   
   const scoreDisp = document.getElementById('score-display');
-  if (scoreDisp) scoreDisp.innerText = `?桀?暺: ${state.score}`;
+  if (scoreDisp) scoreDisp.innerText = `叮嚀點數: ${state.score}`;
 
-  // 憿舐內???銝?
+  // 顯示或隱藏回上頁
   const prevBtn = document.getElementById('story-prev-btn');
   if (prevBtn) {
     if (state.storyIndex > 0) {
@@ -370,22 +370,22 @@ function renderStorySlide() {
     }
   }
 
-  // ?寞?撟餌??歲?箏???
+  // 特殊幻燈片跳出分支
   const nextBtn = document.getElementById('story-next-btn');
   if (nextBtn) {
     if (state.storyIndex === 3) {
-      nextBtn.innerHTML = "撟恍戭文?暺? ?? ??;
+      nextBtn.innerHTML = "幫阿嬤做點心 🍎 ➔";
     } else if (state.storyIndex === 8) {
-      nextBtn.innerHTML = "撖思??餉店?絲靘???;
+      nextBtn.innerHTML = "寫下電話包起來 ➔";
     } else if (state.storyIndex === 10) {
-      nextBtn.innerHTML = "撟恍戭文?瑟?璈?閮 ? ??;
+      nextBtn.innerHTML = "幫阿嬤判斷手機謠言 📱 ➔";
     } else {
-      nextBtn.innerHTML = "蝜潛?????;
+      nextBtn.innerHTML = "繼續看 ➔";
     }
   }
 
-  // ???????游???
-  // Slide 0, 9, 11 雿輻蝎曄??刻撟祝?舀偌敶拙?嚗擗?10 ??敶梁??蝙?典???撅文??嚗?
+  // 靜態與動態劇場切換
+  // Slide 0, 9, 11 使用精美全螢幕寬景水彩圖，其餘 10 個投影片均使用動態圖層式劇場！
   const useTheater = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12].includes(state.storyIndex);
   
   if (useTheater && theater && storyImg) {
@@ -399,7 +399,7 @@ function renderStorySlide() {
     const gd = document.getElementById('theater-char-granddaughter');
     
     switch (state.storyIndex) {
-      case 1: // ?踹銝撘萇銵?蝝?
+      case 1: // 拿出一張白衛生紙
         if (bg) bg.classList.add('bg-warm-wash');
         if (g && gd) {
           g.style.display = 'block';
@@ -407,13 +407,13 @@ function renderStorySlide() {
           gd.style.display = 'block';
           gd.classList.add('jump');
         }
-        // 瞍筑銵?蝝?鋆?
+        // 漂浮衛生紙包裹
         if (dec) {
-          dec.innerHTML = `<img src="./images/tissue_wrapped.png" alt="銵?蝝?" class="floating-food" style="width: 130px; height: 130px; top: 25%; left: 40%;">`;
+          dec.innerHTML = `<img src="./images/tissue_wrapped.png" alt="衛生紙包" class="floating-food" style="width: 130px; height: 130px; top: 25%; left: 40%;">`;
         }
         break;
         
-      case 2: // ?????? ?朵
+      case 2: // 假牙搞笑故事 🦷
         if (bg) bg.classList.add('bg-warm-wash');
         if (g && gd) {
           g.style.display = 'block';
@@ -421,18 +421,18 @@ function renderStorySlide() {
           gd.style.display = 'block';
           gd.classList.add('shake');
         }
-        // 瘚桃憭批???鈭格?
+        // 浮現大假牙與亮星
         if (dec) {
           dec.innerHTML = `
-            <div class="floating-tooth">?朵
-              <span class="tooth-spark" style="top:-10px; left:-10px;">??/span>
-              <span class="tooth-spark" style="bottom:-10px; right:-10px; animation-delay:0.5s;">??/span>
+            <div class="floating-tooth">🦷
+              <span class="tooth-spark" style="top:-10px; left:-10px;">✨</span>
+              <span class="tooth-spark" style="bottom:-10px; right:-10px; animation-delay:0.5s;">✨</span>
             </div>
           `;
         }
         break;
         
-      case 3: // 皞???敹?敹?
+      case 3: // 準備做愛心點心
         if (bg) bg.classList.add('bg-kitchen-wash');
         if (g && gd) {
           g.style.display = 'block';
@@ -440,16 +440,16 @@ function renderStorySlide() {
           gd.style.display = 'block';
           gd.classList.add('jump');
         }
-        // 瞍筑?交?蝳?暻萄?
+        // 漂浮春捲與i禎食麵包
         if (dec) {
           dec.innerHTML = `
-            <img src="./images/sushi_spring_rolls.png" alt="?交" class="floating-food" style="width: 75px; height: 75px; left: 33%; animation-delay: 0s;">
-            <img src="./images/food_bread_safe_watercolor.png" alt="暻萄?" class="floating-food" style="width: 80px; height: 80px; left: 52%; animation-delay: 0.5s;">
+            <img src="./images/sushi_spring_rolls.png" alt="春捲" class="floating-food" style="width: 75px; height: 75px; left: 33%; animation-delay: 0s;">
+            <img src="./images/food_bread_safe_watercolor.png" alt="麵包" class="floating-food" style="width: 80px; height: 80px; left: 52%; animation-delay: 0.5s;">
           `;
         }
         break;
         
-      case 4: // ?嗅蝝?頝唾?
+      case 4: // 收到紙包跳舞
         if (bg) bg.classList.add('bg-kitchen-wash');
         if (g && gd) {
           g.style.display = 'block';
@@ -458,50 +458,50 @@ function renderStorySlide() {
           gd.classList.add('jump');
         }
         if (dec) {
-          dec.innerHTML = `<img src="./images/tissue_wrapped.png" alt="銵?蝝?" class="floating-food" style="width: 120px; height: 120px; top: 38%; left: 42%;">`;
+          dec.innerHTML = `<img src="./images/tissue_wrapped.png" alt="衛生紙包" class="floating-food" style="width: 120px; height: 120px; top: 38%; left: 42%;">`;
         }
         break;
         
-      case 5: // ?瑕之??圈悅鈭???儭?
+      case 5: // 長大成為新鮮人 🏙️
         if (bg) bg.classList.add('bg-city-wash');
         if (gd) {
           gd.style.display = 'block';
-          gd.classList.add('sepia'); // 蝡亙僑銋重霈???
+          gd.classList.add('sepia'); // 童年乖孫變懷舊照片
         }
-        // 瞍筑?賢?蝚西?
+        // 漂浮都市符號
         if (dec) {
           dec.innerHTML = `
-            <div style="position:absolute; top:20%; left:25%; font-size:6rem; filter:opacity(0.85); animation: floatFood 4s ease-in-out infinite alternate;">??儭?/div>
-            <div style="position:absolute; top:35%; left:45%; font-size:4.5rem; filter:opacity(0.85); animation: floatFood 3s ease-in-out infinite alternate 0.5s;">?</div>
-            <div style="position:absolute; top:15%; left:60%; font-size:5rem; filter:opacity(0.85); animation: floatFood 3.5s ease-in-out infinite alternate 1s;">?</div>
+            <div style="position:absolute; top:20%; left:25%; font-size:6rem; filter:opacity(0.85); animation: floatFood 4s ease-in-out infinite alternate;">🏙️</div>
+            <div style="position:absolute; top:35%; left:45%; font-size:4.5rem; filter:opacity(0.85); animation: floatFood 3s ease-in-out infinite alternate 0.5s;">💼</div>
+            <div style="position:absolute; top:15%; left:60%; font-size:5rem; filter:opacity(0.85); animation: floatFood 3.5s ease-in-out infinite alternate 1s;">💻</div>
           `;
         }
         break;
         
-      case 6: // ?剔頠?????
+      case 6: // 搭火車回鄉 🚂
         if (bg) bg.classList.add('bg-city-wash');
-        // ?怨?銵?
+        // 火車行駛
         if (dec) {
           dec.innerHTML = `
             <div class="train-wrapper">
-              <span class="train-loco">??</span>
-              <span class="train-car">??</span>
-              <span class="train-car">??</span>
-              <span class="train-car">??</span>
+              <span class="train-loco">🚂</span>
+              <span class="train-car">🚃</span>
+              <span class="train-car">🚃</span>
+              <span class="train-car">🚃</span>
             </div>
           `;
         }
         break;
         
-      case 7: // ?踹洶敹???憪仃???
+      case 7: // 阿嬤忘記、開始失智 😢
         if (bg) bg.classList.add('bg-autumn-wash');
         if (g && gd) {
           g.style.display = 'block';
-          g.classList.add('confused'); // ?踹洶餈瑁??
+          g.classList.add('confused'); // 阿嬤迷茫搖晃
           gd.style.display = 'block';
           gd.classList.add('faded');
         }
-        // 憌?????
+        // 飄動的落葉特效
         if (dec) {
           let leavesHTML = '<div class="falling-leaves-container">';
           for (let i = 0; i < 7; i++) {
@@ -509,7 +509,7 @@ function renderStorySlide() {
             const endX = startX + (Math.random() * 200 - 100);
             const delay = Math.random() * 5;
             const duration = 5 + Math.random() * 4;
-            const emoji = ['??', '??', '??'][Math.floor(Math.random() * 3)];
+            const emoji = ['🍂', '🍁', '🍃'][Math.floor(Math.random() * 3)];
             leavesHTML += `<span class="leaf-particle" style="--start-x:${startX}px; --end-x:${endX}px; animation-delay:${delay}s; animation-duration:${duration}s;">${emoji}</span>`;
           }
           leavesHTML += '</div>';
@@ -517,7 +517,7 @@ function renderStorySlide() {
         }
         break;
         
-      case 8: // 撖思??餉店?Ⅳ ?
+      case 8: // 寫下電話號碼 📱
         if (bg) bg.classList.add('bg-autumn-wash');
         if (g && gd) {
           g.style.display = 'block';
@@ -525,19 +525,19 @@ function renderStorySlide() {
           gd.style.display = 'block';
           gd.classList.add('wave');
         }
-        // 瘚桃撖怨??Ⅳ??撖怎?璇?
+        // 浮現寫著號碼的手寫紙條
         if (dec) {
           dec.innerHTML = `
             <div class="floating-card-paper">
-              <div class="paper-title">?? 銋重??撖怎?璇?/div>
+              <div class="paper-title">📝 乖孫的手寫紙條</div>
               <div class="paper-number">0987-654-321</div>
-              <div class="paper-note">?戭歹?????圈閰勗?嚗?/div>
+              <div class="paper-note">「阿嬤，這是我的新電話喔！」</div>
             </div>
           `;
         }
         break;
         
-      case 10: // ?踹洶敺桃?隤迎???閮?...
+      case 10: // 阿嬤微笑說：我還記得...
         if (bg) bg.classList.add('bg-warm-wash');
         if (g && gd) {
           g.style.display = 'block';
@@ -545,24 +545,24 @@ function renderStorySlide() {
           gd.style.display = 'block';
           gd.classList.add('jump', 'faded');
         }
-        // 瘚桃摰憌??敹?
+        // 浮現安全食物與愛心
         if (dec) {
           dec.innerHTML = `
-            <img src="./images/food_bread_safe_watercolor.png" alt="暻萄?" class="floating-food" style="width: 75px; height: 75px; left: 38%; animation-delay: 0s;">
-            <div style="position:absolute; top:20%; left:48%; font-size:4.5rem; animation: floatTooth 2s ease-in-out infinite;">??</div>
+            <img src="./images/food_bread_safe_watercolor.png" alt="麵包" class="floating-food" style="width: 75px; height: 75px; left: 38%; animation-delay: 0s;">
+            <div style="position:absolute; top:20%; left:48%; font-size:4.5rem; animation: floatTooth 2s ease-in-out infinite;">💖</div>
           `;
         }
         break;
         
-      case 12: // 蝯??貊?憭扳鞎??
+      case 12: // 結局相片大拼貼 📸
         if (bg) bg.classList.add('bg-warm-wash');
-        // ??憭撐??敺????賜???
+        // 生成多張拍立得動態飄落疊放
         if (dec) {
           const polaroids = [
-            { img: './images/sushi_spring_rolls.png', text: '蝢撠???', rot: '-8deg', tx: '-190px', ty: '-60px' },
-            { img: './images/granddaughter.png', text: '蝡亙僑??摮??', rot: '6deg', tx: '-50px', ty: '-80px' },
-            { img: './images/tissue_wrapped.png', text: '??銵?蝝? ??', rot: '-5deg', tx: '80px', ty: '-70px' },
-            { img: './images/grandma_granddaughter_hug.png', text: '瘞賊??豢? ??歹?', rot: '8deg', tx: '180px', ty: '-30px' }
+            { img: './images/sushi_spring_rolls.png', text: '美味小春捲 🍣', rot: '-8deg', tx: '-190px', ty: '-60px' },
+            { img: './images/granddaughter.png', text: '童年的乖孫 👧', rot: '6deg', tx: '-50px', ty: '-80px' },
+            { img: './images/tissue_wrapped.png', text: '愛心衛生紙包 💝', rot: '-5deg', tx: '80px', ty: '-70px' },
+            { img: './images/grandma_granddaughter_hug.png', text: '永遠相擁 👵❤️', rot: '8deg', tx: '180px', ty: '-30px' }
           ];
           
           let pHTML = '<div class="theater-polaroid-pile">';
@@ -580,7 +580,7 @@ function renderStorySlide() {
         break;
     }
   } else {
-    // 憿舐內?喟絞??撖祆瘞游蔗憭批?
+    // 顯示傳統靜態寬景水彩大圖
     if (storyImg) {
       storyImg.classList.remove('hidden');
       storyImg.src = slide.image;
@@ -593,11 +593,11 @@ function renderStorySlide() {
 
 function handleStoryNext() {
   if (state.storyIndex === 0) {
-    // ?脣擗??銝 (?梯??拙?)
+    // 進入餐桌關卡一 (隱藏物品)
     navigateTo('kitchen-table');
     initLevel1Table();
   } else if (state.storyIndex === 1) {
-    // ??憭抒?撅嚗脣蝯?
+    // 故事大結局，進入結算
     navigateTo('result');
     showFinalResult();
   } else {
@@ -616,15 +616,15 @@ function handleStoryPrev() {
 }
 
 // ==========================================================================
-// ???∩?嚗?獢??賊?頛胯?
+// 【關卡一：餐桌挑選邏輯】
 // ==========================================================================
 function initLevel1Table() {
-  document.getElementById('table-score-display').innerText = `?桀?暺: ${state.score}`;
+  document.getElementById('table-score-display').innerText = `叮嚀點數: ${state.score}`;
   
-  // ?? BGM
+  // 啟動 BGM
   startBGM();
 
-  // ?冽??摩
+  // 全景拖曳邏輯
   const container = document.getElementById('hidden-object-container');
   const surface = document.getElementById('hidden-object-surface');
   let isDragging = false;
@@ -632,8 +632,8 @@ function initLevel1Table() {
   let currentTranslate = 0;
   let prevTranslate = 0;
 
-  // 閮??憭批皛曉?蝭?
-  // 摰孵撖砍漲憭抒??航撟祝嚗urface撖砍漲 1400px
+  // 計算最大可滾動範圍
+  // 容器寬度大約是螢幕寬，surface寬度 1400px
   const getMaxTranslate = () => {
     return Math.min(0, container.clientWidth - surface.clientWidth);
   };
@@ -651,7 +651,7 @@ function initLevel1Table() {
     
     currentTranslate = prevTranslate + diffX;
     
-    // ??蝭?
+    // 限制拖曳範圍
     const maxTrans = getMaxTranslate();
     if (currentTranslate > 0) currentTranslate = 0;
     if (currentTranslate < maxTrans) currentTranslate = maxTrans;
@@ -673,10 +673,10 @@ function initLevel1Table() {
   container.addEventListener('touchmove', onDragMove);
   window.addEventListener('touchend', onDragEnd);
 
-  // 蝬???獢?????
+  // 綁定各個餐桌食品點擊
   document.querySelectorAll('.food-item').forEach(item => {
     item.addEventListener('click', (e) => {
-      // ?踹???孛?潮???
+      // 避免拖曳時觸發點擊
       if (Math.abs(currentTranslate - prevTranslate) > 5) return;
       const foodId = e.currentTarget.dataset.id;
       showFoodZoomModal(foodId);
@@ -698,7 +698,7 @@ function showFoodZoomModal(foodId) {
   modal.classList.add('active');
   playSound('click');
   
-  // ?剜 TTS ?啗?隤
+  // 播放 TTS 台語語音
   if (currentTTS) {
     currentTTS.pause();
     currentTTS.currentTime = 0;
@@ -719,7 +719,7 @@ function closeFoodZoomModal() {
   }
 }
 
-// ???臭誑??銝????菟???
+// 處理可以吃/丟棄的按鍵點擊
 function handleFoodChoice(isUserSafe) {
   const foodId = state.currentZoomedId;
   const food = foodData[foodId];
@@ -731,17 +731,17 @@ function handleFoodChoice(isUserSafe) {
     playSound('success');
     if (food.isSafe) {
       state.foodStates[foodId] = "safe";
-      // ??嚗??蝚砌?甈∪?蝑迤蝣箇?閰梧?
+      // 加分（如果是第一次回答正確的話）
       if (!state.placedFoods.includes(foodId)) {
         state.score++;
         state.placedFoods.push(foodId);
       }
-      showStatusBadge(foodId, 'safe', '???臭誑??);
+      showStatusBadge(foodId, 'safe', '✅ 可以吃');
     } else {
       state.foodStates[foodId] = "unsafe";
       state.score++;
-      showStatusBadge(foodId, 'unsafe', '??撌脖?璉?);
-      // 撠?憌瘛∪瘨仃
+      showStatusBadge(foodId, 'unsafe', '❌ 已丟棄');
+      // 將壞食物淡出消失
       const itemEl = document.getElementById(`food-${foodId}`);
       if (itemEl) {
         itemEl.style.opacity = '0.2';
@@ -749,7 +749,7 @@ function handleFoodChoice(isUserSafe) {
       }
     }
   } else {
-    // 蝑?蔑嚗??戭斗?憯??拚?隞亙??????拐葉瘥?
+    // 答錯處罰：如果阿嬤把壞食物選成「可以吃」，則食物中毒！
     playSound('wrong');
     triggerFoodPoisoning(food.feedback);
   }
@@ -761,7 +761,7 @@ function showStatusBadge(foodId, type, text) {
   const badge = document.getElementById(`badge-${foodId}`);
   if (badge) {
     badge.className = `food-status-badge ${type}`;
-    badge.innerHTML = type === 'safe' ? '?? : '??;
+    badge.innerHTML = type === 'safe' ? '✓' : '✗';
   }
 }
 
@@ -784,7 +784,7 @@ function closePoisonModal() {
 }
 
 function checkTableCompletion() {
-  // 瑼Ｘ?臬???摰憌?賢歇蝬?璉?銝??券??拚鋡急?閮?
+  // 檢查是否所有非安全食物都已經丟棄，且安全食物都被標記
   let completed = true;
   for (let key in foodData) {
     if (foodData[key].isSafe) {
@@ -801,21 +801,21 @@ function checkTableCompletion() {
     doneBtn.classList.add('hidden');
   }
   
-  document.getElementById('table-score-display').innerText = `?桀?暺: ${state.score}`;
+  document.getElementById('table-score-display').innerText = `叮嚀點數: ${state.score}`;
 }
 
 // ==========================================================================
-// ???∩?敺?嚗????箇????摩??
+// 【關卡一後半：衛生紙摺疊包裝邏輯】
 // ==========================================================================
 function initLevel1Wrapping() {
   navigateTo('tissue-wrap');
-  document.getElementById('wrap-score-display').innerText = `?桀?暺: ${state.score}`;
-  document.getElementById('wrap-instruction').innerText = "蝚砌?甇伐?隢?暺??孵隞亙????抬??曉銵?蝝?嚗?;
+  document.getElementById('wrap-score-display').innerText = `叮嚀點數: ${state.score}`;
+  document.getElementById('wrap-instruction').innerText = "第一步：請點點下方可以吃的食物，放到衛生紙上！";
   
-  state.placedFoods = []; // 皜征????蝵格???
+  state.placedFoods = []; // 清空重新包裝的放置清單
   state.foldedCorners = [];
   
-  // ?蔭銵?蝝?撣??箇??桃蔗
+  // 重置衛生紙帆布與摺疊遮罩
   const canvas = document.getElementById('tissue-canvas');
   canvas.className = 'tissue-canvas';
   document.getElementById('tissue-food-holder').innerHTML = '';
@@ -831,7 +831,7 @@ function initLevel1Wrapping() {
 
   document.getElementById('wrap-finish-btn').classList.add('hidden');
 
-  // ??摨?臬?鋆?憌????喳??◤??箏??典隞亙??????
+  // 生成底部可包裝的食材堆（即剛剛被挑選為安全可以吃的兩個食材）
   const pileContainer = document.getElementById('food-pile-container');
   pileContainer.innerHTML = '';
   
@@ -858,27 +858,27 @@ function placeFoodOnTissue(foodId) {
   playSound('click');
   state.placedFoods.push(foodId);
   
-  // 璅?銝憌??撌脫蝵?
+  // 標記下方食材堆為已放置
   const pileEl = document.getElementById(`pile-${foodId}`);
   if (pileEl) pileEl.classList.add('placed');
   
-  // 皜脫?憌銵?蝝葉憭?
+  // 渲染飛入衛生紙中央
   const holder = document.getElementById('tissue-food-holder');
   const img = document.createElement('img');
   img.src = foodData[foodId].image;
   img.alt = foodData[foodId].name;
   holder.appendChild(img);
   
-  // 瑼Ｘ?臬?賣蝵桀????交嚗????箇?璅∪?
+  // 檢查是否都放置完成，若是，則啟動摺疊模式
   if (state.placedFoods.length === 2) {
     startFoldingMode();
   }
 }
 
 function startFoldingMode() {
-  document.getElementById('wrap-instruction').innerText = "蝚砌?甇伐?憭芣?鈭?隢?摨?暺????????賬?摰?韏瑚??改?";
+  document.getElementById('wrap-instruction').innerText = "第二步：太棒了！請依序點點衛生紙的「四個角落」把它包起來吧！";
   
-  // 憿舐內???賡??暺?
+  // 顯示四個角落點擊熱點
   document.querySelectorAll('.corner-hotspot').forEach(hotspot => {
     hotspot.classList.remove('hidden');
   });
@@ -890,15 +890,15 @@ function handleCornerFold(corner) {
   playSound('fold');
   state.foldedCorners.push(corner);
   
-  // 蝯血????銝韏?class
+  // 給對應遮片加上摺起 class
   const flap = document.getElementById(`flap-${corner}`);
   if (flap) flap.classList.add('folded');
   
-  // ?梯?暺??梢?
+  // 隱藏點擊熱點
   const hotspot = document.getElementById(`hotspot-${corner}`);
   if (hotspot) hotspot.classList.add('folded-done');
   
-  // 瑼Ｘ???臬?賣????
+  // 檢查四個角是否都摺疊完成
   if (state.foldedCorners.length === 4) {
     setTimeout(completeTissueWrapping, 600);
   }
@@ -906,37 +906,37 @@ function handleCornerFold(corner) {
 
 function completeTissueWrapping() {
   playSound('success');
-  state.score++; // 摰???嚗?暺??嚗?
-  document.getElementById('wrap-score-display').innerText = `?桀?暺: ${state.score}`;
-  document.getElementById('wrap-instruction').innerText = "???踹洶閬芣????????末??鋆⊿鋆遛鈭?銋重?????;
+  state.score++; // 完成包裝，叮嚀點數加1！
+  document.getElementById('wrap-score-display').innerText = `叮嚀點數: ${state.score}`;
+  document.getElementById('wrap-instruction').innerText = "哇！阿嬤親手包的愛心包包包好囉！裡面裝滿了對乖孫的愛。💝";
   
-  // 銵?蝝?頨怎????
+  // 衛生紙變身為包裝包
   const canvas = document.getElementById('tissue-canvas');
   canvas.classList.add('wrapped');
   
-  // 皜征憌?韏琿蝵拚＊蝷?
+  // 清空食物及摺起遮罩顯示
   document.getElementById('tissue-food-holder').innerHTML = '';
   document.querySelectorAll('.tissue-flap').forEach(f => f.classList.remove('folded'));
 
-  // ?梯?銝敺?憌???
+  // 隱藏下側待包食材堆
   document.getElementById('food-pile-container').innerHTML = '';
 
-  // 憿舐內?末銝?甇交???
+  // 顯示包好下一步按鈕
   document.getElementById('wrap-finish-btn').classList.remove('hidden');
 }
 
 
 
 // ==========================================================================
-// ??撠曉之?貊倏??蝞＊蝷箝?
+// 【結尾大相簿與結算顯示】
 // ==========================================================================
 function showFinalResult() {
   document.getElementById('final-score').innerText = `${state.score} / ${state.maxScore}`;
   
   const comments = {
-    perfect: "憭拙?嚗???典?摰?鞎澆????飛??摰之銋重嚗戭斤?頨恍????鋡思??折“敺??票鞎潘?100???????",
-    good: "???虜憟踝??踹洶??摰?鋡思???摰風鈭????暺?憭梯炊嚗??踹洶銝摰???唬?皛踵遛????嚗埠??,
-    low: "?交除擗??踹洶??摰?敹菔??Ｘ撱箇??????賣???蝧?甈∴?銝韏瑞???潛?鞎澆?銋重嚗?蛤??
+    perfect: "天啊！你真是全宇宙最貼心、最博學的食安大乖孫！阿嬤的身體和心靈都被你照顧得服服貼貼，100分的愛！💯💝",
+    good: "做得非常好！阿嬤的食安盲區被你成功守護了，雖然有一點小失誤，但阿嬤一定能感受到你滿滿的心意喔！🥰🏡",
+    low: "別氣餒！阿嬤的食安觀念要慢慢建立。讓我們手牽手再複習一次，一起當個合格的貼心乖孫！👵🍲"
   };
 
   let msg = "";
@@ -952,19 +952,19 @@ function showFinalResult() {
 }
 
 // ==========================================================================
-// ???其?隞嗥?摰?????
+// 【安全事件綁定與初始化】
 // ==========================================================================
 function bindEvent(id, event, callback) {
   const el = document.getElementById(id);
   if (el) {
     el.addEventListener(event, callback);
   } else {
-    console.warn(`[憌??霅血] ?曆???ID ??"${id}" ??DOM ??嚗歇頝喲?閰脫???摰);
+    console.warn(`[食安遊戲警報] 找不到 ID 為 "${id}" 的 DOM 元素，已跳過該按鈕綁定。`);
   }
 }
 
 function init() {
-  // 1. 璅?????
+  // 1. 標題開始按鈕
   bindEvent('start-btn', 'click', () => {
     state.storyIndex = 0;
     state.score = 0;
@@ -972,21 +972,21 @@ function init() {
     renderStorySlide();
   });
 
-  // 2. ???蔣??閬?
+  // 2. 故事投影片導覽
   bindEvent('story-next-btn', 'click', handleStoryNext);
   bindEvent('story-prev-btn', 'click', handleStoryPrev);
 
-  // 3. ?銝嚗?獢?憭批摰?
+  // 3. 關卡一：餐桌選擇放大判定
   bindEvent('choice-safe-btn', 'click', () => handleFoodChoice(true));
   bindEvent('choice-discard-btn', 'click', () => handleFoodChoice(false));
   bindEvent('poison-retry-btn', 'click', closePoisonModal);
   
-  // 擗?摰?敺?敺?箇?
+  // 餐桌完成後前往摺紙
   bindEvent('table-done-btn', 'click', () => {
     initLevel1Wrapping();
   });
 
-  // 4. ?銝敺?嚗?暺?摰?
+  // 4. 關卡一後半：摺疊熱點綁定
   document.querySelectorAll('.corner-hotspot').forEach(hotspot => {
     hotspot.addEventListener('click', (e) => {
       const corner = e.currentTarget.dataset.corner;
@@ -994,15 +994,15 @@ function init() {
     });
   });
 
-  // ?箇?摰?敺策銋重
+  // 摺紙完成後送給乖孫
   bindEvent('wrap-finish-btn', 'click', () => {
-    // ?箏末敺??交?鈭洵 1 撘菜?敶梁? (摮怠戊?嗅)
+    // 摺好後續接故事第 1 張投影片 (孫女收到)
     state.storyIndex = 1;
     navigateTo('story');
     renderStorySlide();
   });
 
-  // 7. ???
+  // 7. 重新開始
   bindEvent('restart-btn', 'click', () => {
     state.storyIndex = 0;
     state.score = 0;
@@ -1022,23 +1022,22 @@ function init() {
   });
 }
 
-// 蝣箔? DOM 頛摰敺??瑁??????脫迫 Double-click ?瑁???Vite ?唳郊????銵?????NULL 撏拇蔑
+// 確保 DOM 載入完畢後再執行初始化，防止 Double-click 執行或 Vite 異步加載時機衝突造成的 NULL 崩潰
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     try {
       init();
     } catch (err) {
-      console.error("憌?????仃??", err);
+      console.error("食安遊戲初始化失敗:", err);
     }
   });
 } else {
   try {
     init();
   } catch (err) {
-    console.error("憌?????仃??", err);
+    console.error("食安遊戲初始化失敗:", err);
   }
 }
-
 
 
 // Add walking interaction for Game 1
