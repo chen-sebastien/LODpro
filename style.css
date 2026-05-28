@@ -1779,3 +1779,136 @@ body {
   max-width: 600px;
   margin: 0 auto;
 }
+
+/* =========================================================
+   COMPREHENSIVE UI REDESIGN & PROPORTION FIXES
+   ========================================================= */
+
+/* --- Story Screen Fixes --- */
+/* For Game 1: The kitchen background */
+.story-static-img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: cover !important;
+  z-index: 1 !important;
+}
+
+/* For Game 2: The transparent character sprite */
+.story-image {
+  position: absolute !important;
+  bottom: 250px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  height: 50vh !important;
+  width: auto !important;
+  object-fit: contain !important;
+  z-index: 2 !important;
+}
+
+/* Make sure dialog box doesn't overlap actions */
+.story-dialog-box {
+  bottom: 120px !important;
+}
+
+/* --- Scam Quiz Screen (LINE) Redesign --- */
+#scam-quiz-screen {
+  justify-content: flex-start !important;
+  padding-top: 80px !important;
+}
+
+.line-chat-box {
+  width: 100% !important;
+  max-width: 800px !important;
+  padding: 20px 20px 250px 20px !important; /* Space for bottom actions */
+  margin: 0 auto !important;
+  flex-grow: 1 !important;
+  overflow-y: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Redesign Options to be stacked at bottom */
+.quiz-actions {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 15px !important;
+  padding: 25px 30px !important;
+  background: white !important;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.15) !important;
+  border-top-left-radius: 30px !important;
+  border-top-right-radius: 30px !important;
+  z-index: 150 !important;
+}
+
+.btn-quiz {
+  width: 100% !important;
+  height: 75px !important;
+  font-size: 1.6rem !important;
+  margin: 0 !important;
+  border-radius: 20px !important;
+}
+
+/* --- Feedback Modal Redesign (Bottom Sheet style) --- */
+.modal-overlay {
+  align-items: flex-end !important; /* Move to bottom */
+  padding: 0 !important;
+}
+
+.modal-content {
+  width: 100vw !important;
+  max-width: none !important;
+  border-radius: 30px 30px 0 0 !important;
+  border: none !important;
+  border-top: 8px solid var(--color-wood) !important;
+  padding: 40px 30px 50px 30px !important;
+  animation: slideUp 0.3s ease-out forwards !important;
+  box-shadow: 0 -15px 40px rgba(0,0,0,0.3) !important;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+#quiz-next-btn {
+  width: 100% !important;
+  font-size: 1.8rem !important;
+  padding: 20px !important;
+  margin-top: 20px !important;
+  border-radius: 20px !important;
+}
+
+/* --- Result Screen Fixes --- */
+.result-box, .result-container {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 90% !important;
+  max-width: 500px !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  padding: 40px !important;
+  border-radius: 24px !important;
+  box-shadow: 0 15px 50px rgba(0,0,0,0.2) !important;
+  text-align: center !important;
+}
+
+.result-container img {
+  width: 250px !important;
+  height: auto !important;
+  margin: 20px auto !important;
+}
+/* Fix for adult.html #game-screens zero-height issue */
+#game-screens {
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  position: relative;
+}

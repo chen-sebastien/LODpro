@@ -21,20 +21,20 @@ const quizData = [
     explain: "這是【謠言詐騙】！黴菌的菌絲呈樹狀生長，肉眼能看到的只是表面發霉，其實微小的菌絲已經深入整塊食物內部，並且會釋放有害毒素。切掉表面絕對不安全，必須整顆丟棄！"
   },
   {
-    sender: "LINE熱心鄰居張阿姨",
+    sender: "食藥署食安主播",
     avatar: "./images/granddaughter.png",
-    type: "chat",
-    message: "「阿嬤，買回來的潤餅如果吃不完，直接放在餐桌上用蓋菜罩罩著就好，明天直接吃不用冰啦，冰了皮會硬掉喔！」",
-    isRumor: true,
-    explain: "這是【謠言詐騙】！潤餅內餡水分高，直接放在室溫下極易滋生細菌導致食物中毒。吃不完一定要放進冰箱冷藏保存，要吃時再加熱確保安全！"
+    type: "news",
+    message: "「食安警報！食藥署特別提醒民眾：過期食品即使外觀和味道沒有異樣，內部早已滋生肉毒桿菌或釋放黃麴毒素。切勿食用以保健康安全。」",
+    isRumor: false,
+    explain: "這是【真實安全資訊】！有效期限是食品安全的底線。食品過期後極易在看不見的深層滋生致命的肉毒桿菌。高溫烹調不一定能破壞全部毒素，切勿冒險食用！"
   },
   {
-    sender: "食藥署食安主播",
+    sender: "LINE熱心鄰居張阿姨",
     avatar: "./images/food_meat_freezerburn_watercolor.png",
-    type: "news",
-    message: "「健康飲食小叮嚀：為了維持穩定的血糖並幫助消化，建議的吃飯順序應為：先吃蔬菜，再吃蛋白質(肉、魚、蛋)，最後吃澱粉(飯、麵)。」",
-    isRumor: false,
-    explain: "這是【真實安全資訊】！正確的進食順序能讓蔬菜的膳食纖維先墊胃，延緩血糖上升，同時增加飽足感，對預防慢性病和控制體重都非常有幫助！"
+    type: "chat",
+    message: "「重大消息！多吃洋蔥可以防新冠病毒！而且把洋蔥頭切開擺在客廳，洋蔥特殊的氣味可以吸附空氣中所有的流感病毒喔！趕快轉發！」",
+    isRumor: true,
+    explain: "這是【謠言詐騙】！洋蔥的氣味完全沒有殺菌或吸附病毒的功能。洋蔥雖然是營養的食材，但將其切開擺放在室內防流感，純屬民間謠言。預防疾病最有效的方式仍是勤洗手、戴口罩！"
   }
 ];
 
@@ -53,70 +53,12 @@ function getAudioContext() {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   if (!AudioContextClass) return null;
   try {
-    if (!audioCtx) {
-      audioCtx = new AudioContextClass();
-    }
-    if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-    // Attempt to start BGM if not already playing
-    if (!bgmPlaying) {
-      startAdultBGM();
-    }
+    if (!audioCtx) audioCtx = new AudioContextClass();
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
     return audioCtx;
   } catch (e) {
     return null;
   }
-}
-
-let bgmPlaying = false;
-let adultBgmInterval = null;
-
-function startAdultBGM() {
-  if (bgmPlaying) return;
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  bgmPlaying = true;
-  
-  // A modern, warm arpeggiated chord progression for Game 2 (Cmaj7, Am7, Fmaj7, G7)
-  const chords = [
-    [261.63, 329.63, 392.00, 493.88], // Cmaj7
-    [220.00, 261.63, 329.63, 392.00], // Am7
-    [174.61, 220.00, 261.63, 329.63], // Fmaj7
-    [196.00, 246.94, 293.66, 349.23]  // G7
-  ];
-  
-  let chordIndex = 0;
-  
-  function playChord() {
-    if (!bgmPlaying) return;
-    const notes = chords[chordIndex];
-    const now = ctx.currentTime;
-    
-    notes.forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      
-      const delay = now + (i * 0.2); // Arpeggio effect
-      
-      gain.gain.setValueAtTime(0, delay);
-      gain.gain.linearRampToValueAtTime(0.04, delay + 0.05); // softer volume
-      gain.gain.exponentialRampToValueAtTime(0.001, delay + 2.0);
-      
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      
-      osc.start(delay);
-      osc.stop(delay + 2.5);
-    });
-    
-    chordIndex = (chordIndex + 1) % chords.length;
-    adultBgmInterval = setTimeout(playChord, 3000);
-  }
-  
-  playChord();
 }
 
 function playSound(type) {
@@ -442,8 +384,3 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
-
-// Ensure BGM starts when user interacts
-document.addEventListener('click', () => {
-  getAudioContext();
-}, { once: true });
