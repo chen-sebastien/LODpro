@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 關卡二：阿嬤的牽掛與防詐大作戰
  */
 
@@ -14,27 +14,27 @@ const storySlides = [
 const quizData = [
   {
     sender: "網紅【生活小妙招】",
-    avatar: "./images/food_leftovers_watercolor.png",
+    avatar: "./images/food_bread_moldy_watercolor.png",
     type: "chat",
     message: "「家人們！食品安全沒關係啦，麵包水果稍微發霉，只要用刀把發霉毛毛的地方切掉，剩下的地方乾淨照樣可以吃，省錢又健康喔！」",
     isRumor: true,
     explain: "這是【謠言詐騙】！黴菌的菌絲呈樹狀生長，肉眼能看到的只是表面發霉，其實微小的菌絲已經深入整塊食物內部，並且會釋放有害毒素。切掉表面絕對不安全，必須整顆丟棄！"
   },
   {
-    sender: "食藥署食安主播",
-    avatar: "./images/granddaughter.png",
-    type: "news",
-    message: "「食安警報！食藥署特別提醒民眾：過期食品即使外觀和味道沒有異樣，內部早已滋生肉毒桿菌或釋放黃麴毒素。切勿食用以保健康安全。」",
-    isRumor: false,
-    explain: "這是【真實安全資訊】！有效期限是食品安全的底線。食品過期後極易在看不見的深層滋生致命的肉毒桿菌。高溫烹調不一定能破壞全部毒素，切勿冒險食用！"
+    sender: "LINE熱心鄰居張阿姨",
+    avatar: "./images/sushi_spring_rolls.png",
+    type: "chat",
+    message: "「重要分享！沒吃完的潤餅跟配料放在室溫下沒關係，隔天直接吃也沒事，不用麻煩冰冰箱啦，古早人都是這樣吃的！」",
+    isRumor: true,
+    explain: "這是【謠言詐騙】！食物在室溫下極易滋生細菌。吃剩的潤餅或熟食必須盡快放進冰箱冷藏，而且隔天食用前一定要徹底加熱，才不會食物中毒喔！"
   },
   {
-    sender: "LINE熱心鄰居張阿姨",
-    avatar: "./images/food_meat_freezerburn_watercolor.png",
-    type: "chat",
-    message: "「重大消息！多吃洋蔥可以防新冠病毒！而且把洋蔥頭切開擺在客廳，洋蔥特殊的氣味可以吸附空氣中所有的流感病毒喔！趕快轉發！」",
-    isRumor: true,
-    explain: "這是【謠言詐騙】！洋蔥的氣味完全沒有殺菌或吸附病毒的功能。洋蔥雖然是營養的食材，但將其切開擺放在室內防流感，純屬民間謠言。預防疾病最有效的方式仍是勤洗手、戴口罩！"
+    sender: "食藥署食安主播",
+    avatar: "./images/granddaughter_adult.png",
+    type: "news",
+    message: "「食安小常識！冰箱裡的食物應遵守『先進先出』原則。先買的、快到期的食物要放在冰箱外側優先食用，才能確保食材新鮮！」",
+    isRumor: false,
+    explain: "這是【真實安全資訊】！冰箱不是萬能保鮮盒。遵守『先進先出』原則，可以避免食物在冰箱角落被遺忘而過期腐壞，是最好的食物保存好習慣！"
   }
 ];
 
@@ -329,7 +329,15 @@ function showFinalResult() {
   document.getElementById('wisdom-text').innerText = msg;
 }
 
+function startBGM() {
+  const bgm = document.getElementById('bgm');
+  if (bgm && bgm.paused) {
+    bgm.volume = 0.5;
+    bgm.play().catch(e => console.log("BGM autoplay prevented:", e));
+  }
+}
 function init() {
+  document.body.addEventListener('click', startBGM, {once: true});
   // Story
   const nextBtn = document.getElementById('story-next-btn');
   if (nextBtn) nextBtn.addEventListener('click', handleStoryNext);

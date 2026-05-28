@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
@@ -20,6 +20,10 @@
       border-radius: 50%;
       width: 70px;
       height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
       font-size: 2rem;
       font-family: 'Comic Sans MS', 'Ma Shan Zheng', cursive;
       color: var(--color-text);
@@ -55,6 +59,48 @@
     .call-action-btn:disabled {
       background: #ccc;
       cursor: not-allowed;
+    }
+    
+    /* PHONE DIALOG FIXES */
+    #phone-dialog-overlay {
+      background-color: rgba(46, 34, 30, 0.85) !important;
+      z-index: 9999 !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    #phone-dialog-overlay:not(.active) {
+      display: none !important;
+    }
+    #phone-dialog-overlay .story-dialog-box {
+      position: relative !important;
+      height: auto !important;
+      min-height: 150px !important;
+      max-height: none !important;
+      width: 90% !important;
+      max-width: 600px !important;
+      margin: 20px auto !important;
+      bottom: auto !important;
+      left: auto !important;
+      transform: none !important;
+      overflow: visible !important;
+    }
+    #phone-dialog-overlay .story-dialog-box p {
+      position: relative !important;
+      height: auto !important;
+      line-height: 1.6 !important;
+    }
+    #hang-up-btn {
+      position: relative !important;
+      margin-top: 30px !important;
+      z-index: 10000 !important;
+      width: auto !important;
+      height: auto !important;
+      padding: 15px 40px !important;
+      border-radius: 30px !important;
+      font-size: 1.5rem !important;
     }
   </style>
 </head>
@@ -196,9 +242,13 @@
            4. 結算畫面
            ========================================== -->
       <section id="result-screen" class="screen">
+        <div class="story-theater">
+          <img src="./images/grandma.png" class="theater-char char-grandma" style="display:block;">
+          <img src="./images/granddaughter_adult.png" class="theater-char char-granddaughter" style="display:block;">
+        </div>
         <div class="result-container">
           <h1 class="result-title">💖 守護完成 💖</h1>
-          <img src="./images/grandma_granddaughter_hug.png" alt="相擁" style="width:200px; margin: 20px auto; border-radius:15px; border:4px solid white;">
+          <img src="./images/granddaughter_adult.png" alt="相擁" style="width:200px; margin: 20px auto; border-radius:15px; border:4px solid white;">
           
           <div class="final-score-box">
             <p>成功破解謠言：</p>
@@ -227,6 +277,10 @@
       <button class="btn-handdrawn" id="quiz-next-btn">下一題 ➔</button>
     </div>
   </div>
+
+  <audio id="bgm" src="https://www.bensound.com/bensound-music/bensound-ukulele.mp3" loop></audio>
+  <audio id="sfx-success" src="https://www.bensound.com/bensound-music/bensound-success.mp3"></audio>
+  <audio id="sfx-wrong" src="https://www.bensound.com/bensound-music/bensound-wrong.mp3"></audio>
 
   <script src="./adult.js"></script>
 </body>
