@@ -1688,3 +1688,94 @@ body {
 #story-next-btn { font-size: 2rem; padding: 20px 40px; margin-top: 30px; box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
 #hang-up-btn { font-size: 1.5rem; padding: 15px 30px; margin-top: 20px; white-space: nowrap; }
 .phone-dialog-overlay { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+/* ==== FULL SCREEN FIXES ==== */
+
+/* Title Screen */
+.title-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 0.5;
+  z-index: 1;
+}
+.title-header, #start-btn {
+  position: relative;
+  z-index: 10;
+}
+#title-screen {
+  justify-content: center;
+}
+
+/* Story Screen */
+.story-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+.story-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  z-index: 1;
+}
+.story-dialog-box {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  max-width: 900px;
+  z-index: 100;
+  margin: 0;
+}
+
+/* Result Screen */
+.result-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  width: 90%;
+  max-width: 600px;
+  z-index: 100;
+}
+#result-screen {
+  background-image: url('./images/bg_kitchen_watercolor.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Game 2 Overrides */
+.call-surface {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+#scam-quiz-screen {
+  justify-content: center;
+  padding-top: 100px;
+}
+.line-chat-box {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+}
