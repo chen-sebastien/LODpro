@@ -1645,9 +1645,9 @@ body {
   cursor: grabbing;
 }
 .hidden-object-surface {
-  width: 2500px; /* Make it very wide for panning */
+  width: 250vh; /* Responsive panning width to maintain aspect ratio */
   height: 100%;
-  background-image: url('./images/bg_hidden_kitchen_empty.png');
+  background-image: url('./images/bg_huge_table_kitchen.png');
   background-size: cover;
   background-position: center bottom;
   position: absolute;
