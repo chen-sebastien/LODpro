@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
 :root {
-  --color-paper: #FAF6EE;     /* 溫暖宣紙黃 */
-  --color-wood: #6D4C41;      /* 溫潤木質褐 */
-  --color-accent: #E65100;    /* 活潑亮橘 */
-  --color-safe: #2E7D32;      /* 森林安全綠 */
-  --color-danger: #C62828;    /* 警示磚紅 */
-  --color-ink: #2C2C2C;       /* 柔和黑墨 */
-  --color-tissue: #FFFFFF;    /* 乾淨白衛生紙 */
+  --color-paper: #FAF6EE;     /* 溫�?�??�?*/
+  --color-wood: #6D4C41;      /* 溫潤?�質�?*/
+  --color-accent: #E65100;    /* 活�?亮�? */
+  --color-safe: #2E7D32;      /* 森�?安全�?*/
+  --color-danger: #C62828;    /* 警示磚�? */
+  --color-ink: #2C2C2C;       /* ?��?黑墨 */
+  --color-tissue: #FFFFFF;    /* 乾淨?��??��? */
   --font-main: 'Noto Sans TC', sans-serif;
 }
 
@@ -26,12 +26,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 #app {
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,10 +39,10 @@ body {
   background-color: var(--color-paper);
 }
 
-/* 遊戲主容器 */
+/* ?�戲主容??*/
 #game-container {
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background-color: var(--color-paper);
   border: none;
   border-radius: 0;
@@ -54,7 +54,7 @@ body {
   overflow: hidden;
 }
 
-/* 畫面切換 */
+/* ?�面?��? */
 .screen {
   display: none;
   flex-direction: column;
@@ -75,7 +75,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* HUD 資訊欄 */
+/* HUD 資�?�?*/
 .hud {
   position: absolute;
   top: 0;
@@ -131,7 +131,7 @@ body {
 }
 
 /* ==========================================================================
-   1. 標題畫面
+   1. 標�??�面
    ========================================================================== */
 #title-screen {
   justify-content: center;
@@ -169,7 +169,7 @@ body {
   box-shadow: inset 0 0 40px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.1);
 }
 
-/* 手繪粗邊框按鈕 */
+/* ?�繪粗�?框�???*/
 .btn-handdrawn {
   background-color: var(--color-accent);
   color: white;
@@ -197,7 +197,7 @@ body {
 }
 
 /* ==========================================================================
-   2. 繪本故事幻燈片區
+   2. 繪本?��?幻�??��?
    ========================================================================== */
 .story-card {
   width: 100%;
@@ -274,7 +274,7 @@ body {
 }
 
 /* ==========================================================================
-   3. 關卡一：阿嬤的餐桌挑選
+   3. ?�卡一：阿嬤�?餐�??�選
    ========================================================================== */
 .level-title-container {
   position: absolute;
@@ -350,7 +350,7 @@ body {
   text-align: center;
 }
 
-/* 狀態標記 */
+/* ?�?��?�?*/
 .food-status-badge {
   position: absolute;
   top: -15px;
@@ -385,7 +385,7 @@ body {
 }
 
 /* ==========================================================================
-   4. 放大彈窗及警告視窗 (Modals)
+   4. ?�大彈�??�警?��?�?(Modals)
    ========================================================================== */
 .overlay {
   position: fixed;
@@ -504,7 +504,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* 食物中毒警告彈窗 (特大字體、紅色主題) */
+/* 食物中�?警�?彈�? (?�大字�??��??�主�? */
 .poison-modal {
   max-width: 600px;
   border-color: var(--color-danger);
@@ -561,7 +561,7 @@ body {
   background-color: #D32F2F;
 }
 
-/* 震動效果 */
+/* ?��??��? */
 .shake-effect {
   animation: shakeAnimation 0.5s ease-in-out;
 }
@@ -573,11 +573,11 @@ body {
 }
 
 /* ==========================================================================
-   5. 關卡一後半：衛生紙摺紙包 (Folding Tissue)
+   5. ?�卡一後�?：�??��??��???(Folding Tissue)
    ========================================================================== */
 .tissue-table-surface {
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background-image: linear-gradient(to bottom, #8D6E63, #4E342E);
   border: none;
   border-radius: 0;
@@ -625,7 +625,7 @@ body {
   100% { transform: scale(1) rotate(0deg); }
 }
 
-/* 摺紙蓋片 */
+/* ?��??��? */
 .tissue-flap {
   position: absolute;
   background-color: rgba(245, 245, 245, 0.95);
@@ -635,7 +635,7 @@ body {
   pointer-events: none;
 }
 
-/* 四個摺角在未摺疊時的大小與定位 */
+/* ?�個摺角在?�摺?��??�大小�?定�? */
 .flap-tl { top: 0; left: 0; width: 0; height: 0; border-top: 160px solid #FFF; border-right: 160px solid transparent; transform-origin: top left; }
 .flap-tr { top: 0; right: 0; width: 0; height: 0; border-top: 160px solid #FFF; border-left: 160px solid transparent; transform-origin: top right; }
 .flap-bl { bottom: 0; left: 0; width: 0; height: 0; border-bottom: 160px solid #FFF; border-right: 160px solid transparent; transform-origin: bottom left; }
@@ -646,7 +646,7 @@ body {
 .flap-bl.folded { transform: scale(1) rotate(45deg) translate(-113px, 113px); }
 .flap-br.folded { transform: scale(1) rotate(-45deg) translate(113px, 113px); }
 
-/* 四角點擊發光區 */
+/* ?��?點�??��??� */
 .corner-hotspot {
   position: absolute;
   width: 75px;
@@ -695,7 +695,7 @@ body {
   100% { box-shadow: 0 0 0 0 rgba(230, 81, 0, 0); }
 }
 
-/* 放置食物在衛生紙中央的容器 */
+/* ?�置食物?��??��?中央?�容??*/
 .tissue-food-holder {
   width: 200px;
   height: 200px;
@@ -715,7 +715,7 @@ body {
   animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
 }
 
-/* 待包食物選單 (底側) */
+/* 待�?食物?�單 (底側) */
 .food-pile-container {
   display: flex;
   gap: 30px;
@@ -767,7 +767,7 @@ body {
 }
 
 /* ==========================================================================
-   6. 電話撥打模擬彩蛋 (Call Easter Egg)
+   6. ?�話?��?模擬彩�? (Call Easter Egg)
    ========================================================================== */
 .call-surface {
   width: 100%;
@@ -807,7 +807,7 @@ body {
   font-weight: 700;
 }
 
-/* 播號畫面與水波紋 */
+/* ?��??�面?�水波�? */
 .call-btn-container {
   position: relative;
   width: 120px;
@@ -854,7 +854,7 @@ body {
   100% { transform: scale(1.8); opacity: 0; }
 }
 
-/* 通話視窗 */
+/* ?�話視�? */
 .phone-dialog-overlay {
   display: none;
   flex-direction: column;
@@ -898,7 +898,7 @@ body {
 }
 
 /* ==========================================================================
-   7. 仿 LINE 的謠言與新聞問答 (Scam Quiz LINE style)
+   7. �?LINE ?��?言?�新?��?�?(Scam Quiz LINE style)
    ========================================================================== */
 .line-screen-header {
   width: 100%;
@@ -922,7 +922,7 @@ body {
 
 .line-chat-box {
   width: 100%;
-  background-color: #849B89; /* 經典LINE綠色底 */
+  background-color: #849B89; /* 經典LINE綠色�?*/
   border-left: 5px solid var(--color-wood);
   border-right: 5px solid var(--color-wood);
   border-bottom: 5px solid var(--color-wood);
@@ -1016,7 +1016,7 @@ body {
   border-left: 12px solid transparent;
 }
 
-/* 雙選項判定按鈕（關卡二） */
+/* ?�選?�判定�??��??�卡二�? */
 .quiz-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1057,7 +1057,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* 科學解析說明彈窗 */
+/* 科學�??說�?彈�? */
 .quiz-explain-modal {
   max-width: 550px;
   border-color: var(--color-accent);
@@ -1086,7 +1086,7 @@ body {
 }
 
 /* ==========================================================================
-   8. 結尾與回憶相簿 (Collage Photo Ending)
+   8. 結尾?��??�相�?(Collage Photo Ending)
    ========================================================================== */
 .collage-grid {
   display: grid;
@@ -1120,7 +1120,7 @@ body {
 }
 
 /* ==========================================================================
-   9. 結算畫面
+   9. 結�??�面
    ========================================================================== */
 .result-box {
   text-align: center;
@@ -1171,11 +1171,11 @@ body {
   line-height: 1.5;
 }
 
-/* 手機與窄版螢幕適應 */
+/* ?��??��??�螢幕適??*/
 @media (max-width: 600px) {
   #game-container {
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     background-color: var(--color-paper);
     border: none;
     border-radius: 0;
@@ -1260,7 +1260,7 @@ body {
 }
 
 /* ==========================================================================
-   8. 動態劇場式繪本 (Dynamic Theater Slides)
+   8. ?��??�場式繪??(Dynamic Theater Slides)
    ========================================================================== */
 .story-frame-container {
   position: relative;
@@ -1286,7 +1286,7 @@ body {
   padding: 0 40px;
   z-index: 10;
   background-color: #FAF6EE;
-  background-image: url('./images/tissue_spread.png'); /* 宣紙底紋 */
+  background-image: url('./images/tissue_spread.png'); /* �??底�? */
   background-size: cover;
   background-blend-mode: multiply;
   transition: opacity 0.5s ease;
@@ -1303,7 +1303,7 @@ body {
   transition: background 0.5s ease;
 }
 
-/* 溫暖水彩背景 wash */
+/* 溫�?水彩?�景 wash */
 .bg-warm-wash {
   background: radial-gradient(circle, #FFF3E0 0%, #D7CCC8 100%);
 }
@@ -1345,10 +1345,10 @@ body {
 
 .char-granddaughter {
   right: 12%;
-  height: 68%; /* 孫女體型較矮，調整比例以符合真實畫風，避免孫女過於巨大 */
+  height: 68%; /* 孫女體�?較矮，調?��?例以符�??�實?�風，避?�孫女�??�巨�?*/
 }
 
-/* 角色動態與濾鏡效果 */
+/* 角色?��??�濾?��???*/
 .theater-char.wave {
   animation: charWave 3s ease-in-out infinite alternate;
 }
@@ -1376,7 +1376,7 @@ body {
   filter: sepia(80%) contrast(90%) brightness(95%);
 }
 
-/* 關卡飾品與動態特效 */
+/* ?�卡飾�??��??�特??*/
 .theater-overlay-effect {
   position: absolute;
   top: 0;
@@ -1392,7 +1392,7 @@ body {
   background: rgba(121, 85, 72, 0.15);
 }
 
-/* 1. 搞笑假牙 🦷 */
+/* 1. ?��??��? ?�� */
 .floating-tooth {
   position: absolute;
   font-size: 8rem;
@@ -1411,7 +1411,7 @@ body {
   animation: sparkSpin 1.5s linear infinite;
 }
 
-/* 2. 飄動食品 🍣🍞 */
+/* 2. 飄�?食�? ?��?? */
 .floating-food {
   position: absolute;
   width: 90px;
@@ -1423,7 +1423,7 @@ body {
   filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1));
 }
 
-/* 3. 落葉飄飄 🍂 */
+/* 3. ?��?飄�? ?? */
 .falling-leaves-container {
   position: absolute;
   top: 0;
@@ -1440,7 +1440,7 @@ body {
   animation: leafFall 6s linear infinite;
 }
 
-/* 4. 火車滑過 🚂 */
+/* 4. ?��?滑�? ?? */
 .train-wrapper {
   position: absolute;
   bottom: 20px;
@@ -1453,7 +1453,7 @@ body {
 .train-loco { font-size: 5rem; }
 .train-car { font-size: 3.5rem; }
 
-/* 5. 電子寫信紙 📝 */
+/* 5. ?��?寫信�??? */
 .floating-card-paper {
   position: absolute;
   top: 50%;
@@ -1489,7 +1489,7 @@ body {
   margin-top: 5px;
 }
 
-/* 6. 動態相本 📸 */
+/* 6. ?��??�本 ?�� */
 .theater-polaroid-pile {
   position: absolute;
   width: 100%;
@@ -1630,7 +1630,7 @@ body {
 /* ���ê��~�M�_���d (Game 1) */
 .hidden-object-container {
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -1697,7 +1697,7 @@ body {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -1718,14 +1718,14 @@ body {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
 }
 .story-frame {
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -1791,7 +1791,7 @@ body {
   top: 0 !important;
   left: 0 !important;
   width: 100vw !important;
-  height: 100vh !important;
+  height: 100dvh !important;
   object-fit: cover !important;
   z-index: 1 !important;
 }

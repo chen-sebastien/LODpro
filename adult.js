@@ -48,18 +48,41 @@ let state = {
 
 let audioCtx = null;
 let ringInterval = null;
+let audioUnlocked = false;
 
 function getAudioContext() {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   if (!AudioContextClass) return null;
-  try {
-    if (!audioCtx) audioCtx = new AudioContextClass();
-    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-    return audioCtx;
-  } catch (e) {
-    return null;
+  if (!audioCtx) {
+    audioCtx = new AudioContextClass();
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function unlockAudio() {
+  if (audioUnlocked) return;
+  const ctx = getAudioContext();
+  if (ctx) {
+    const buffer = ctx.createBuffer(1, 1, 22050);
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(ctx.destination);
+    source.start(0);
+    ctx.resume().then(() => {
+      audioUnlocked = true;
+      document.removeEventListener('touchstart', unlockAudio);
+      document.removeEventListener('touchend', unlockAudio);
+      document.removeEventListener('click', unlockAudio);
+    });
   }
 }
+
+document.addEventListener('touchstart', unlockAudio, { once: true });
+document.addEventListener('touchend', unlockAudio, { once: true });
+document.addEventListener('click', unlockAudio, { once: true });
 
 function playSound(type) {
   try {

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * 阿嬤的衛生紙包 — 核心互動狀態機
  */
 
@@ -133,6 +133,29 @@ function getAudioContext() {
     return null;
   }
 }
+
+// Mobile Audio Unlocker
+let audioUnlocked = false;
+function unlockAudio() {
+  if (audioUnlocked) return;
+  const ctx = getAudioContext();
+  if (ctx) {
+    const buffer = ctx.createBuffer(1, 1, 22050);
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(ctx.destination);
+    source.start(0);
+    ctx.resume().then(() => {
+      audioUnlocked = true;
+      document.removeEventListener('touchstart', unlockAudio);
+      document.removeEventListener('touchend', unlockAudio);
+      document.removeEventListener('click', unlockAudio);
+    });
+  }
+}
+document.addEventListener('touchstart', unlockAudio, { once: true });
+document.addEventListener('touchend', unlockAudio, { once: true });
+document.addEventListener('click', unlockAudio, { once: true });
 
 function startBGM() {
   if (bgmPlaying) return;
