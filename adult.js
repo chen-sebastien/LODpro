@@ -1,4 +1,4 @@
-﻿/**
+/**
  * 關卡二：阿嬤的牽掛與防詐大作戰
  */
 
@@ -329,11 +329,65 @@ function showFinalResult() {
   document.getElementById('wisdom-text').innerText = msg;
 }
 
+let bgmPlaying = false;
+let bgmInterval = null;
+
 function startBGM() {
-  const bgm = document.getElementById('bgm');
-  if (bgm && bgm.paused) {
-    bgm.volume = 0.5;
-    bgm.play().catch(e => console.log("BGM autoplay prevented:", e));
+  if (bgmPlaying) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+  bgmPlaying = true;
+  
+  const melody = [
+    { freq: 261.63, dur: 0.4 },
+    { freq: 293.66, dur: 0.4 },
+    { freq: 329.63, dur: 0.8 },
+    { freq: 392.00, dur: 0.4 },
+    { freq: 440.00, dur: 0.4 },
+    { freq: 392.00, dur: 0.8 },
+    { freq: 329.63, dur: 0.4 },
+    { freq: 293.66, dur: 0.4 },
+    { freq: 261.63, dur: 0.8 },
+    { freq: 196.00, dur: 0.4 },
+    { freq: 220.00, dur: 0.4 },
+    { freq: 261.63, dur: 0.8 }
+  ];
+  
+  let noteIndex = 0;
+  
+  function playNextNote() {
+    if (!bgmPlaying) return;
+    const note = melody[noteIndex];
+    const now = ctx.currentTime;
+    
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(note.freq, now);
+    
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.05, now + 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + note.dur - 0.05);
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start(now);
+    osc.stop(now + note.dur);
+    
+    noteIndex = (noteIndex + 1) % melody.length;
+    bgmInterval = setTimeout(playNextNote, note.dur * 1000);
+  }
+  
+  playNextNote();
+}
+
+function stopBGM() {
+  bgmPlaying = false;
+  if (bgmInterval) {
+    clearTimeout(bgmInterval);
+    bgmInterval = null;
   }
 }
 function init() {

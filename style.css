@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
 :root {
   --color-paper: #FAF6EE;     /* 溫暖宣紙黃 */
@@ -1647,7 +1647,7 @@ body {
 .hidden-object-surface {
   width: 2500px; /* Make it very wide for panning */
   height: 100%;
-  background-image: url('./images/bg_kitchen_watercolor.png');
+  background-image: url('./images/bg_hidden_kitchen_empty.png');
   background-size: cover;
   background-position: center bottom;
   position: absolute;

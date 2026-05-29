@@ -64,12 +64,18 @@
     /* PHONE DIALOG FIXES */
     #phone-dialog-overlay {
       background-color: rgba(46, 34, 30, 0.85) !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
       z-index: 9999 !important;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      box-sizing: border-box !important;
     }
     #phone-dialog-overlay:not(.active) {
       display: none !important;
@@ -81,7 +87,7 @@
       max-height: none !important;
       width: 90% !important;
       max-width: 600px !important;
-      margin: 20px auto !important;
+      margin: 0 auto !important;
       bottom: auto !important;
       left: auto !important;
       transform: none !important;
@@ -94,7 +100,7 @@
     }
     #hang-up-btn {
       position: relative !important;
-      margin-top: 30px !important;
+      margin-top: 40px !important;
       z-index: 10000 !important;
       width: auto !important;
       height: auto !important;
@@ -126,7 +132,7 @@
           <div class="theater-decorations" id="theater-decorations"></div>
           <div class="theater-overlay-effect" id="theater-overlay-effect"></div>
           <img src="./images/grandma.png" alt="阿嬤" class="theater-char char-grandma" id="theater-char-grandma" style="display:none;">
-          <img src="./images/granddaughter_adult.png" alt="乖孫" class="theater-char char-granddaughter" id="theater-char-granddaughter" style="display:none;">
+          <img src="./images/granddaughter_adult.png" alt="乖孫" class="theater-char char-granddaughter" id="theater-char-granddaughter" style="display:none; mix-blend-mode: multiply;">
         </div>
         <img src="" alt="故事插圖" class="story-image" id="story-img">
 
@@ -183,18 +189,18 @@
               <button class="call-action-btn" id="make-call-btn" disabled>📞 撥打</button>
             </div>
           </div>
-
-          <!-- 通話互動視窗 -->
-          <div class="phone-dialog-overlay" id="phone-dialog-overlay">
-            <div class="phone-status">
-              <span id="call-status-text">🟢 連線中...</span>
-              <span id="call-timer">00:00</span>
-            </div>
-            <div class="story-dialog-box" style="width:100%; min-height:120px;">
-              <p id="phone-dialog-text">「嘟...嘟...嘟...」</p>
-            </div>
-            <button class="btn-hangup hidden" id="hang-up-btn">❌ 掛斷並看訊息</button>
+        </div>
+        
+        <!-- 通話互動視窗 (MOVED OUTSIDE .call-surface) -->
+        <div class="phone-dialog-overlay" id="phone-dialog-overlay">
+          <div class="phone-status">
+            <span id="call-status-text">🟢 連線中...</span>
+            <span id="call-timer">00:00</span>
           </div>
+          <div class="story-dialog-box" style="width:100%; min-height:120px;">
+            <p id="phone-dialog-text">「嘟...嘟...嘟...」</p>
+          </div>
+          <button class="btn-hangup hidden" id="hang-up-btn">❌ 掛斷並看訊息</button>
         </div>
       </section>
 
@@ -244,11 +250,11 @@
       <section id="result-screen" class="screen">
         <div class="story-theater">
           <img src="./images/grandma.png" class="theater-char char-grandma" style="display:block;">
-          <img src="./images/granddaughter_adult.png" class="theater-char char-granddaughter" style="display:block;">
+          <img src="./images/granddaughter_adult.png" class="theater-char char-granddaughter" style="display:block; mix-blend-mode: multiply;">
         </div>
         <div class="result-container">
           <h1 class="result-title">💖 守護完成 💖</h1>
-          <img src="./images/granddaughter_adult.png" alt="相擁" style="width:200px; margin: 20px auto; border-radius:15px; border:4px solid white;">
+          <img src="./images/grandma_granddaughter_hug.png" alt="相擁" style="width:200px; margin: 20px auto; border-radius:15px; border:4px solid white;">
           
           <div class="final-score-box">
             <p>成功破解謠言：</p>
@@ -256,7 +262,7 @@
           </div>
           
           <div class="wisdom-box">
-            <p id="wisdom-text">天啊！你真是全宇宙最貼心、最博學的食安大乖孫！阿嬤的身體和心靈都被你照顧得服服貼貼，100分的愛！💯💝</p>
+            <p id="wisdom-text">破關成功！您不僅幫阿嬤破解了食安謠言，更用通話溫暖了阿嬤的心。食安守護與家人的陪伴，缺一不可！</p>
           </div>
           
           <div class="story-actions" style="margin-top: 30px;">
@@ -278,9 +284,9 @@
     </div>
   </div>
 
-  <audio id="bgm" src="https://www.bensound.com/bensound-music/bensound-ukulele.mp3" loop></audio>
-  <audio id="sfx-success" src="https://www.bensound.com/bensound-music/bensound-success.mp3"></audio>
-  <audio id="sfx-wrong" src="https://www.bensound.com/bensound-music/bensound-wrong.mp3"></audio>
+  <audio id="bgm" src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=acoustic-guitar-111050.mp3" loop></audio>
+  <audio id="sfx-success" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3?filename=success-1-6297.mp3"></audio>
+  <audio id="sfx-wrong" src="https://cdn.pixabay.com/download/audio/2021/08/09/audio_27ab087e07.mp3?filename=error-126627.mp3"></audio>
 
   <script src="./adult.js"></script>
 </body>
