@@ -1174,18 +1174,18 @@ body {
 /* 手機與窄版螢幕適應 */
 @media (max-width: 600px) {
   #game-container {
-  width: 100vw;
-  height: 100vh;
-  background-color: var(--color-paper);
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-}
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-paper);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
   .hud {
   position: absolute;
   top: 0;
@@ -1799,10 +1799,10 @@ body {
 /* For Game 2: The transparent character sprite */
 .story-image {
   position: absolute !important;
-  bottom: 250px !important;
+  bottom: 28% !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
-  height: 50vh !important;
+  height: 52% !important;
   width: auto !important;
   object-fit: contain !important;
   z-index: 2 !important;
