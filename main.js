@@ -134,29 +134,6 @@ function getAudioContext() {
   }
 }
 
-// Mobile Audio Unlocker
-let audioUnlocked = false;
-function unlockAudio() {
-  if (audioUnlocked) return;
-  const ctx = getAudioContext();
-  if (ctx) {
-    const buffer = ctx.createBuffer(1, 1, 22050);
-    const source = ctx.createBufferSource();
-    source.buffer = buffer;
-    source.connect(ctx.destination);
-    source.start(0);
-    ctx.resume().then(() => {
-      audioUnlocked = true;
-      document.removeEventListener('touchstart', unlockAudio);
-      document.removeEventListener('touchend', unlockAudio);
-      document.removeEventListener('click', unlockAudio);
-    });
-  }
-}
-document.addEventListener('touchstart', unlockAudio, { once: true });
-document.addEventListener('touchend', unlockAudio, { once: true });
-document.addEventListener('click', unlockAudio, { once: true });
-
 function startBGM() {
   if (bgmPlaying) return;
   const ctx = getAudioContext();
@@ -481,7 +458,21 @@ function renderStorySlide() {
           gd.classList.add('jump');
         }
         if (dec) {
-          dec.innerHTML = `<img src="./images/tissue_wrapped.png" alt="衛生紙包" class="floating-food" style="width: 120px; height: 120px; top: 38%; left: 42%;">`;
+          dec.innerHTML = `<model-viewer 
+  src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+  ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz" 
+  ar 
+  ar-modes="webxr scene-viewer quick-look" 
+  camera-controls 
+  auto-rotate
+  shadow-intensity="1"
+  style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 50;"
+  alt="阿嬤的3D太空驚喜">
+  
+  <button slot="ar-button" class="btn-handdrawn ar-button">
+    ✨ 點我用 AR 打開阿嬤的禮物 ✨
+  </button>
+</model-viewer>`;
         }
         break;
         
@@ -1062,18 +1053,3 @@ if (document.readyState === 'loading') {
   }
 }
 
-
-// Add walking interaction for Game 1
-document.addEventListener('DOMContentLoaded', () => {
-  const surface = document.getElementById('hidden-object-surface');
-  const char = document.getElementById('walking-character');
-  if(surface && char) {
-    surface.addEventListener('click', (e) => {
-      const rect = surface.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      char.style.left = x + 'px';
-      char.style.top = y + 'px';
-    });
-  }
-});

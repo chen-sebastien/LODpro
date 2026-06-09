@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
 :root {
-  --color-paper: #FAF6EE;     /* æº«æ?å®??é»?*/
-  --color-wood: #6D4C41;      /* æº«æ½¤?¨è³ªè¤?*/
-  --color-accent: #E65100;    /* æ´»æ?äº®æ? */
-  --color-safe: #2E7D32;      /* æ£®æ?å®‰å…¨ç¶?*/
-  --color-danger: #C62828;    /* è­¦ç¤ºç£šç? */
-  --color-ink: #2C2C2C;       /* ?”å?é»‘å¢¨ */
-  --color-tissue: #FFFFFF;    /* ä¹¾æ·¨?½è??Ÿç? */
+  --color-paper: #FAF6EE;     /* æº«ï¿½?ï¿½??ï¿½?*/
+  --color-wood: #6D4C41;      /* æº«æ½¤?ï¿½è³ªï¿½?*/
+  --color-accent: #E65100;    /* æ´»ï¿½?äº®ï¿½? */
+  --color-safe: #2E7D32;      /* æ£®ï¿½?å®‰å…¨ï¿½?*/
+  --color-danger: #C62828;    /* è­¦ç¤ºç£šï¿½? */
+  --color-ink: #2C2C2C;       /* ?ï¿½ï¿½?é»‘å¢¨ */
+  --color-tissue: #FFFFFF;    /* ä¹¾æ·¨?ï¿½ï¿½??ï¿½ï¿½? */
   --font-main: 'Noto Sans TC', sans-serif;
 }
 
@@ -39,7 +39,7 @@ body {
   background-color: var(--color-paper);
 }
 
-/* ?Šæˆ²ä¸»å®¹??*/
+/* ?ï¿½æˆ²ä¸»å®¹??*/
 #game-container {
   width: 100vw;
   height: 100dvh;
@@ -54,7 +54,7 @@ body {
   overflow: hidden;
 }
 
-/* ?«é¢?‡æ? */
+/* ?ï¿½é¢?ï¿½ï¿½? */
 .screen {
   display: none;
   flex-direction: column;
@@ -75,7 +75,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* HUD è³‡è?æ¬?*/
+/* HUD è³‡ï¿½?ï¿½?*/
 .hud {
   position: absolute;
   top: 0;
@@ -131,7 +131,7 @@ body {
 }
 
 /* ==========================================================================
-   1. æ¨™é??«é¢
+   1. æ¨™ï¿½??ï¿½é¢
    ========================================================================== */
 #title-screen {
   justify-content: center;
@@ -169,7 +169,7 @@ body {
   box-shadow: inset 0 0 40px rgba(0,0,0,0.15), 0 8px 20px rgba(0,0,0,0.1);
 }
 
-/* ?‹ç¹ªç²—é?æ¡†æ???*/
+/* ?ï¿½ç¹ªç²—ï¿½?æ¡†ï¿½???*/
 .btn-handdrawn {
   background-color: var(--color-accent);
   color: white;
@@ -197,7 +197,7 @@ body {
 }
 
 /* ==========================================================================
-   2. ç¹ªæœ¬?…ä?å¹»ç??‡å?
+   2. ç¹ªæœ¬?ï¿½ï¿½?å¹»ï¿½??ï¿½ï¿½?
    ========================================================================== */
 .story-card {
   width: 100%;
@@ -274,7 +274,7 @@ body {
 }
 
 /* ==========================================================================
-   3. ?œå¡ä¸€ï¼šé˜¿å¬¤ç?é¤æ??‘é¸
+   3. ?ï¿½å¡ä¸€ï¼šé˜¿å¬¤ï¿½?é¤ï¿½??ï¿½é¸
    ========================================================================== */
 .level-title-container {
   position: absolute;
@@ -350,7 +350,7 @@ body {
   text-align: center;
 }
 
-/* ?€?‹æ?è¨?*/
+/* ?ï¿½?ï¿½ï¿½?ï¿½?*/
 .food-status-badge {
   position: absolute;
   top: -15px;
@@ -385,7 +385,7 @@ body {
 }
 
 /* ==========================================================================
-   4. ?¾å¤§å½ˆç??Šè­¦?Šè?çª?(Modals)
+   4. ?ï¿½å¤§å½ˆï¿½??ï¿½è­¦?ï¿½ï¿½?ï¿½?(Modals)
    ========================================================================== */
 .overlay {
   position: fixed;
@@ -504,7 +504,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* é£Ÿç‰©ä¸­æ?è­¦å?å½ˆç? (?¹å¤§å­—é??ç??²ä¸»é¡? */
+/* é£Ÿç‰©ä¸­ï¿½?è­¦ï¿½?å½ˆï¿½? (?ï¿½å¤§å­—ï¿½??ï¿½ï¿½??ï¿½ä¸»ï¿½? */
 .poison-modal {
   max-width: 600px;
   border-color: var(--color-danger);
@@ -561,7 +561,7 @@ body {
   background-color: #D32F2F;
 }
 
-/* ?‡å??ˆæ? */
+/* ?ï¿½ï¿½??ï¿½ï¿½? */
 .shake-effect {
   animation: shakeAnimation 0.5s ease-in-out;
 }
@@ -573,7 +573,7 @@ body {
 }
 
 /* ==========================================================================
-   5. ?œå¡ä¸€å¾Œå?ï¼šè??Ÿç??ºç???(Folding Tissue)
+   5. ?ï¿½å¡ä¸€å¾Œï¿½?ï¼šï¿½??ï¿½ï¿½??ï¿½ï¿½???(Folding Tissue)
    ========================================================================== */
 .tissue-table-surface {
   width: 100vw;
@@ -625,7 +625,7 @@ body {
   100% { transform: scale(1) rotate(0deg); }
 }
 
-/* ?ºç??‹ç? */
+/* ?ï¿½ï¿½??ï¿½ï¿½? */
 .tissue-flap {
   position: absolute;
   background-color: rgba(245, 245, 245, 0.95);
@@ -635,7 +635,7 @@ body {
   pointer-events: none;
 }
 
-/* ?›å€‹æ‘ºè§’åœ¨?ªæ‘º?Šæ??„å¤§å°è?å®šä? */
+/* ?ï¿½å€‹æ‘ºè§’åœ¨?ï¿½æ‘º?ï¿½ï¿½??ï¿½å¤§å°ï¿½?å®šï¿½? */
 .flap-tl { top: 0; left: 0; width: 0; height: 0; border-top: 160px solid #FFF; border-right: 160px solid transparent; transform-origin: top left; }
 .flap-tr { top: 0; right: 0; width: 0; height: 0; border-top: 160px solid #FFF; border-left: 160px solid transparent; transform-origin: top right; }
 .flap-bl { bottom: 0; left: 0; width: 0; height: 0; border-bottom: 160px solid #FFF; border-right: 160px solid transparent; transform-origin: bottom left; }
@@ -646,7 +646,7 @@ body {
 .flap-bl.folded { transform: scale(1) rotate(45deg) translate(-113px, 113px); }
 .flap-br.folded { transform: scale(1) rotate(-45deg) translate(113px, 113px); }
 
-/* ?›è?é»æ??¼å??€ */
+/* ?ï¿½ï¿½?é»ï¿½??ï¿½ï¿½??ï¿½ */
 .corner-hotspot {
   position: absolute;
   width: 75px;
@@ -695,7 +695,7 @@ body {
   100% { box-shadow: 0 0 0 0 rgba(230, 81, 0, 0); }
 }
 
-/* ?¾ç½®é£Ÿç‰©?¨è??Ÿç?ä¸­å¤®?„å®¹??*/
+/* ?ï¿½ç½®é£Ÿç‰©?ï¿½ï¿½??ï¿½ï¿½?ä¸­å¤®?ï¿½å®¹??*/
 .tissue-food-holder {
   width: 200px;
   height: 200px;
@@ -715,7 +715,7 @@ body {
   animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
 }
 
-/* å¾…å?é£Ÿç‰©?¸å–® (åº•å´) */
+/* å¾…ï¿½?é£Ÿç‰©?ï¿½å–® (åº•å´) */
 .food-pile-container {
   display: flex;
   gap: 30px;
@@ -767,7 +767,7 @@ body {
 }
 
 /* ==========================================================================
-   6. ?»è©±?¥æ?æ¨¡æ“¬å½©è? (Call Easter Egg)
+   6. ?ï¿½è©±?ï¿½ï¿½?æ¨¡æ“¬å½©ï¿½? (Call Easter Egg)
    ========================================================================== */
 .call-surface {
   width: 100%;
@@ -807,7 +807,7 @@ body {
   font-weight: 700;
 }
 
-/* ?­è??«é¢?‡æ°´æ³¢ç? */
+/* ?ï¿½ï¿½??ï¿½é¢?ï¿½æ°´æ³¢ï¿½? */
 .call-btn-container {
   position: relative;
   width: 120px;
@@ -854,7 +854,7 @@ body {
   100% { transform: scale(1.8); opacity: 0; }
 }
 
-/* ?šè©±è¦–ç? */
+/* ?ï¿½è©±è¦–ï¿½? */
 .phone-dialog-overlay {
   display: none;
   flex-direction: column;
@@ -898,7 +898,7 @@ body {
 }
 
 /* ==========================================================================
-   7. ä»?LINE ?„è?è¨€?‡æ–°?å?ç­?(Scam Quiz LINE style)
+   7. ï¿½?LINE ?ï¿½ï¿½?è¨€?ï¿½æ–°?ï¿½ï¿½?ï¿½?(Scam Quiz LINE style)
    ========================================================================== */
 .line-screen-header {
   width: 100%;
@@ -922,7 +922,7 @@ body {
 
 .line-chat-box {
   width: 100%;
-  background-color: #849B89; /* ç¶“å…¸LINEç¶ è‰²åº?*/
+  background-color: #849B89; /* ç¶“å…¸LINEç¶ è‰²ï¿½?*/
   border-left: 5px solid var(--color-wood);
   border-right: 5px solid var(--color-wood);
   border-bottom: 5px solid var(--color-wood);
@@ -1016,7 +1016,7 @@ body {
   border-left: 12px solid transparent;
 }
 
-/* ?™é¸?…åˆ¤å®šæ??•ï??œå¡äºŒï? */
+/* ?ï¿½é¸?ï¿½åˆ¤å®šï¿½??ï¿½ï¿½??ï¿½å¡äºŒï¿½? */
 .quiz-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1057,7 +1057,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* ç§‘å­¸è§??èªªæ?å½ˆç? */
+/* ç§‘å­¸ï¿½??èªªï¿½?å½ˆï¿½? */
 .quiz-explain-modal {
   max-width: 550px;
   border-color: var(--color-accent);
@@ -1086,7 +1086,7 @@ body {
 }
 
 /* ==========================================================================
-   8. çµå°¾?‡å??¶ç›¸ç°?(Collage Photo Ending)
+   8. çµå°¾?ï¿½ï¿½??ï¿½ç›¸ï¿½?(Collage Photo Ending)
    ========================================================================== */
 .collage-grid {
   display: grid;
@@ -1120,7 +1120,7 @@ body {
 }
 
 /* ==========================================================================
-   9. çµç??«é¢
+   9. çµï¿½??ï¿½é¢
    ========================================================================== */
 .result-box {
   text-align: center;
@@ -1171,7 +1171,7 @@ body {
   line-height: 1.5;
 }
 
-/* ?‹æ??‡ç??ˆè¢å¹•é©??*/
+/* ?ï¿½ï¿½??ï¿½ï¿½??ï¿½è¢å¹•é©??*/
 @media (max-width: 600px) {
   #game-container {
     width: 100vw;
@@ -1260,7 +1260,7 @@ body {
 }
 
 /* ==========================================================================
-   8. ?•æ??‡å ´å¼ç¹ª??(Dynamic Theater Slides)
+   8. ?ï¿½ï¿½??ï¿½å ´å¼ç¹ª??(Dynamic Theater Slides)
    ========================================================================== */
 .story-frame-container {
   position: relative;
@@ -1286,7 +1286,7 @@ body {
   padding: 0 40px;
   z-index: 10;
   background-color: #FAF6EE;
-  background-image: url('./images/tissue_spread.png'); /* å®??åº•ç? */
+  background-image: url('./images/tissue_spread.png'); /* ï¿½??åº•ï¿½? */
   background-size: cover;
   background-blend-mode: multiply;
   transition: opacity 0.5s ease;
@@ -1303,7 +1303,7 @@ body {
   transition: background 0.5s ease;
 }
 
-/* æº«æ?æ°´å½©?Œæ™¯ wash */
+/* æº«ï¿½?æ°´å½©?ï¿½æ™¯ wash */
 .bg-warm-wash {
   background: radial-gradient(circle, #FFF3E0 0%, #D7CCC8 100%);
 }
@@ -1345,10 +1345,10 @@ body {
 
 .char-granddaughter {
   right: 12%;
-  height: 68%; /* å­«å¥³é«”å?è¼ƒçŸ®ï¼Œèª¿?´æ?ä¾‹ä»¥ç¬¦å??Ÿå¯¦?«é¢¨ï¼Œé¿?å­«å¥³é??¼å·¨å¤?*/
+  height: 68%; /* å­«å¥³é«”ï¿½?è¼ƒçŸ®ï¼Œèª¿?ï¿½ï¿½?ä¾‹ä»¥ç¬¦ï¿½??ï¿½å¯¦?ï¿½é¢¨ï¼Œé¿?ï¿½å­«å¥³ï¿½??ï¿½å·¨ï¿½?*/
 }
 
-/* è§’è‰²?•æ??‡æ¿¾?¡æ???*/
+/* è§’è‰²?ï¿½ï¿½??ï¿½æ¿¾?ï¿½ï¿½???*/
 .theater-char.wave {
   animation: charWave 3s ease-in-out infinite alternate;
 }
@@ -1376,7 +1376,7 @@ body {
   filter: sepia(80%) contrast(90%) brightness(95%);
 }
 
-/* ?œå¡é£¾å??‡å??‹ç‰¹??*/
+/* ?ï¿½å¡é£¾ï¿½??ï¿½ï¿½??ï¿½ç‰¹??*/
 .theater-overlay-effect {
   position: absolute;
   top: 0;
@@ -1392,7 +1392,7 @@ body {
   background: rgba(121, 85, 72, 0.15);
 }
 
-/* 1. ?ç??‡ç? ?¦· */
+/* 1. ?ï¿½ï¿½??ï¿½ï¿½? ?ï¿½ï¿½ */
 .floating-tooth {
   position: absolute;
   font-size: 8rem;
@@ -1411,7 +1411,7 @@ body {
   animation: sparkSpin 1.5s linear infinite;
 }
 
-/* 2. é£„å?é£Ÿå? ?£?? */
+/* 2. é£„ï¿½?é£Ÿï¿½? ?ï¿½ï¿½?? */
 .floating-food {
   position: absolute;
   width: 90px;
@@ -1423,7 +1423,7 @@ body {
   filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1));
 }
 
-/* 3. ?½è?é£„é? ?? */
+/* 3. ?ï¿½ï¿½?é£„ï¿½? ?? */
 .falling-leaves-container {
   position: absolute;
   top: 0;
@@ -1440,7 +1440,7 @@ body {
   animation: leafFall 6s linear infinite;
 }
 
-/* 4. ?«è?æ»‘é? ?? */
+/* 4. ?ï¿½ï¿½?æ»‘ï¿½? ?? */
 .train-wrapper {
   position: absolute;
   bottom: 20px;
@@ -1453,7 +1453,7 @@ body {
 .train-loco { font-size: 5rem; }
 .train-car { font-size: 3.5rem; }
 
-/* 5. ?»å?å¯«ä¿¡ç´??? */
+/* 5. ?ï¿½ï¿½?å¯«ä¿¡ï¿½??? */
 .floating-card-paper {
   position: absolute;
   top: 50%;
@@ -1489,7 +1489,7 @@ body {
   margin-top: 5px;
 }
 
-/* 6. ?•æ??¸æœ¬ ?“¸ */
+/* 6. ?ï¿½ï¿½??ï¿½æœ¬ ?ï¿½ï¿½ */
 .theater-polaroid-pile {
   position: absolute;
   width: 100%;
@@ -1946,4 +1946,67 @@ body {
   border-radius: 30px !important;
   padding: 15px 40px !important;
   white-space: nowrap !important;
+}
+
+/* AR Button Styles */
+.ar-button {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 15px;
+  font-size: 1.2rem;
+  white-space: nowrap;
+  z-index: 100;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+}
+
+
+/* --- Mobile Fixes --- */
+@media (max-width: 600px) {
+  .story-card {
+    padding: 70px 10px 10px 10px;
+    height: 100%;
+    gap: 15px;
+  }
+  .story-frame {
+    height: 320px;
+    border-width: 3px;
+    overflow: visible; /* Prevent clipping AR button */
+  }
+  .story-dialog-box {
+    padding: 15px 20px;
+    border-width: 3px;
+  }
+  .story-dialog-box p {
+    font-size: 1.3rem;
+  }
+  .btn-handdrawn {
+    font-size: 1.3rem;
+    padding: 12px 25px;
+    border-width: 2px;
+  }
+  .hud {
+    padding: 10px 15px;
+  }
+  .progress-text {
+    font-size: 1.2rem;
+  }
+  #score-display {
+    font-size: 1.2rem;
+  }
+  .ar-button {
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    bottom: 10px; /* Bring it up so it's visible */
+  }
+  .level-title-container {
+    top: 55px;
+  }
+  .level-title {
+    font-size: 1.6rem;
+  }
+  .level-desc {
+    font-size: 1.1rem;
+  }
 }
