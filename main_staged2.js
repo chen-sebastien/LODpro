@@ -638,12 +638,6 @@ function initLevel1Table() {
   // 啟動 BGM
   startBGM();
 
-  // 顯示前導教學彈窗
-  const strategyModal = document.getElementById('strategy-modal');
-  if (strategyModal) {
-    strategyModal.classList.add('active');
-  }
-
   // 全景拖曳邏輯
   const container = document.getElementById('hidden-object-container');
   const surface = document.getElementById('hidden-object-surface');
@@ -745,28 +739,35 @@ function handleFoodChoice(isUserSafe) {
   const food = foodData[foodId];
   closeFoodZoomModal();
   
-  if (isUserSafe) {
-    state.foodStates[foodId] = "safe";
-    if (!state.placedFoods.includes(foodId)) {
+  const isCorrect = (isUserSafe === food.isSafe);
+  
+  if (isCorrect) {
+    playSound('success');
+    if (food.isSafe) {
+      state.foodStates[foodId] = "safe";
+      // 加分（如果是第一次回答正確的話）
+      if (!state.placedFoods.includes(foodId)) {
+        state.score++;
+        state.placedFoods.push(foodId);
+      }
+      showStatusBadge(foodId, 'safe', '✅ 可以吃');
+    } else {
+      state.foodStates[foodId] = "unsafe";
       state.score++;
-      state.placedFoods.push(foodId);
+      showStatusBadge(foodId, 'unsafe', '❌ 已丟棄');
+      // 將壞食物淡出消失
+      const itemEl = document.getElementById(`food-${foodId}`);
+      if (itemEl) {
+        itemEl.style.opacity = '0.2';
+        itemEl.style.pointerEvents = 'none';
+      }
     }
-    showStatusBadge(foodId, 'safe', '✅ 可以吃');
   } else {
-    state.foodStates[foodId] = "unsafe";
-    if (!state.placedFoods.includes(foodId)) {
-      state.score++;
-      state.placedFoods.push(foodId);
-    }
-    showStatusBadge(foodId, 'unsafe', '❌ 已丟棄');
-    const itemEl = document.getElementById(`food-${foodId}`);
-    if (itemEl) {
-      itemEl.style.opacity = '0.2';
-      itemEl.style.pointerEvents = 'none';
-    }
+    // 答錯處罰：如果阿嬤把壞食物選成「可以吃」，則食物中毒！
+    playSound('wrong');
+    triggerFoodPoisoning(food.feedback);
   }
   
-  playSound('click');
   checkTableCompletion();
 }
 
@@ -797,12 +798,18 @@ function closePoisonModal() {
 }
 
 function checkTableCompletion() {
-  const totalItems = Object.keys(state.foodStates).length;
-  const decidedItems = Object.values(state.foodStates).filter(s => s !== "unselected").length;
-  const isDone = (decidedItems === totalItems);
+  // 檢查是否所有非安全食物都已經丟棄，且安全食物都被標記
+  let completed = true;
+  for (let key in foodData) {
+    if (foodData[key].isSafe) {
+      if (state.foodStates[key] !== 'safe') completed = false;
+    } else {
+      if (state.foodStates[key] !== 'unsafe') completed = false;
+    }
+  }
 
   const doneBtn = document.getElementById('table-done-btn');
-  if (isDone) {
+  if (completed) {
     doneBtn.classList.remove('hidden');
   } else {
     doneBtn.classList.add('hidden');
@@ -817,11 +824,12 @@ function checkTableCompletion() {
 function initLevel1Wrapping() {
   navigateTo('tissue-wrap');
   document.getElementById('wrap-score-display').innerText = `叮嚀點數: ${state.score}`;
-  document.getElementById('wrap-instruction').innerText = "第一步：點擊下方你可以吃的食物放到衛生紙上！";
+  document.getElementById('wrap-instruction').innerText = "第一步：請點點下方可以吃的食物，放到衛生紙上！";
   
-  state.placedFoods = [];
+  state.placedFoods = []; // 清空重新包裝的放置清單
   state.foldedCorners = [];
   
+  // 重置衛生紙帆布與摺疊遮罩
   const canvas = document.getElementById('tissue-canvas');
   canvas.className = 'tissue-canvas';
   document.getElementById('tissue-food-holder').innerHTML = '';
@@ -829,38 +837,33 @@ function initLevel1Wrapping() {
   document.querySelectorAll('.tissue-flap').forEach(flap => {
     flap.className = `tissue-flap ${flap.id}`;
   });
-
+  
   document.querySelectorAll('.corner-hotspot').forEach(hotspot => {
-    hotspot.className = `corner-hotspot ${hotspot.id} hidden`;
+    hotspot.classList.add('hidden');
+    hotspot.classList.remove('folded-done');
   });
 
   document.getElementById('wrap-finish-btn').classList.add('hidden');
 
+  // 生成底部可包裝的食材堆（即剛剛被挑選為安全可以吃的兩個食材）
   const pileContainer = document.getElementById('food-pile-container');
   pileContainer.innerHTML = '';
   
-  // Only show foods that the user marked as "safe"
-  const safeFoods = Object.keys(state.foodStates).filter(id => state.foodStates[id] === 'safe');
-  
-  if (safeFoods.length === 0) {
-    // If they threw everything away, just go straight to folding mode
-    startFoldingMode();
-  } else {
-    safeFoods.forEach(foodId => {
-      const food = foodData[foodId];
-      const item = document.createElement('div');
-      item.className = 'pile-item';
-      item.id = `pile-${foodId}`;
-      item.innerHTML = `
-        <img src="${food.image}" alt="${food.name}">
-        <div class="pile-text">${food.name}</div>
-      `;
-      item.addEventListener('click', () => {
-        placeFoodOnTissue(foodId);
-      });
-      pileContainer.appendChild(item);
+  const safeFoods = ["spring-roll", "safe-bread"];
+  safeFoods.forEach(foodId => {
+    const food = foodData[foodId];
+    const item = document.createElement('div');
+    item.className = 'pile-item';
+    item.id = `pile-${foodId}`;
+    item.innerHTML = `
+      <img src="${food.image}" alt="${food.name}">
+      <div class="pile-text">${food.name}</div>
+    `;
+    item.addEventListener('click', () => {
+      placeFoodOnTissue(foodId);
     });
-  }
+    pileContainer.appendChild(item);
+  });
 }
 
 function placeFoodOnTissue(foodId) {
@@ -942,55 +945,27 @@ function completeTissueWrapping() {
 // 【結尾大相簿與結算顯示】
 // ==========================================================================
 function showFinalResult() {
-  const finalScoreEl = document.getElementById('final-score');
-  if (finalScoreEl) finalScoreEl.style.display = 'none';
+  document.getElementById('final-score').innerText = `${state.score} / ${state.maxScore}`;
   
-  let msg = "【阿嬤的食安總結】\n\n";
-  let perfect = true;
+  const comments = {
+    perfect: "天啊！你真是全宇宙最貼心、最博學的食安大乖孫！阿嬤的身體和心靈都被你照顧得服服貼貼，100分的愛！💯💝",
+    good: "做得非常好！阿嬤的食安盲區被你成功守護了，雖然有一點小失誤，但阿嬤一定能感受到你滿滿的心意喔！🥰🏡",
+    low: "別氣餒！阿嬤的食安觀念要慢慢建立。讓我們手牽手再複習一次，一起當個合格的貼心乖孫！👵🍲"
+  };
 
-  if (state.foodStates["moldy-bread"] === "safe") {
-    msg += "⚠️ 你留下了發霉的麵包！發霉的食物即使切掉壞掉的地方，菌絲也已經深入內部了，絕對不能吃！\n\n";
-    perfect = false;
-  }
-  if (state.foodStates["sprouted-potato"] === "safe") {
-    msg += "⚠️ 哎呀，你把發芽的馬鈴薯留下來了！馬鈴薯發芽會產生高濃度的龍葵鹼，加熱煮熟也無法破壞，吃了會中毒喔！\n\n";
-    perfect = false;
-  }
-  if (state.foodStates["bloated-can"] === "safe") {
-    msg += "⚠️ 注意！你留下了膨脹的罐頭。這代表裡面已經有細菌（像是肉毒桿菌）產生氣體，吃下去非常危險，一定要丟掉！\n\n";
-    perfect = false;
-  }
-  
-  if (state.foodStates["safe-bread"] === "unsafe" || state.foodStates["spring-roll"] === "unsafe") {
-    msg += "💡 阿嬤發現你把好好的新鮮食物（吐司或春捲）丟掉了，這樣有點浪費食物捏，下次要看仔細喔！\n\n";
-    perfect = false;
-  }
-
-  // --- 動態更新結算畫面的主標題與副標題 ---
-  const mainTitleEl = document.querySelector('#result-screen .main-title');
-  const subtitleEl = document.querySelector('#result-screen .subtitle');
-
-  if (perfect) {
-    if (mainTitleEl) {
-      mainTitleEl.innerText = "✨ 完美守護阿嬤的食安 ✨";
-      mainTitleEl.style.color = "inherit"; 
-    }
-    if (subtitleEl) subtitleEl.innerText = "太棒了！我們成功避開了所有危險食物，守護了阿嬤的健康與回憶！";
-    msg += "🌟 太棒了！你完美避開了發芽馬鈴薯、發霉麵包和膨脹罐頭的食安陷阱，完全繼承了阿嬤的智慧，阿嬤這包衛生紙送得好安心！";
+  let msg = "";
+  if (state.score === state.maxScore) {
+    msg = comments.perfect;
+  } else if (state.score >= 5) {
+    msg = comments.good;
   } else {
-    if (mainTitleEl) {
-      mainTitleEl.innerText = "🚨 驚險的食安危機！ 🚨";
-      mainTitleEl.style.color = "#d9534f"; 
-    }
-    if (subtitleEl) subtitleEl.innerText = "哎呀！不小心讓一些危險食物混進去了。趕快看看下方阿嬤的總結，把它學起來保護家人喔！";
-    msg += "下次買菜或整理冰箱時，一定要記得這些食安小知識喔！";
+    msg = comments.low;
   }
 
   document.getElementById('wisdom-text').innerText = msg;
 }
 
 // ==========================================================================
-
 // 【安全事件綁定與初始化】
 // ==========================================================================
 function bindEvent(id, event, callback) {
@@ -1018,11 +993,6 @@ function init() {
   // 3. 關卡一：餐桌選擇放大判定
   bindEvent('choice-safe-btn', 'click', () => handleFoodChoice(true));
   bindEvent('choice-discard-btn', 'click', () => handleFoodChoice(false));
-    
-    bindEvent('strategy-start-btn', 'click', () => {
-      document.getElementById('strategy-modal').classList.remove('active');
-      playSound('click');
-    });
   bindEvent('poison-retry-btn', 'click', closePoisonModal);
   
   // 餐桌完成後前往摺紙
