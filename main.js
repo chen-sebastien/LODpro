@@ -399,17 +399,43 @@ function renderStorySlide() {
     const gd = document.getElementById('theater-char-granddaughter');
     
     switch (state.storyIndex) {
-      case 1: // 拿出一張白衛生紙
+            case 1:
         if (bg) bg.classList.add('bg-warm-wash');
-        if (g && gd) {
-          g.style.display = 'block';
-          g.classList.add('wave', 'faded');
-          gd.style.display = 'block';
-          gd.classList.add('jump');
-        }
-        // 漂浮衛生紙包裹
+        // 隱藏原本的劇場巨型人物
+        if (g) g.style.display = 'none';
+        if (gd) gd.style.display = 'none';
+        
         if (dec) {
-          dec.innerHTML = `<img src="./images/tissue_wrapped.png" alt="衛生紙包" class="floating-food" style="width: 130px; height: 130px; top: 25%; left: 40%;">`;
+          dec.innerHTML = `
+            <div class="gift-anim-container">
+              <img src="./images/granddaughter.png" class="anim-granddaughter" alt="孫女">
+              <img src="./images/tissue_wrapped.png" class="anim-gift" alt="衛生紙禮物">
+            </div>
+          `;
+          
+          // 在禮物掉落後觸發特效
+          setTimeout(() => {
+            const container = document.querySelector('.gift-anim-container');
+            if (!container) return;
+            for(let i=0; i<15; i++) {
+              const p = document.createElement('div');
+              p.className = 'heart-particle';
+              p.innerText = ['💖', '✨', '🎉'][Math.floor(Math.random()*3)];
+              
+              const angle = (i / 15) * Math.PI * 2;
+              const distance = 150 + Math.random() * 80;
+              const tx = Math.cos(angle) * distance;
+              const ty = Math.sin(angle) * distance;
+              
+              p.style.setProperty('--tx', `${tx}px`);
+              p.style.setProperty('--ty', `${ty}px`);
+              p.style.left = '50%';
+              p.style.top = '40%';
+              p.style.animationDelay = `${Math.random() * 0.2}s`;
+              container.appendChild(p);
+            }
+            playSound('success'); // 播放驚喜音效
+          }, 700);
         }
         break;
         
