@@ -199,7 +199,19 @@ function playSound(type) {
 
     const now = ctx.currentTime;
     
-    if (type === 'click') {
+    if (type === 'hover') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(600, now);
+      osc.frequency.exponentialRampToValueAtTime(300, now + 0.1);
+      gain.gain.setValueAtTime(0.05, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(now + 0.1);
+    } else if (type === 'click') {
       // 點擊聲 (短促的高音)
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -721,7 +733,8 @@ function initLevel1Table() {
 
   // 綁定各個餐桌食品點擊
   document.querySelectorAll('.food-item').forEach(item => {
-    item.addEventListener('click', (e) => {
+    item.addEventListener('mouseenter', () => playSound('hover'));
+      item.addEventListener('click', (e) => {
       // 避免拖曳時觸發點擊
       if (Math.abs(currentTranslate - prevTranslate) > 5) return;
       const foodId = e.currentTarget.dataset.id;
@@ -881,6 +894,7 @@ function initLevel1Wrapping() {
         <img src="${food.image}" alt="${food.name}">
         <div class="pile-text">${food.name}</div>
       `;
+      item.addEventListener('mouseenter', () => playSound('hover'));
       item.addEventListener('click', () => {
         placeFoodOnTissue(foodId);
       });

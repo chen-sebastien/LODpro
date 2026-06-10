@@ -2242,3 +2242,40 @@ body {
     transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.5); 
   }
 }
+
+/* ==========================================================================
+   Floating and Glow Polish
+   ========================================================================== */
+@keyframes floatBob {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+.food-item {
+  animation: floatBob 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 223, 128, 0.4));
+}
+
+.food-item:hover {
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.9)) brightness(1.1);
+  transform: scale(1.05);
+}
+
+.pile-item {
+  animation: floatBob 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 223, 128, 0.4));
+}
+
+.pile-item:hover {
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.9)) brightness(1.1);
+  transform: scale(1.05) translateY(-5px);
+}
+
+/* Stagger animation delays so they don't bob exactly in sync */
+.food-item:nth-child(even), .pile-item:nth-child(even) {
+  animation-delay: -1.5s;
+}
+.food-item:nth-child(3n), .pile-item:nth-child(3n) {
+  animation-delay: -0.7s;
+}
