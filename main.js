@@ -411,7 +411,7 @@ function renderStorySlide() {
     const gd = document.getElementById('theater-char-granddaughter');
     
     switch (state.storyIndex) {
-            case 1:
+                  case 1:
         if (bg) bg.classList.add('bg-warm-wash');
         // 隱藏原本的劇場巨型人物
         if (g) g.style.display = 'none';
@@ -734,6 +734,7 @@ function initLevel1Table() {
   // 綁定各個餐桌食品點擊
   document.querySelectorAll('.food-item').forEach(item => {
     item.addEventListener('mouseenter', () => playSound('hover'));
+      item.addEventListener('mouseenter', () => playSound('hover'));
       item.addEventListener('click', (e) => {
       // 避免拖曳時觸發點擊
       if (Math.abs(currentTranslate - prevTranslate) > 5) return;
