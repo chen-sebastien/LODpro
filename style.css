@@ -2010,3 +2010,62 @@ body {
     font-size: 1.1rem;
   }
 }
+
+/* --- 質性點評與食物放大修復 --- */
+.final-score {
+  display: none !important;
+}
+.food-item {
+  width: 180px !important;
+  height: 200px !important;
+}
+.food-item img {
+  width: 130px !important;
+  height: 130px !important;
+}
+@media (max-width: 600px) {
+  .food-item {
+    max-width: 280px !important;
+    height: 160px !important;
+  }
+  .food-item img {
+    width: 100px !important;
+    height: 100px !important;
+  }
+}
+.wisdom-card {
+  padding: 30px !important;
+}
+#wisdom-text {
+  text-align: left;
+  font-size: 1.6rem;
+  line-height: 1.8;
+  white-space: pre-line;
+}
+@media (max-width: 600px) {
+  #wisdom-text {
+    font-size: 1.2rem;
+  }
+}
+
+/* --- 終極排版修復 --- */
+.food-item {
+  width: 22vw !important;
+  max-width: 180px !important;
+  height: 22vw !important;
+  max-height: 180px !important;
+  padding: 5px !important;
+}
+.food-item img {
+  width: 80% !important;
+  height: 80% !important;
+  object-fit: contain !important;
+}
+@media (max-width: 600px) {
+  .food-item {
+    width: 30vw !important;
+    height: 30vw !important;
+    max-width: 140px !important;
+    max-height: 140px !important;
+  }
+}
