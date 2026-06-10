@@ -772,6 +772,12 @@ function closeFoodZoomModal() {
   const modal = document.getElementById('food-zoom-modal');
   modal.classList.remove('active');
   state.currentZoomedId = null;
+  
+  // 顯示前導教學彈窗
+  const strategyModal = document.getElementById('strategy-modal');
+  if (strategyModal) {
+    strategyModal.classList.add('active');
+  }
   if (currentTTS) {
     currentTTS.pause();
     currentTTS.currentTime = 0;
