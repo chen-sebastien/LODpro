@@ -1780,13 +1780,7 @@ body {
     min-height: 50vh;
   }
   
-  .food-item {
-    width: 100% !important;
-    max-width: none !important;
-    height: 120px !important;
-    flex-direction: column !important;
-    padding: 10px !important;
-  }
+  
   
   .food-item img {
     width: 60px !important;
@@ -1823,3 +1817,170 @@ body {
     height: 220px !important;
   }
 }
+
+/* --- 全景廚房與結算畫面最終優化 --- */
+
+/* 1. 結算畫面加寬與捲動軸設定 */
+.result-box {
+  width: 95% !important;
+  max-width: 800px !important; /* 加寬讓文字不再被擠壓 */
+  padding: 30px 20px !important;
+}
+
+.wisdom-card {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+#wisdom-text {
+  max-height: 50vh; /* 超過螢幕一半高度時出現捲動軸 */
+  overflow-y: auto;
+  padding-right: 15px; /* 留出捲動軸空間 */
+}
+
+/* 美化捲動軸 */
+#wisdom-text::-webkit-scrollbar {
+  width: 8px;
+}
+#wisdom-text::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+#wisdom-text::-webkit-scrollbar-thumb {
+  background: var(--color-wood, #8b5a2b);
+  border-radius: 4px;
+}
+
+/* 2. 第一關廚房全景背景替換 */
+.hidden-object-surface {
+  background-image: url('./images/bg_panoramic_kitchen.png') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  
+}
+
+@media (max-width: 600px) {
+  .result-box {
+    max-width: 95% !important;
+    padding: 20px 10px !important;
+  }
+  .wisdom-card {
+    flex-direction: column !important;
+    padding: 15px !important;
+  }
+  #wisdom-text {
+    max-height: 45vh;
+  }
+  
+}
+
+
+/* ==========================================================================
+   PERFECT RWD FIXES (V3)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* 1. Allow the entire game container to scroll if content (like Result Screen) is too tall */
+  #game-container {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* 2. Make sure screens can expand naturally if their content overflows */
+  .screen {
+    min-height: 100dvh;
+    height: max-content;
+  }
+  
+  /* 3. Horizontal scrolling for Panoramic Kitchen */
+  .hidden-object-container {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    /* Ensure the container takes up available space but scrolls horizontally */
+    width: 100% !important;
+  }
+
+  /* 4. Fix Modals */
+  .overlay {
+    padding: 15px !important;
+  }
+  
+  .modal-content, .poison-modal, .quiz-explain-modal {
+    max-width: 100% !important;
+    max-height: 85dvh !important;
+    overflow-y: auto !important;
+    width: 95% !important;
+    margin: 0 auto !important;
+  }
+  
+  /* 5. Fix Result Screen layout and AR model */
+  .result-box {
+    margin-top: 20px !important;
+    width: 95% !important;
+    padding: 20px 10px !important;
+  }
+  
+  #ar-model {
+    width: 100% !important;
+    height: 250px !important;
+  }
+}
+
+
+/* PROTECT HIDDEN FOODS FROM MOBILE RWD */
+@media (max-width: 768px) {
+  .hidden-object-surface .food-item {
+    width: 140px !important;
+    height: 160px !important;
+    flex-direction: column !important;
+    padding: 10px !important;
+    position: absolute !important;
+  }
+  .hidden-object-surface .food-item img {
+    width: 90px !important;
+    height: 90px !important;
+  }
+}
+
+
+/* TRUE FLUID LAYOUT FIXES */
+.hidden-object-container {
+  margin-left: -35px !important;
+  margin-right: -35px !important;
+  width: calc(100% + 70px) !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0 !important;
+}
+@media (max-width: 600px) {
+  .hidden-object-container {
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+    width: calc(100% + 40px) !important;
+  }
+}
+.hidden-object-surface {
+  width: max(1400px, 150%) !important;
+}
+
+/* 3D AR Model Float & Glow Effects */
+#ar-model {
+  animation: arFloat 4s ease-in-out infinite alternate;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+#ar-model:hover {
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35) !important;
+}
+
+@keyframes arFloat {
+  0% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+}
+

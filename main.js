@@ -411,7 +411,7 @@ function renderStorySlide() {
     const gd = document.getElementById('theater-char-granddaughter');
     
     switch (state.storyIndex) {
-                  case 1:
+                        case 1:
         if (bg) bg.classList.add('bg-warm-wash');
         // 隱藏原本的劇場巨型人物
         if (g) g.style.display = 'none';
@@ -735,6 +735,7 @@ function initLevel1Table() {
   document.querySelectorAll('.food-item').forEach(item => {
     item.addEventListener('mouseenter', () => playSound('hover'));
       item.addEventListener('mouseenter', () => playSound('hover'));
+      item.addEventListener('mouseenter', () => playSound('hover'));
       item.addEventListener('click', (e) => {
       // 避免拖曳時觸發點擊
       if (Math.abs(currentTranslate - prevTranslate) > 5) return;
@@ -774,11 +775,6 @@ function closeFoodZoomModal() {
   modal.classList.remove('active');
   state.currentZoomedId = null;
   
-  // 顯示前導教學彈窗
-  const strategyModal = document.getElementById('strategy-modal');
-  if (strategyModal) {
-    strategyModal.classList.add('active');
-  }
   if (currentTTS) {
     currentTTS.pause();
     currentTTS.currentTime = 0;
@@ -964,26 +960,20 @@ function handleCornerFold(corner) {
 
 function completeTissueWrapping() {
   playSound('success');
-  state.score++; // 完成包裝，叮嚀點數加1！
+  state.score++;
   document.getElementById('wrap-score-display').innerText = `叮嚀點數: ${state.score}`;
   document.getElementById('wrap-instruction').innerText = "哇！阿嬤親手包的愛心包包包好囉！裡面裝滿了對乖孫的愛。💝";
   
-  // 衛生紙變身為包裝包
   const canvas = document.getElementById('tissue-canvas');
   canvas.classList.add('wrapped');
   
-  // 清空食物及摺起遮罩顯示
   document.getElementById('tissue-food-holder').innerHTML = '';
   document.querySelectorAll('.tissue-flap').forEach(f => f.classList.remove('folded'));
 
-  // 隱藏下側待包食材堆
   document.getElementById('food-pile-container').innerHTML = '';
 
-  // 顯示包好下一步按鈕
   document.getElementById('wrap-finish-btn').classList.remove('hidden');
 }
-
-
 
 // ==========================================================================
 // 【結尾大相簿與結算顯示】
@@ -1034,6 +1024,26 @@ function showFinalResult() {
   }
 
   document.getElementById('wisdom-text').innerText = msg;
+
+  // --- 動態替換 AR 的 3D 立體模型檔案 ---
+  const arModel = document.getElementById('ar-model');
+  if (arModel) {
+    let modelPath = './bear_cookie.glb'; // 預設小熊餅乾立體模型
+    
+    const hasMoldyBread = state.foodStates["moldy-bread"] === "safe";
+    const hasSproutedPotato = state.foodStates["sprouted-potato"] === "safe";
+    const hasBloatedCan = state.foodStates["bloated-can"] === "safe";
+    
+    if (perfect) {
+      modelPath = './candy.glb'; // 完美通關：實體 3D 糖果模型
+    } else if (hasMoldyBread && hasSproutedPotato && hasBloatedCan) {
+      modelPath = './dentures.glb'; // 黑暗料理結局：實體 3D 假牙模型
+    } else if (hasSproutedPotato) {
+      modelPath = './potato.glb'; // 帶走發芽馬鈴薯：實體 3D 馬鈴薯模型
+    }
+    
+    arModel.setAttribute('src', modelPath);
+  }
 }
 
 // ==========================================================================
@@ -1065,13 +1075,13 @@ function init() {
   // 3. 關卡一：餐桌選擇放大判定
   bindEvent('choice-safe-btn', 'click', () => handleFoodChoice(true));
   bindEvent('choice-discard-btn', 'click', () => handleFoodChoice(false));
-    
-    bindEvent('strategy-start-btn', 'click', () => {
-      document.getElementById('strategy-modal').classList.remove('active');
-      playSound('click');
-    });
+
+  bindEvent('strategy-start-btn', 'click', () => {
+    document.getElementById('strategy-modal').classList.remove('active');
+    playSound('click');
+  });
   bindEvent('poison-retry-btn', 'click', closePoisonModal);
-  
+
   // 餐桌完成後前往摺紙
   bindEvent('table-done-btn', 'click', () => {
     initLevel1Wrapping();
@@ -1087,7 +1097,6 @@ function init() {
 
   // 摺紙完成後送給乖孫
   bindEvent('wrap-finish-btn', 'click', () => {
-    // 摺好後續接故事第 1 張投影片 (孫女收到)
     state.storyIndex = 1;
     navigateTo('story');
     renderStorySlide();
@@ -1111,6 +1120,28 @@ function init() {
     }
     navigateTo('title');
   });
+
+  // AR 快速通關（所有事件綁定完畢後才檢查）
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('ar') === 'true') {
+    navigateTo('result');
+    showFinalResult();
+    // 等 model-viewer 完全載入 3D 模型後，自動觸發 AR
+    const arModel = document.getElementById('ar-model');
+    if (arModel) {
+      const tryAR = () => {
+        if (typeof arModel.activateAR === 'function') {
+          arModel.activateAR();
+        }
+      };
+      // model-viewer fires 'load' when the 3D model is ready
+      if (arModel.loaded) {
+        setTimeout(tryAR, 300);
+      } else {
+        arModel.addEventListener('load', () => setTimeout(tryAR, 300));
+      }
+    }
+  }
 }
 
 // 確保 DOM 載入完畢後再執行初始化，防止 Double-click 執行或 Vite 異步加載時機衝突造成的 NULL 崩潰
@@ -1129,4 +1160,76 @@ if (document.readyState === 'loading') {
     console.error("食安遊戲初始化失敗:", err);
   }
 }
+
+
+
+// ==========================================
+// AR Button Logic (Mobile vs Desktop)
+// ==========================================
+let qrCodeInstance = null;
+
+window.handleARClick = function() {
+  // Use userAgent check to accurately distinguish smartphones from touch-screen desktops/laptops.
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Mobi/i.test(navigator.userAgent);
+  
+  if (isMobile) {
+    // Mobile: trigger model-viewer AR with proper load check
+    const arModel = document.getElementById('ar-model');
+    if (!arModel) return;
+    
+    const doActivate = () => {
+      if (typeof arModel.activateAR === 'function') {
+        arModel.activateAR();
+      } else {
+        // iOS fallback: model-viewer uses Quick Look via a link
+        const anchor = arModel.querySelector('a[rel="ar"]');
+        if (anchor) anchor.click();
+      }
+    };
+    
+    if (arModel.loaded) {
+      doActivate();
+    } else {
+      // Show loading hint, then activate once model is ready
+      const btn = document.querySelector('[onclick="handleARClick()"]');
+      if (btn) btn.textContent = '⏳ 3D 模型載入中...';
+      arModel.addEventListener('load', () => {
+        if (btn) btn.textContent = '✨ 開啟手機 AR 模式 ✨';
+        doActivate();
+      }, { once: true });
+    }
+  } else {
+    // Desktop: show QR code for phone to scan
+    const modal = document.getElementById('qr-modal');
+    modal.classList.add('active');
+    
+    if (!qrCodeInstance) {
+      const container = document.getElementById('qrcode-container');
+      container.innerHTML = '';
+      
+      // Smart URL: use current page URL directly
+      // This works on GitHub Pages, localhost, or any hosted environment
+      let qrUrl = window.location.href;
+      
+      // If running from file://, fall back to GitHub Pages URL
+      if (qrUrl.startsWith('file://')) {
+        qrUrl = 'https://chen-sebastien.github.io/LODpro/';
+      }
+      
+      // Clean up any existing query params and add ar=true
+      const urlObj = new URL(qrUrl);
+      urlObj.searchParams.set('ar', 'true');
+      qrUrl = urlObj.toString();
+      
+      qrCodeInstance = new QRCode(container, {
+        text: qrUrl,
+        width: 200,
+        height: 200,
+        colorDark: "#6d4c41",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+  }
+};
 

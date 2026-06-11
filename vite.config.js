@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  // 這裡設定為 './' 確保在 GitHub Pages 的子目錄也能正確運作
   base: './',
   server: {
-    allowedHosts: true, // 允許 LocalTunnel 等外部網址連線
+    host: true, // Listen on all local IPs (0.0.0.0) so phone can connect
+    allowedHosts: true,
   },
   build: {
     outDir: 'dist',
