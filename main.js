@@ -1095,6 +1095,31 @@ function init() {
     });
   });
 
+  // 返回重新挑選食物
+  bindEvent('wrap-back-btn', 'click', () => {
+    playSound('click');
+    alert("💡 阿嬤溫馨提示：\n我們需要幫阿嬤挑選出【正確的 2 個合格安全食品】（新鮮切片白麵包、壽司風春捲），才能包裝成愛心便當喔！有些食物有霉斑、發芽是不安全的，請重新仔細觀察食物外觀，丟棄它們！");
+    
+    // 重置所有挑選狀態，讓玩家重新挑選食物
+    state.placedFoods = [];
+    state.foldedCorners = [];
+    state.score = 0;
+    
+    for (let key in state.foodStates) {
+      state.foodStates[key] = "unselected";
+      const itemEl = document.getElementById(`food-${key}`);
+      if (itemEl) {
+        itemEl.style.opacity = '1';
+        itemEl.style.pointerEvents = 'auto';
+      }
+      const badge = document.getElementById(`badge-${key}`);
+      if (badge) badge.className = 'food-status-badge';
+    }
+    
+    navigateTo('kitchen-table');
+    initLevel1Table();
+  });
+
   // 摺紙完成後送給乖孫
   bindEvent('wrap-finish-btn', 'click', () => {
     state.storyIndex = 1;
